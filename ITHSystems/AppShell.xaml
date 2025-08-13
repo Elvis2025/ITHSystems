@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ITHSystems.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+     xmlns:resources="clr-namespace:ITHSystems.Resx"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:login="clr-namespace:ITHSystems.Views.Login"
+    xmlns:home="clr-namespace:ITHSystems.Views.Home"
+    FlyoutBehavior="Flyout"
+    Shell.NavBarIsVisible="False"
+    
+    Title="ITHSystems">
+  
+    <ShellContent
+        Title="{Static resources:IBSResources.Logout}"
+        ContentTemplate="{DataTemplate login:LoginPage}"
+        Route="LoginPage" />
+    <ShellContent
+        Title="Servicios"
+        ContentTemplate="{DataTemplate home:HomePage}"
+        Route="HomePage" />
+
+</Shell>

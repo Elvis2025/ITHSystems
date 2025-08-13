@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ITHSystems.Views.Login.LoginPage"
+             xmlns:resources="clr-namespace:ITHSystems.Resx"
+             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+             xmlns:controls="clr-namespace:ITHSystems.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#ECECEC"
+             HideSoftInputOnTapped="True"
+             Title="LoginPage">
+
+
+
+    <Grid RowDefinitions="Auto,*,*">
+        <Border Grid.Row="0" BackgroundColor="Transparent"
+                Stroke="Transparent"
+                Padding="0"
+                HeightRequest="350"
+                WidthRequest="350"
+                >
+          
+            <Image Source="ibscompany.png"
+               Aspect="AspectFit"
+               HeightRequest="450"
+               WidthRequest="350"
+               />
+        </Border>
+
+
+        <Grid RowDefinitions="Auto,Auto,Auto" Grid.Row="1" 
+            VerticalOptions="Center"
+            RowSpacing="5"
+            Margin="52,0,52,0"
+            >
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Fill"
+                BackgroundColor="{StaticResource White}"
+                HeightRequest="45"
+                Stroke="{StaticResource Gray100}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="2">
+                <Grid
+                Margin="10,0,0,0"
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="0">
+                    <Label
+                    Grid.Column="0"
+                    Margin="5,0,10,0"
+                    FontFamily="{Static icon:FontFamilyIcons.IconOutlined}"
+                    FontSize="28"
+                    HorizontalOptions="Center"
+                    Text="{Static icon:IconsOutlined.Person}"
+                        TextColor="{StaticResource Gray600}"
+                    VerticalOptions="Center" />
+                    <Entry
+                    Grid.Column="1"
+                    BackgroundColor="Transparent"
+                    ClearButtonVisibility="WhileEditing"
+                    HeightRequest="60"
+                    HorizontalOptions="Fill"
+                    Keyboard="Email"
+                    Text="{Binding UserDTO.UsName}"
+                    Placeholder="{Static resources:IBSResources.User}"
+                    PlaceholderColor="{StaticResource Gray200}"
+                    />
+                </Grid>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Fill"
+                Margin="0,5,0,0"
+                BackgroundColor="{StaticResource White}"
+                HeightRequest="45"
+                Stroke="{StaticResource Gray100}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="2">
+                <Grid
+                Margin="10,0,0,0"
+                ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="0">
+                    <Label
+                    Grid.Column="0"
+                    Margin="5,0,10,0"
+                    FontFamily="{Static icon:FontFamilyIcons.IconTwoTone}"
+                    FontSize="28"
+                    HorizontalOptions="Center"
+                    Text="{Static icon:IconsTwoTone.Lock_outline}"
+                    TextColor="{StaticResource Gray600}"
+                    VerticalOptions="Center" />
+                    <Entry
+                        Grid.Column="1"
+                        BackgroundColor="Transparent"
+                        ClearButtonVisibility="WhileEditing"
+                        HeightRequest="60"
+                        HorizontalOptions="Fill"
+                        IsPassword="{Binding IsPassword}"
+                        Placeholder="{Static resources:IBSResources.Password}"
+                        PlaceholderColor="{StaticResource Gray200}"
+                        Text="{Binding UserDTO.UsPassword}"
+                        />  
+                    <Button
+                        Grid.Column="2"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        Command="{Binding ShowPasswordCommand}"
+                        CornerRadius="0"
+                            FontFamily="{Static icon:FontFamilyIcons.IconSharp}"
+                        Text="{Binding PasswordEye}"
+                    FontSize="24"
+                        TextColor="{StaticResource Gray600}" />
+                </Grid>
+            </Border>
+            <Button Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="0,10,0,0"
+                CornerRadius="12"
+                HeightRequest="2"
+                Text="{Static resources:IBSResources.Login}"
+                FontAttributes="Bold"
+                Command="{Binding LoginCommand}"
+            />
+        </Grid>
+
+        
+        
+        <HorizontalStackLayout
+        Grid.Row="2"
+            VerticalOptions="End"
+        Margin="25,0,0,10"
+        Spacing="8"
+        >
+            <Label Text="{Static icon:IconsOutlined.Language}"
+               FontFamily="{Static icon:FontFamilyIcons.IconOutlined}"
+               FontSize="24"
+               TextColor="{StaticResource Gray600}"
+               />
+            <Label Text="{Binding LanguageName}"/>
+            <HorizontalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ChangeLanguageCommand}"/>
+            </HorizontalStackLayout.GestureRecognizers>
+        </HorizontalStackLayout>
+        <Label Text="Versión 1.0.0"
+           FontSize="10"
+           Grid.Row="2"
+           Margin="0,0,25,8"
+           VerticalOptions="End"
+           HorizontalOptions="End"
+           VerticalTextAlignment="Center"
+           TextColor="{StaticResource Gray500}"
+           FontAttributes="Bold"
+           />
+        <controls:ActivityIndicatorView
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    IsVisible="{Binding IsBusy}"
+                    />
+    </Grid>
+</ContentPage>
