@@ -3,8 +3,7 @@
 namespace ITHSystems.Model;
 
 [SQLiteEntity]
-public class User
+public class User : BaseEntity<int>
 {
-    public int Id { get; set; } = new();
     public string Name { get; set; } = string.Empty;
 }

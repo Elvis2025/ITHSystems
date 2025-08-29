@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITHSystems.Views.Home
+namespace ITHSystems.Views.Deliveries
 {
-    public partial class HomePageViewModel : BaseViewModel
+    public partial class DeliveriesViewModel : BaseViewModel
     {
-        public HomePageViewModel()
+        public DeliveriesViewModel()
         {
             
         }
-
-
     }
 }

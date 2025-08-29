@@ -5,11 +5,67 @@
              xmlns:resources="clr-namespace:ITHSystems.Resx"
              xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
              xmlns:controls="clr-namespace:ITHSystems.Controls"
-             Title="HomePage">
+             BackgroundColor="{StaticResource bgColorPage}"
+             >
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <controls:GradientHeader/>
+        <Grid Margin="10" ColumnDefinitions="*,*" ColumnSpacing="8">
+
+            <Border Padding="10"
+                    StrokeShape="RoundRectangle 8"
+                    Stroke="{StaticResource Primary}"
+                    StrokeThickness="2"
+                    >
+                <VerticalStackLayout Spacing="8">
+                    <Label FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                           Text="{Static icon:IconFont.Route}"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="68"
+                           Margin="0,0,0,0"
+                           TextColor="{StaticResource Gray900}"
+                        
+                           />
+                    <Label Text="Servicio de recogida"
+                           VerticalTextAlignment="Center"
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource Gray600}"
+                           />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="10"
+                    StrokeShape="RoundRectangle 8"
+                    Stroke="{StaticResource Primary}"
+                    StrokeThickness="2"
+                    Grid.Column="1"
+                    >
+                <VerticalStackLayout Spacing="8">
+                    <Label FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                           Text="{Static icon:IconFont.PeopleCarryBox}"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="68"
+                           Margin="0,0,0,0"
+                           TextColor="{StaticResource Gray900}"
+                        
+                           />
+                    <Label Text="Entregas"
+                           VerticalTextAlignment="Center"
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           HorizontalTextAlignment="Center"
+                           TextColor="{StaticResource Gray600}"
+                           />
+                </VerticalStackLayout>
+            </Border>
+
+
+
+
+
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

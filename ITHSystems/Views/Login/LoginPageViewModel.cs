@@ -20,6 +20,7 @@ public partial class LoginPageViewModel : BaseViewModel
     {
         this.managerSQLite = managerSQLite;
     }
+
     [RelayCommand]
     public async Task Login()
     {

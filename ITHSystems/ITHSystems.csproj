@@ -70,7 +70,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Views\NewFolder\" />
+	  <Folder Include="Views\PickupService\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -78,6 +78,9 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>IBSResources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Deliveries\DeliveriesPage.xaml.cs">
+	    <DependentUpon>DeliveriesPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -90,6 +93,12 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Controls\ActivityIndicatorView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\GradientHeader.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Deliveries\DeliveriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Home\HomePage.xaml">
