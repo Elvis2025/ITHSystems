@@ -4,8 +4,9 @@ namespace ITHSystems.Views.Deliveries;
 [RegisterAsRoute]
 public partial class DeliveriesPage : ContentPage
 {
-	public DeliveriesPage()
+	public DeliveriesPage(DeliveriesViewModel viewModel)
 	{
 		InitializeComponent();
-	}
+		BindingContext = viewModel;
+    }
 }

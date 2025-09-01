@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ITHSystems.DTOs;
 using ITHSystems.UsesCases.IconFonts;
-using ITHSystems.Views.Login.DTO;
+
 
 namespace ITHSystems.Views;
 
@@ -15,7 +16,8 @@ public abstract partial class ObsevablePropertiesViewModel : ObservableObject
     public string passwordEye = IconsTwoTone.Visibility_off;
     [ObservableProperty]
     public UserDTO currentUser = new();
-
+    [ObservableProperty]
+    public ModuleDTO? currentModule;
     public bool IsNotBusy => !IsBusy;
     [ObservableProperty]
     public UserDTO userDTO = new();

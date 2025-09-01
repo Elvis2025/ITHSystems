@@ -1,105 +1,117 @@
-﻿using ITHSystems.Model;
+﻿using ITHSystems.DTOs;
 using ITHSystems.UsesCases.IconFonts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITHSystems.Views.Home
 {
     public static class BuildHomeModules
     {
-        public static List<Module> GetHomeModules()
+        public static List<ModuleDTO> GetHomeModules()
         {
-            return new List<Module>
+            return new List<ModuleDTO>
             {
-                new Module
+                new ModuleDTO
                 {
                     Title = "Servicio de recogida",
                     IsActive = true,
                     IsDeleted = false,
                     FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route
+                    Icon = IconFont.Route,
+                    Modules = Enums.Modules.PICKUPSERVICE,
+                    Order = 2,
+                    EnableBadges = false
                 },
-                new Module
+                new ModuleDTO
                 {
-                    Title = "Servicio de recogida",
+                    Title = "Entregas",
                     IsActive = true,
                     IsDeleted = false,
                     FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.PeopleCarryBox
+                    Icon = IconFont.PeopleCarryBox,
+                    Modules = Enums.Modules.DELIVERIES,
+                    Order = 1,
+                    EnableBadges = false
+
+
                 }
             };
         }
 
-        public static List<Module> GetDeliveriesModules()
+        public static List<ModuleDTO> GetDeliveriesModules()
         {
-            return new List<Module>
+            return new List<ModuleDTO>
             {
-                new Module
+                new ModuleDTO
                 {
                     Title = "Envíos pendientes",
                     IsActive = true,
                     IsDeleted = false,
                     FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route
+                    Icon = IconFont.BoxesStacked,
+                    Modules = Enums.Modules.PENDINGDELIVERIES,
+                    Order = 1,
+                    EnableBadges = true,
+                    Badges = 2
                 },
-                new Module
+                new ModuleDTO
                 {
                    Title = "Envíos postergados",
-                    IsActive = true,
-                    IsDeleted = false,
-                    FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route
+                   IsActive = true,
+                   IsDeleted = false,
+                   FontFamaly = FontFamilyIcons.FaSolid,
+                   Icon = IconFont.BoxesPacking,
+                   Modules = Enums.Modules.DELAYEDDELIVERIES,
+                   Order = 2,
+                   EnableBadges = true,
+                   Badges = 0
                 },
-                new Module
+                new ModuleDTO
                 {
                    Title = "Envíos entregados no sincronizados",
-                    IsActive = true,
-                    IsDeleted = false,
-                    FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route
-                },
-                new Module
-                {
-                   Title = "Sincronizar",
-                    IsActive = true,
-                    IsDeleted = false,
-                    FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route
+                   IsActive = true,
+                   IsDeleted = false,
+                   FontFamaly = FontFamilyIcons.FaSolid,
+                   Icon = IconFont.TruckRampBox,
+                   Modules = Enums.Modules.DELIVERESSHIPMENTSNOTSYNCED,
+                   Order = 3,
+                   EnableBadges = true,
+                   Badges = 0
                 }
-
             };
         }
 
-        public static List<Module> GetPickupModules()
+        public static List<ModuleDTO> GetPickupModules()
         {
-            return new List<Module>
+            return new List<ModuleDTO>
             {
-                new Module
+                new ModuleDTO
                 {
                    Title = "Valijas pendientes",
                     IsActive = true,
                     IsDeleted = false,
                     FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route
+                    Icon = IconFont.Box,
+                    Modules = Enums.Modules.PENDINGSUITCASE,
+                    Order = 1
                 },
-                new Module
+                new ModuleDTO
                 {
                     Title = "Recibir valija",
                     IsActive = true,
                     IsDeleted = false,
                     FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route
+                    Icon = IconFont.BoxesPacking,
+                    Modules = Enums.Modules.RECEIVESUITCASE,
+                    Order = 2
                 },
-                new Module
+                new ModuleDTO
                 {
                     Title = "Entregar Valija",
                     IsActive = true,
                     IsDeleted = false,
                     FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route
+                    Icon = IconFont.TruckRampBox,
+                    Modules = Enums.Modules.DELIVERSUITCASE,
+                    Order = 3
                 }
             };
         }

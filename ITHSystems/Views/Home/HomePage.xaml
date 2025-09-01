@@ -5,67 +5,74 @@
              xmlns:resources="clr-namespace:ITHSystems.Resx"
              xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
              xmlns:controls="clr-namespace:ITHSystems.Controls"
+             xmlns:dto="clr-namespace:ITHSystems.DTOs"
              BackgroundColor="{StaticResource bgColorPage}"
+             x:Name="ModulesCV"
              >
-    <VerticalStackLayout>
-        <controls:GradientHeader/>
-        <Grid Margin="10" ColumnDefinitions="*,*" ColumnSpacing="8">
+    <ContentPage.Resources>
+        <x:Boolean x:Key="GoToLogin">True</x:Boolean>
+    </ContentPage.Resources>
 
-            <Border Padding="10"
-                    StrokeShape="RoundRectangle 8"
-                    Stroke="{StaticResource Primary}"
-                    StrokeThickness="2"
-                    >
-                <VerticalStackLayout Spacing="8">
-                    <Label FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
-                           Text="{Static icon:IconFont.Route}"
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center"
-                           FontSize="68"
-                           Margin="0,0,0,0"
-                           TextColor="{StaticResource Gray900}"
-                        
-                           />
-                    <Label Text="Servicio de recogida"
-                           VerticalTextAlignment="Center"
-                           FontAttributes="Bold"
-                           FontSize="18"
-                           HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource Gray600}"
-                           />
-                </VerticalStackLayout>
-            </Border>
-
-            <Border Padding="10"
-                    StrokeShape="RoundRectangle 8"
-                    Stroke="{StaticResource Primary}"
-                    StrokeThickness="2"
-                    Grid.Column="1"
-                    >
-                <VerticalStackLayout Spacing="8">
-                    <Label FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
-                           Text="{Static icon:IconFont.PeopleCarryBox}"
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center"
-                           FontSize="68"
-                           Margin="0,0,0,0"
-                           TextColor="{StaticResource Gray900}"
-                        
-                           />
-                    <Label Text="Entregas"
-                           VerticalTextAlignment="Center"
-                           FontAttributes="Bold"
-                           FontSize="18"
-                           HorizontalTextAlignment="Center"
-                           TextColor="{StaticResource Gray600}"
-                           />
-                </VerticalStackLayout>
-            </Border>
+    <Grid RowDefinitions="*">
+        <controls:GradientHeader
+            Title="iThot Systems Entregas"
+            BackButtonCommand="{Binding GoBackCommand}"
+            BackButtonCommandParameter="{StaticResource GoToLogin}"
+            />
 
 
+        <controls:ModuleListCard
+            ModulesList="{Binding HomeModule}"
+            ModuleSelected="{Binding CurrentModule,Mode=TwoWay}"
+            GoToModuleCommand="{Binding GoToModuleCommand}"
+            GoToModuleCommandParameter="{Binding CurrentModule}"
+            Margin="0,60,0,0"
+            />
 
+        <!--<CollectionView  x:Name="ModulesList"
+                            ItemsSource="{Binding HomeModule}"
+                            SelectedItem="{Binding CurrentModule,Mode=TwoWay}"
+                            SelectionMode="Single"
+                            Margin="10,16,0,10"
+                            Grid.Row="1"
+                            ItemSizingStrategy="MeasureAllItems"
+                            Grid.RowSpan="2"
+                            SelectionChangedCommand="{Binding GoToModuleCommand}"
+                            SelectionChangedCommandParameter="{Binding CurrentModule}"
+                            >
+                --><!--<CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                 Span="2"
+                                 VerticalItemSpacing="8"
+                                 HorizontalItemSpacing="8"/>
+                </CollectionView.ItemsLayout>--><!--
 
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:ModuleDTO">
 
-        </Grid>
-    </VerticalStackLayout>
+                        <controls:ModuleCard ModuleFontFamilyIcon="{Binding FontFamaly}"
+                                             ModuleFontIcon="{Binding Icon}"
+                                             ModuleName="{Binding Title}"
+                                             Grid.Column="1"
+                                             IsVisible="{Binding IsVisible}"
+                                             IsEnabled="{Binding IsActive}"
+                                             Margin="0,10,10,0"
+                                             />
+                                             --><!--Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                        Path=BindingContext.GoToModuleCommand}"
+                                             CommandParameter="{Binding .}"-->
+                        <!--Command="{Binding Path=BindingContext.GoToModuleCommand, RelativeSource={RelativeSource AncestorType={x:Type ContentPage}}}" 
+                                             CommandParameter="{Binding .}" />--><!--
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>-->
+
+        <controls:ActivityIndicatorView
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            IsVisible="{Binding IsBusy}"
+            />
+    </Grid>
 </ContentPage>

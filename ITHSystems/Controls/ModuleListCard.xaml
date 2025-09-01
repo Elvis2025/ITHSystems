@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ITHSystems.Controls.ModuleListCard"
+             xmlns:dto="clr-namespace:ITHSystems.DTOs"
+             xmlns:controls="clr-namespace:ITHSystems.Controls"
+             x:Name="Root"
+             >
+    <CollectionView ItemsSource="{Binding ModulesList, Source={x:Reference Root}}"
+                    SelectedItem="{Binding ModuleSelected,Mode=TwoWay, Source={x:Reference Root}}"
+                    SelectionMode="Single"
+                    Margin="32,16,32,0"
+                    Grid.Row="1"
+                    ItemSizingStrategy="MeasureAllItems"
+                    Grid.RowSpan="2"
+                    
+                    SelectionChangedCommand="{Binding GoToModuleCommand, Source={x:Reference Root}}"
+                    SelectionChangedCommandParameter="{Binding ModuleSelected, Source={x:Reference Root}}"
+                    >
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="dto:ModuleDTO">
+
+                <controls:ModuleCard ModuleFontFamilyIcon="{Binding FontFamaly}"
+                                     ModuleFontIcon="{Binding Icon}"
+                                     ModuleName="{Binding Title}"
+                                     Grid.Column="1"
+                                     BGColor="{Binding BGColor}"
+                                     IsEnabled="{Binding Enable}"
+                                     Margin="0,10,0,20"
+                                     ShowBadges="{Binding EnableBadges}"
+                                     Badges="{Binding Badges}"
+                                     />
+                <!--Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                Path=BindingContext.GoToModuleCommand}"
+                                     CommandParameter="{Binding .}"-->
+                <!--Command="{Binding Path=BindingContext.GoToModuleCommand, RelativeSource={RelativeSource AncestorType={x:Type ContentPage}}}" 
+                                     CommandParameter="{Binding .}" />-->
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentView>

@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ITHSystems.DTOs;
+using ITHSystems.Views.Deliveries;
+using ITHSystems.Views.PickupService;
+using System.Collections.ObjectModel;
 
-namespace ITHSystems.Views.Home
+namespace ITHSystems.Views.Home;
+
+public partial class HomePageViewModel : BaseViewModel
 {
-    public partial class HomePageViewModel : BaseViewModel
+    [ObservableProperty]
+    private ObservableCollection<ModuleDTO> homeModule;
+    
+
+    public HomePageViewModel()
     {
-        public HomePageViewModel()
-        {
-            
-        }
-
-
+        HomeModule = new(BuildHomeModules.GetHomeModules().OrderBy(x => x.Order));
     }
+
+    
 }
