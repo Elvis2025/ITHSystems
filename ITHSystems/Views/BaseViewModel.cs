@@ -37,7 +37,6 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
     {
         try
         {
-            var name = typeof(T).Name;
             await Shell.Current.GoToAsync($"//{typeof(T).Name}");
         }
         catch (Exception e)
@@ -50,7 +49,6 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
     {
         try
         {
-            var name = typeof(T).Name;
             await Shell.Current.GoToAsync($"{typeof(T).Name}");
         }
         catch (Exception e)
@@ -79,22 +77,22 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
         return ActivatorUtilities.GetServiceOrCreateInstance<T>(Application.Current!.Handler.MauiContext!.Services!);
     }
 
-    public async Task SuccessAlert(string title, string message)
+    public static async Task SuccessAlert(string title, string message)
     {
         await Shell.Current.DisplayAlert(title, message, IBSResources.Ok);
     }
 
-    public async Task ErrorAlert(string title, string message)
+    public static async Task ErrorAlert(string title, string message)
     {
         await Shell.Current.DisplayAlert(title, message, IBSResources.Ok);
     }
-    public async Task WarningAlert(string title, string message)
+    public static async Task WarningAlert(string title, string message)
     {
         await Shell.Current.DisplayAlert(title, message, IBSResources.Ok);
     }
 
     [RelayCommand]
-    public async Task GoToModule(ModuleDTO moduleDTO)
+    public async Task GoToModule(ModuleDto moduleDTO)
     {
         if (IsBusy) return;
         IsBusy = true;

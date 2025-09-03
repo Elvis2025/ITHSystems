@@ -10,7 +10,7 @@ namespace ITHSystems.Views.Home;
 public partial class HomePageViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private ObservableCollection<ModuleDTO> homeModule;
+    private ObservableCollection<ModuleDto> homeModule;
     
 
     public HomePageViewModel()

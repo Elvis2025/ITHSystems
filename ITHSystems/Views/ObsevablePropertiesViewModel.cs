@@ -9,16 +9,16 @@ public abstract partial class ObsevablePropertiesViewModel : ObservableObject
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsNotBusy))]
-    public bool isBusy;
+    private bool isBusy;
     [ObservableProperty]
-    public bool isPassword = true;
+    private bool isPassword = true;
     [ObservableProperty]
-    public string passwordEye = IconsTwoTone.Visibility_off;
+    private string passwordEye = IconsTwoTone.Visibility_off;
     [ObservableProperty]
-    public UserDTO currentUser = new();
+    private UserDTO currentUser = new();
     [ObservableProperty]
-    public ModuleDTO? currentModule;
-    public bool IsNotBusy => !IsBusy;
+    private ModuleDto? currentModule;
+    private bool IsNotBusy => !IsBusy;
     [ObservableProperty]
-    public UserDTO userDTO = new();
+    private UserDTO userDTO = new();
 }

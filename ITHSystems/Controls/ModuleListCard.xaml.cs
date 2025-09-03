@@ -12,22 +12,22 @@ public partial class ModuleListCard : ContentView
 	}
     public static readonly BindableProperty ModulesListProperty = BindableProperty.Create(
             nameof(ModulesList), 
-            typeof(ObservableCollection<ModuleDTO>), 
+            typeof(ObservableCollection<ModuleDto>), 
             typeof(ModuleListCard),
-            new ObservableCollection<ModuleDTO>());
+            new ObservableCollection<ModuleDto>());
 
-    public ObservableCollection<ModuleDTO> ModulesList
+    public ObservableCollection<ModuleDto> ModulesList
     {
-        get => (ObservableCollection<ModuleDTO>)GetValue(ModulesListProperty);
+        get => (ObservableCollection<ModuleDto>)GetValue(ModulesListProperty);
         set => SetValue(ModulesListProperty, value);
     }
 
     public static readonly BindableProperty ModuleSelectedProperty =
-      BindableProperty.Create(nameof(ModuleSelected), typeof(ModuleDTO), typeof(ModuleListCard), null);
+      BindableProperty.Create(nameof(ModuleSelected), typeof(ModuleDto), typeof(ModuleListCard), null);
 
-    public ModuleDTO ModuleSelected
+    public ModuleDto ModuleSelected
     {
-        get => (ModuleDTO)GetValue(ModuleSelectedProperty);
+        get => (ModuleDto)GetValue(ModuleSelectedProperty);
         set => SetValue(ModuleSelectedProperty, value);
     }
     public static readonly BindableProperty GoToModuleCommandProperty =
@@ -48,13 +48,13 @@ public partial class ModuleListCard : ContentView
     public static readonly BindableProperty GoToModuleCommandParameterProperty =
         BindableProperty.Create(
             nameof(GoToModuleCommandParameter),
-            typeof(ModuleDTO),
+            typeof(ModuleDto),
             typeof(ModuleListCard),
-            default(ModuleDTO));
+            default(ModuleDto));
 
-    public ModuleDTO GoToModuleCommandParameter
+    public ModuleDto GoToModuleCommandParameter
     {
-        get =>   (ModuleDTO)GetValue(GoToModuleCommandParameterProperty);
+        get =>   (ModuleDto)GetValue(GoToModuleCommandParameterProperty);
         set => SetValue(GoToModuleCommandParameterProperty, value);
     }
     

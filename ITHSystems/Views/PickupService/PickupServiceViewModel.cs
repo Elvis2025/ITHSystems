@@ -9,7 +9,7 @@ public partial class PickupServiceViewModel : BaseViewModel
 {
 
     [ObservableProperty]
-    private ObservableCollection<ModuleDTO?> pickupServiceModules;
+    private ObservableCollection<ModuleDto?> pickupServiceModules;
 
     public PickupServiceViewModel()
     {

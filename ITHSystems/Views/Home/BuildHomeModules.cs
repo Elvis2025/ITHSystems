@@ -5,11 +5,11 @@ namespace ITHSystems.Views.Home
 {
     public static class BuildHomeModules
     {
-        public static List<ModuleDTO> GetHomeModules()
+        public static List<ModuleDto> GetHomeModules()
         {
-            return new List<ModuleDTO>
+            return new List<ModuleDto>
             {
-                new ModuleDTO
+                new ModuleDto
                 {
                     Title = "Servicio de recogida",
                     IsActive = true,
@@ -20,7 +20,7 @@ namespace ITHSystems.Views.Home
                     Order = 2,
                     EnableBadges = false
                 },
-                new ModuleDTO
+                new ModuleDto
                 {
                     Title = "Entregas",
                     IsActive = true,
@@ -36,11 +36,11 @@ namespace ITHSystems.Views.Home
             };
         }
 
-        public static List<ModuleDTO> GetDeliveriesModules()
+        public static List<ModuleDto> GetDeliveriesModules()
         {
-            return new List<ModuleDTO>
+            return new List<ModuleDto>
             {
-                new ModuleDTO
+                new ModuleDto
                 {
                     Title = "Envíos pendientes",
                     IsActive = true,
@@ -52,7 +52,7 @@ namespace ITHSystems.Views.Home
                     EnableBadges = true,
                     Badges = 2
                 },
-                new ModuleDTO
+                new ModuleDto
                 {
                    Title = "Envíos postergados",
                    IsActive = true,
@@ -64,7 +64,7 @@ namespace ITHSystems.Views.Home
                    EnableBadges = true,
                    Badges = 0
                 },
-                new ModuleDTO
+                new ModuleDto
                 {
                    Title = "Envíos entregados no sincronizados",
                    IsActive = true,
@@ -79,11 +79,11 @@ namespace ITHSystems.Views.Home
             };
         }
 
-        public static List<ModuleDTO> GetPickupModules()
+        public static List<ModuleDto> GetPickupModules()
         {
-            return new List<ModuleDTO>
+            return new List<ModuleDto>
             {
-                new ModuleDTO
+                new ModuleDto
                 {
                    Title = "Valijas pendientes",
                     IsActive = true,
@@ -93,7 +93,7 @@ namespace ITHSystems.Views.Home
                     Modules = Enums.Modules.PENDINGSUITCASE,
                     Order = 1
                 },
-                new ModuleDTO
+                new ModuleDto
                 {
                     Title = "Recibir valija",
                     IsActive = true,
@@ -103,7 +103,7 @@ namespace ITHSystems.Views.Home
                     Modules = Enums.Modules.RECEIVESUITCASE,
                     Order = 2
                 },
-                new ModuleDTO
+                new ModuleDto
                 {
                     Title = "Entregar Valija",
                     IsActive = true,

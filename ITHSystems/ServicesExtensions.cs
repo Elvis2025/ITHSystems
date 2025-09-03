@@ -1,12 +1,6 @@
 ﻿using ITHSystems.AutoMapper;
 using ITHSystems.Repositories;
-using ITHSystems.Views.Login;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITHSystems;
 
@@ -66,7 +60,6 @@ public static class ServicesExtensions
             if (implType.Name.EndsWith("ViewModel"))
             {
                 services.AddTransient(implType);
-                continue;
             }
         }
     }

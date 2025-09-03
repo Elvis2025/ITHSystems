@@ -44,7 +44,7 @@ public partial class GradientHeader : ContentView
 
     public object BackButtonCommandParameter
     {
-        get => (object)GetValue(BackButtonCommandParameterProperty);
+        get => GetValue(BackButtonCommandParameterProperty);
         set => SetValue(BackButtonCommandParameterProperty, value);
     }
 

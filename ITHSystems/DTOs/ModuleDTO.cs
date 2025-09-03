@@ -3,7 +3,7 @@
 namespace ITHSystems.DTOs;
 
 [AutoMap(typeof(Model.Module))]
-public record class ModuleDTO
+public record class ModuleDto
 {
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
@@ -18,9 +18,25 @@ public record class ModuleDTO
     public bool EnableBadges { get; set; }
     public bool IsVisible => !IsDeleted;
     public bool Enable => Badges > 0;
-    public Color BGColor => EnableBadges ? 
-                                Enable ?
-                                    Color.FromArgb("#FFFFFF")
-                                    : Color.FromArgb("#6E6E6E")
-                                : Color.FromArgb("#FFFFFF");
+    public Color BGColor
+    {
+        get
+        {
+            if (EnableBadges)
+            {
+                if (Enable)
+                {
+                    return Color.FromArgb("#FFFFFF");
+                }
+                else
+                {
+                    return Color.FromArgb("#6E6E6E");
+                }
+            }
+            else
+            {
+                return Color.FromArgb("#FFFFFF");
+            }
+        }
+    }
 }

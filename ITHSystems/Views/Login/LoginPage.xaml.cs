@@ -1,7 +1,3 @@
-using CommunityToolkit.Maui.Behaviors;
-using CommunityToolkit.Maui.Core;
-using ITHSystems.Attributes;
-using ITHSystems.Resx;
 using System.Diagnostics;
 
 namespace ITHSystems.Views.Login;
@@ -28,7 +24,7 @@ public partial class LoginPage : ContentPage
         catch (Exception e)
 		{
 			Debug.WriteLine($"Error initializing LoginPage: {e.Message}");
-			await viewModel.ErrorAlert("Error", $"Error creando tablas\n{e.Message}");
+			await BaseViewModel.ErrorAlert("Error", $"Error creando tablas\n{e.Message}");
 		}
     }
 }

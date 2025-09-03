@@ -5,10 +5,10 @@ namespace ITHSystems.Repositories;
 
 public class SQLiteRepository<T> : IRepository<T> where T : class, new()
 {
-    private readonly ISQLiteAsyncConnection connection;
+    public readonly ISQLiteAsyncConnection connection;
     public SQLiteRepository(ISQLiteManager maangeSQLite)
     {
-         this.connection = maangeSQLite.Connection ?? throw new ArgumentNullException(nameof(maangeSQLite.Connection), "Connection cannot be null.");
+         this.connection = maangeSQLite.Connection;
     }
     public Task AddAsync(T entity)
     {

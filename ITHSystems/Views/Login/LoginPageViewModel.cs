@@ -10,10 +10,10 @@ namespace ITHSystems.Views.Login;
 
 public partial class LoginPageViewModel : BaseViewModel
 {
-    public IEnumerable<Language> Languages = Language.List();
+    private IEnumerable<Language> Languages = Language.List();
     [ObservableProperty]
-    public string languageName = Preferences.Get(nameof(Language), Language.Spanish.Code);
-    public Language? CurrentLanguage;
+    private string languageName = Preferences.Get(nameof(Language), Language.Spanish.Code);
+    private Language? CurrentLanguage;
     private readonly ISQLiteManager managerSQLite;
 
     public LoginPageViewModel(ISQLiteManager managerSQLite)
@@ -50,8 +50,9 @@ public partial class LoginPageViewModel : BaseViewModel
         {
             await managerSQLite.CreateTables();
         }
-        catch (Exception)
+        catch (Exception e )
         {
+            Debug.WriteLine($"Error creating tables: {e.Message}");
             throw;
         }
     }
