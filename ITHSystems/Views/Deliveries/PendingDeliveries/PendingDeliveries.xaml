@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ITHSystems.Views.Deliveries.PendingDeliveries.PendingDeliveries"
+             xmlns:resources="clr-namespace:ITHSystems.Resx"
+             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+             xmlns:controls="clr-namespace:ITHSystems.Controls"
+             xmlns:dto="clr-namespace:ITHSystems.DTOs"
+             BackgroundColor="{StaticResource bgColorPage}"
+             HideSoftInputOnTapped="True"
+             >
+    <Grid RowDefinitions="Auto,Auto,*">
+        <controls:GradientHeader Title="Envios pendientes"
+                                 BackButtonCommand="{Binding GoBackCommand}"/>
+
+        <Border Grid.Row="1"
+                BackgroundColor="{StaticResource White}"
+                HeightRequest="40"
+                Margin="15,-120,15,0"
+                StrokeShape="RoundRectangle 50"
+                StrokeThickness="2"
+                Stroke="{StaticResource Primary}"
+                >
+            <Grid ColumnDefinitions="*,Auto">
+                
+                <Entry Placeholder="Buscar..."
+                       Margin="15,0,0,0"
+                       TextColor="{StaticResource Gray500}"
+                       FontAttributes="Bold"
+                       HeightRequest="60"
+                       ClearButtonVisibility="WhileEditing"
+                       />
+                <Label Grid.Column="1" 
+                       BackgroundColor="{StaticResource Primary}"
+                       Text="{Static icon:IconFont.MagnifyingGlass}"
+                       FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                       TextColor="{StaticResource White}"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       FontSize="20"
+                       Padding="30,8,30,8"
+                       >
+                    
+                </Label>
+            </Grid>
+        </Border>
+
+        <CollectionView ItemsSource="{Binding Persons}"
+                        Grid.Row="2"
+                        Margin="20"
+                        SelectionMode="Single"
+                        >
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:PersonDto">
+                    <Border BackgroundColor="{StaticResource White}"
+                            StrokeShape="RoundRectangle 10"
+                            Margin="0,0,0,10"
+                            Stroke="{StaticResource Primary}"
+                            StrokeThickness="2"
+                            >
+                        <Grid>
+                            <Label Margin="20,10,10,10" 
+                                   Text="{Binding FullName}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray600}"
+                                   />
+                            <Label Text="{Binding CardType}"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="End"
+                                   VerticalTextAlignment="End"
+                                   Margin="0,0,14,4"
+                                   TextColor="{StaticResource Gray300}"
+                                   FontAttributes="Bold"
+                                   />
+                        </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

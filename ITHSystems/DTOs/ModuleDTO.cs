@@ -17,26 +17,15 @@ public record class ModuleDto
     public int Badges { get; set; } = -1;
     public bool EnableBadges { get; set; }
     public bool IsVisible => !IsDeleted;
-    public bool Enable => Badges > 0;
-    public Color BGColor
+    public bool Enable => Badges > 0 || !EnableBadges;
+    public Brush BGColor
     {
         get
         {
-            if (EnableBadges)
-            {
-                if (Enable)
-                {
-                    return Color.FromArgb("#FFFFFF");
-                }
-                else
-                {
-                    return Color.FromArgb("#6E6E6E");
-                }
-            }
-            else
-            {
-                return Color.FromArgb("#FFFFFF");
-            }
+            if (!EnableBadges) return new SolidColorBrush(Color.FromArgb("#FFFFFF"));
+
+            if (!Enable) return new SolidColorBrush( Color.FromArgb("#ACACAC"));
+            return new SolidColorBrush(Color.FromArgb("#FFFFFF"));
         }
     }
 }

@@ -19,7 +19,7 @@
                     >
 
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="dto:ModuleDTO">
+            <DataTemplate x:DataType="dto:ModuleDto">
 
                 <controls:ModuleCard ModuleFontFamilyIcon="{Binding FontFamaly}"
                                      ModuleFontIcon="{Binding Icon}"

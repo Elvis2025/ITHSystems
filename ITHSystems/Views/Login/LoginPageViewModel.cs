@@ -28,8 +28,6 @@ public partial class LoginPageViewModel : BaseViewModel
         {
             if (IsBusy) return;
             IsBusy = true;
-            await Task.Delay(300);
-            await Task.Delay(2000);
             await PushPageAsync<HomePage>();
         }
         catch (Exception e)
@@ -48,7 +46,7 @@ public partial class LoginPageViewModel : BaseViewModel
     {
         try
         {
-            await managerSQLite.CreateTables();
+            managerSQLite.CreateTablesUnAsync();
         }
         catch (Exception e )
         {

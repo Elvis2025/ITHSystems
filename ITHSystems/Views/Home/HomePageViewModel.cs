@@ -1,8 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using ITHSystems.DTOs;
-using ITHSystems.Views.Deliveries;
-using ITHSystems.Views.PickupService;
 using System.Collections.ObjectModel;
 
 namespace ITHSystems.Views.Home;

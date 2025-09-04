@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ITHSystems.Attributes;
+using ITHSystems.DTOs;
 using System.Reflection;
 
 namespace ITHSystems.Extensions;
@@ -36,5 +37,43 @@ public static class UtilExtensions
             var route = attr.RouteName ?? type.Name;
             Routing.RegisterRoute(route, type);
         }
+    }
+
+    public static IEnumerable<PersonDto> GetPersons()
+    {
+        var persons = new List<PersonDto>
+        {
+            new PersonDto { 
+                Id = 1, 
+                FirstName = "John", 
+                LastName = "Doe", 
+                Email = "",
+                CardType = "Visa Clásica",
+            },
+            new PersonDto { 
+                Id = 2, 
+                FirstName = "Jesus", 
+                LastName = "Peña", 
+                Email = "",
+                CardType = "Visa Clásica",
+            },
+            new PersonDto { 
+                Id = 3, 
+                FirstName = "Matusalem", 
+                LastName = "Sepeda", 
+                Email = "",
+                CardType = "Visa Clásica",
+            },
+            new PersonDto { 
+                Id = 4, 
+                FirstName = "Efrain", 
+                LastName = "Beriguete", 
+                Email = "",
+                CardType = "Visa Clásica",
+            },
+
+        };
+
+        return persons;
     }
 }

@@ -9,7 +9,7 @@
           StrokeShape="RoundRectangle 8"
           Stroke="{StaticResource Tertiary}"
           StrokeThickness="2"
-          BackgroundColor="{Binding BGColorProperty, Source={x:Reference Root}}"
+          Background="{Binding BGColor, Source={x:Reference Root}}"
           >
           <!--BackgroundColor="{Binding BGColorProperty, Source={x:Reference Root}}"-->
         <Grid RowDefinitions="*">

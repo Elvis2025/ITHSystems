@@ -38,13 +38,13 @@ public partial class ModuleCard : ContentView
     public static readonly BindableProperty BGColorProperty =
        BindableProperty.Create(
            nameof(BGColor),
-           typeof(Color),
+           typeof(Brush),
            typeof(ModuleCard),
-           default(Color));
+           default(Brush));
 
-    public Color BGColor
+    public Brush BGColor
     {
-        get => (Color)GetValue(BGColorProperty);
+        get => (Brush)GetValue(BGColorProperty);
         set => SetValue(BGColorProperty, value);
     }
 

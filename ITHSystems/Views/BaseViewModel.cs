@@ -5,6 +5,7 @@ using ITHSystems.Extensions;
 using ITHSystems.Resx;
 using ITHSystems.UsesCases.IconFonts;
 using ITHSystems.Views.Deliveries;
+using ITHSystems.Views.Deliveries.PendingDeliveries;
 using ITHSystems.Views.Login;
 using ITHSystems.Views.PickupService;
 using System.Diagnostics;
@@ -99,15 +100,26 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
         CurrentModule = moduleDTO;
         try
         {
-            if (CurrentModule is null || !CurrentModule.IsVisible || CurrentModule.IsDeleted) return;
+            if (CurrentModule is null || !CurrentModule.IsVisible || CurrentModule.IsDeleted || !CurrentModule.Enable) return;
             switch (CurrentModule.Modules)
             {
                 case Enums.Modules.PICKUPSERVICE:
                     await PushRelativePageAsync<PickupServicePage>();
                     break;
+
+                #region Deliveries
                 case Enums.Modules.DELIVERIES:
                     await PushRelativePageAsync<DeliveriesPage>();
                     break;
+                case Enums.Modules.PENDINGDELIVERIES:
+                    await PushRelativePageAsync<PendingDeliveries>();
+                    break;
+                case Enums.Modules.DELAYEDDELIVERIES:
+                    await PushRelativePageAsync<DeliveriesPage>();
+                    break;
+
+
+                #endregion
                 default:
                     await WarningAlert("Warning", $"The module {CurrentModule.Modules.ToString()} is not implemented");
                     break;
