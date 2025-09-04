@@ -145,8 +145,9 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
         }
         catch (Exception e)
         {
+
             Debug.Write(e.Message);
-            await Shell.Current.DisplayAlert("iThot system navigation Error", e.Message, IBSResources.Ok);
+            await ErrorAlert("iThot system navigation Error", e.Message);
         }
         finally
         {

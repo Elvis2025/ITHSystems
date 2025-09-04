@@ -16,9 +16,5 @@
         Title="{Static resources:IBSResources.Logout}"
         ContentTemplate="{DataTemplate login:LoginPage}"
         Route="LoginPage" />
-    <ShellContent
-        Title="Servicios"
-        ContentTemplate="{DataTemplate home:HomePage}"
-        Route="HomePage" />
 
 </Shell>

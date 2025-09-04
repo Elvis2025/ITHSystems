@@ -28,6 +28,7 @@
                        TextColor="{StaticResource Gray500}"
                        FontAttributes="Bold"
                        HeightRequest="60"
+                       Text="{Binding FiterText}"
                        ClearButtonVisibility="WhileEditing"
                        />
                 <Label Grid.Column="1" 
@@ -42,12 +43,16 @@
                        FontSize="20"
                        Padding="30,8,30,8"
                        >
-                    
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SearchPersonCommand}" />
+                    </Label.GestureRecognizers>
                 </Label>
             </Grid>
         </Border>
 
         <CollectionView ItemsSource="{Binding Persons}"
+                        SelectedItem="{Binding CurrentPerson}"
+                        SelectionChangedCommand="{Binding SelectPersonCommand}"
                         Grid.Row="2"
                         Margin="20"
                         SelectionMode="Single"
@@ -94,5 +99,11 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <controls:ActivityIndicatorView
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            IsVisible="{Binding IsBusy}"
+            />
     </Grid>
 </ContentPage>

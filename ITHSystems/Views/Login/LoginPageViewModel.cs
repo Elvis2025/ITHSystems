@@ -28,7 +28,7 @@ public partial class LoginPageViewModel : BaseViewModel
         {
             if (IsBusy) return;
             IsBusy = true;
-            await PushPageAsync<HomePage>();
+            await PushRelativePageAsync<HomePage>();
         }
         catch (Exception e)
         {
