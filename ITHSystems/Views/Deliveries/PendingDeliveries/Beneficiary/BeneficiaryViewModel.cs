@@ -4,11 +4,11 @@ using ITHSystems.DTOs;
 
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 
-[QueryProperty(nameof(PersonDto), "Person")]
+[QueryProperty(nameof(PersonDto), "PersonDto")]
 public partial class BeneficiaryViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private PersonDto? person;
+    private PersonDto? personDto;
 
    
     public BeneficiaryViewModel()
@@ -23,7 +23,7 @@ public partial class BeneficiaryViewModel : BaseViewModel
         try
         {
             IsBusy = true;
-            await WarningAlert("Entregas", $"Hola {Person?.FirstName} {Person?.LastName} tu entrega ha sido pospuesta");
+            await WarningAlert("Entregas", $"Hola {PersonDto?.FirstName} {PersonDto?.LastName} tu entrega ha sido pospuesta");
         }
         catch (Exception e)
         {
@@ -42,7 +42,7 @@ public partial class BeneficiaryViewModel : BaseViewModel
         try
         {
             IsBusy = true;
-            await WarningAlert("Entregas", $"Hola {Person?.FirstName} {Person?.LastName} tu entrega ha sido Deliver");
+            await WarningAlert("Entregas", $"Hola {PersonDto?.FirstName} {PersonDto?.LastName} tu entrega ha sido Deliver");
         }
         catch (Exception e)
         {

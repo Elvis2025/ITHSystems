@@ -30,9 +30,10 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
         {   if (IsBusy) return;
             IsBusy = true;
             if (CurrentPerson is null) return;
-            await Shell.Current.GoToAsync($"{nameof(Beneficiary.Beneficiary)}", new Dictionary<string, object>
+
+            await PushRelativePageAsync<Beneficiary.Beneficiary>(new Dictionary<string, object>
             {
-                { "Person", CurrentPerson }
+                ["PersonDto"] = CurrentPerson 
             });
          
         }catch (Exception e)

@@ -49,13 +49,14 @@ public static class UtilExtensions
                 LastName = "Doe", 
                 Email = "",
                 CardType = "Visa Clásica",
+                Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
             },
             new PersonDto { 
                 Id = 2, 
                 FirstName = "Jesus", 
                 LastName = "Peña", 
                 Email = "",
-                CardType = "Visa Clásica",
+                Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
             },
             new PersonDto { 
                 Id = 3, 
@@ -63,6 +64,7 @@ public static class UtilExtensions
                 LastName = "Sepeda", 
                 Email = "",
                 CardType = "Visa Clásica",
+                Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
             },
             new PersonDto { 
                 Id = 4, 
@@ -70,10 +72,16 @@ public static class UtilExtensions
                 LastName = "Beriguete", 
                 Email = "",
                 CardType = "Visa Clásica",
+                Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
             },
 
         };
 
         return persons;
+    }
+
+    public static IEnumerable<string> GetModules()
+    {
+       
     }
 }

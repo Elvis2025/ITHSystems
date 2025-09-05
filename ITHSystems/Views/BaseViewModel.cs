@@ -6,6 +6,7 @@ using ITHSystems.Resx;
 using ITHSystems.UsesCases.IconFonts;
 using ITHSystems.Views.Deliveries;
 using ITHSystems.Views.Deliveries.PendingDeliveries;
+using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 using ITHSystems.Views.Login;
 using ITHSystems.Views.PickupService;
 using System.Diagnostics;
@@ -51,6 +52,18 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
         try
         {
             await Shell.Current.GoToAsync($"{typeof(T).Name}");
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine(e.Message);
+            await Shell.Current.DisplayAlert("Spend Flow Error", e.Message, IBSResources.Ok);
+        }
+    }
+    public static async Task PushRelativePageAsync<T>(Dictionary<string, object> param) where T : ContentPage
+    {
+        try
+        {
+            await Shell.Current.GoToAsync($"{typeof(T).Name}",param);
         }
         catch (Exception e)
         {

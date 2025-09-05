@@ -106,6 +106,12 @@
 	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\Beneficiary.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\DeliverBeneficiary\DeliverBenefiaryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\DeliverSecondPerson\DeliverSecondPersonPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\PendingDeliveries.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
