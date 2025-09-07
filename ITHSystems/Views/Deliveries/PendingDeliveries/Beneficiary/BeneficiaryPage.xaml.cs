@@ -2,10 +2,10 @@ using ITHSystems.Attributes;
 
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 [RegisterAsRoute]
-public partial class Beneficiary : ContentPage
+public partial class BeneficiaryPage : ContentPage
 {
 
-    public Beneficiary(BeneficiaryViewModel viewModel)
+    public BeneficiaryPage(BeneficiaryViewModel viewModel)
 	{
 		InitializeComponent();
 		BindingContext = viewModel;

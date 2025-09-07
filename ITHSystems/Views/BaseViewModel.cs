@@ -13,8 +13,12 @@ using System.Diagnostics;
 
 namespace ITHSystems.Views;
 
-public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
+public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavigation
 {
+    public IReadOnlyList<Page> ModalStack => throw new NotImplementedException();
+
+    public IReadOnlyList<Page> NavigationStack => throw new NotImplementedException();
+
     [RelayCommand]
     public void ShowPassword()
     {
@@ -73,18 +77,18 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
     }
 
 
-    public static async Task PushPopup<T>() where T : Popup
-    {
-        try
-        {
-            var popup = CreateInstance<T>();
-            await Shell.Current.ShowPopupAsync(popup);
-        }
-        catch (Exception e)
-        {
-            Debug.Write(e.Message);
-        }
-    }
+    //public static async Task PushPopup<T>() where T : Popup
+    //{
+    //    try
+    //    {
+    //        var popup = CreateInstance<T>();
+    //        //await Shell.Current.ShowPopupAsync(popup);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Debug.Write(e.Message);
+    //    }
+    //}
 
     public static T CreateInstance<T>() where T : class
     {
@@ -167,5 +171,66 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel
             IsBusy = false;
         }
        
+    }
+
+    public void InsertPageBefore(Page page, Page before)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Page> PopAsync() =>
+      MainThread.InvokeOnMainThreadAsync(() => Nav.PopAsync());
+
+    public Task<Page> PopAsync(bool animated)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Page> PopModalAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Page> PopModalAsync(bool animated)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task PopToRootAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task PopToRootAsync(bool animated)
+    {
+        throw new NotImplementedException();
+    }
+    private static INavigation Nav =>
+    Application.Current?.Windows.FirstOrDefault()?.Page?.Navigation
+    ?? throw new InvalidOperationException(
+        "No hay NavigationPage en la raíz. Envuelve tu MainPage en un NavigationPage.");
+
+    public Task PushAsync(Page page) =>
+      page is null
+          ? Task.FromException(new ArgumentNullException(nameof(page)))
+          : MainThread.InvokeOnMainThreadAsync(() => Nav.PushAsync(page));
+    public Task PushAsync(Page page, bool animated)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task PushModalAsync(Page page)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task PushModalAsync(Page page, bool animated)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RemovePage(Page page)
+    {
+        throw new NotImplementedException();
     }
 }

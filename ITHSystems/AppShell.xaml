@@ -6,6 +6,7 @@
      xmlns:resources="clr-namespace:ITHSystems.Resx"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:login="clr-namespace:ITHSystems.Views.Login"
+    xmlns:camera="clr-namespace:ITHSystems.Controls"
     xmlns:home="clr-namespace:ITHSystems.Views.Home"
     FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="False"
@@ -16,5 +17,9 @@
         Title="{Static resources:IBSResources.Logout}"
         ContentTemplate="{DataTemplate login:LoginPage}"
         Route="LoginPage" />
+    <ShellContent
+        Title="cameraPage"
+        ContentTemplate="{DataTemplate camera:CameraControlPage}"
+        Route="CameraControlPage" />
 
 </Shell>

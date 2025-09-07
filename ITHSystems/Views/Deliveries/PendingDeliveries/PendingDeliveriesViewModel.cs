@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.DTOs;
 using ITHSystems.Extensions;
+using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -31,7 +32,7 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
             IsBusy = true;
             if (CurrentPerson is null) return;
 
-            await PushRelativePageAsync<Beneficiary.Beneficiary>(new Dictionary<string, object>
+            await PushRelativePageAsync<BeneficiaryPage>(new Dictionary<string, object>
             {
                 ["PersonDto"] = CurrentPerson 
             });

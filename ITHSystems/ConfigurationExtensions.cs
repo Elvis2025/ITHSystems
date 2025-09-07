@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace ITHSystems;
 
@@ -9,6 +10,7 @@ public static class ConfigurationExtensions
     {
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkitCamera()
             .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
@@ -25,6 +27,7 @@ public static class ConfigurationExtensions
 
 
         builder.Services.AddServices();
+        builder.Services.AddSingleton<IFileSystem>(FileSystem.Current);
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

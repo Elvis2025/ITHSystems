@@ -10,4 +10,6 @@ public partial class DeliverBenefiaryPage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
     }
+
+    
 }
