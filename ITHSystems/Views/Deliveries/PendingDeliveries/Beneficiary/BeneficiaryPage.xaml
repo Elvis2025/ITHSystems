@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.BeneficiaryPage"
+             xmlns:resources="clr-namespace:ITHSystems.Resx"
+             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+             xmlns:controls="clr-namespace:ITHSystems.Controls"
+             xmlns:dto="clr-namespace:ITHSystems.DTOs"
+             BackgroundColor="{StaticResource bgColorPage}"
+             
+             >
+    <Grid RowDefinitions="Auto,*">
+        <controls:GradientHeader  
+            BackButtonCommand="{Binding GoBackCommand}"
+            BackgroundColor="{StaticResource bgColorPage}"
+            />
+        <Grid RowDefinitions="Auto,*"
+                  VerticalOptions="Center"
+                  >
+            <Border Grid.Row="0"
+                        BackgroundColor="{StaticResource Tertiary}"
+                        Margin="28,150,28,-1"
+                        VerticalOptions="Center"
+                        Padding="0,0,0,8"
+                        StrokeShape="RoundRectangle 20,20,0,0"
+                        Stroke="{StaticResource Primary}"
+                        StrokeThickness="2"
+                        >
+                <VerticalStackLayout>
+
+                    <Label Text="Beneficiario"
+                               Margin="0,0,0,0"
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center"
+                               Grid.Row="1"
+                               TextColor="{StaticResource White}"
+                               FontAttributes="Bold"
+                               FontSize="34"/>
+
+                    <Label Margin="0,0,0,0"
+                               Text="{Binding PersonDto.FullName}"
+                               FontSize="26"
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center"
+                               Grid.Row="1"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource White}"/>
+
+
+
+
+                </VerticalStackLayout>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.50" Radius="16" Offset="0,8"/>
+                </Border.Shadow>
+            </Border>
+            <Border BackgroundColor="{StaticResource White}"
+                        Grid.Row="1"
+                        Margin="28,0,28,0"
+                        Padding="0,0,0,18"
+                        Stroke="{StaticResource Primary}"
+                        StrokeShape="RoundRectangle 0,0,20,20"
+                        >
+                <Grid RowDefinitions="Auto,*,Auto,Auto,Auto"
+                          Margin="10,0,10,0"
+                          >
+
+                    <Label Text="Dirección"
+                               Margin="10,0,0,4"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               TextColor="{StaticResource Gray600}"
+                               />
+                    <Border Stroke="Transparent"
+                                Grid.Row="1"
+                                Padding="10"
+                                BackgroundColor="{StaticResource Primary}"
+                                StrokeShape="RoundRectangle 10"
+                            >
+
+                        <Label Text="{Binding PersonDto.Address}"
+                                   HorizontalOptions="Fill"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextDecorations="Underline"
+                                   TextColor="{StaticResource White}"
+                                   >
+                        </Label>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SeeOnTheMapCommand}"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+
+                    <Border Grid.Row="2" 
+                                Margin="0,18,0,0"
+                                StrokeShape="RoundRectangle 10"
+                                HeightRequest="84"
+                                Stroke="{StaticResource Primary}"
+                                >
+                        <VerticalStackLayout>
+                            <Label Text="¿ Quien recibe ?"
+                                       HorizontalOptions="Fill"
+                                       HorizontalTextAlignment="Center"
+                                       Padding="8"
+                                       TextColor="{StaticResource White}"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       BackgroundColor="{StaticResource Primary}"
+                                       />
+                            <Border Stroke="Transparent"
+                                        HeightRequest="70"
+                                        >
+                                <Picker Title="Seleccione"
+                                        FontSize="18"
+                                        FontAttributes="Bold"
+                                        TitleColor="{StaticResource Gray300}"
+                                        HorizontalTextAlignment="Center"
+                                        ItemsSource="{Binding DeliveryOption}"
+                                        ItemDisplayBinding="{Binding Descripcion}"
+                                        TextColor="{StaticResource Gray600}"
+                                        SelectedItem="{Binding CurrentDeliveryOption}"
+                                            />
+                            </Border>
+
+
+                        </VerticalStackLayout>
+                    </Border>
+                    <HorizontalStackLayout  Grid.Row="3" Margin="10,28,0,0">
+
+                        <Label Margin="0,0,4,0"
+                                Text="Producto:"
+                                FontSize="16"
+                                Grid.Row="3"
+                                VerticalOptions="Center" 
+                                HorizontalOptions="End"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource  Gray600}"/>
+
+                        <Label Margin="0,0,0,0"
+                                Text="{Binding PersonDto.CardType}"
+                                FontSize="16"
+                                Grid.Row="3"
+                                VerticalOptions="Center" 
+                                HorizontalOptions="End"
+                                FontAttributes="Bold"
+                                TextColor="{StaticResource  Gray400}"/>
+
+
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Row="4" 
+                                               Margin="0,10,0,0"
+                                               HorizontalOptions="Center"
+                                               Spacing="38"
+                                               >
+                        <Button Text="Posponer"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="{StaticResource Gray500}"
+                                    Command="{Binding PostponeCommand}"
+                                    />
+                        <Button Text="Entregar"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="Green"
+                                    Command="{Binding DeliverCommand}"
+                                    />
+                    </HorizontalStackLayout>
+                </Grid>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.50" Radius="16" Offset="0,8"/>
+                </Border.Shadow>
+            </Border>
+        </Grid>
+        <controls:ActivityIndicatorView
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            IsVisible="{Binding IsBusy}"
+            />
+    </Grid>
+</ContentPage>
