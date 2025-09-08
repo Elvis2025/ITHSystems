@@ -9,9 +9,9 @@ namespace ITHSystems.Views.Deliveries.PendingDeliveries.CausesOfNonDelivery;
 public partial class CausesOfNonDeliveryViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private ObservableCollection<DTOs.CausesOfNonDelivery?> causesOfNonDeliverys;
+    private ObservableCollection<DTOs.CausesOfNonDeliveryDto?> causesOfNonDeliverys;
     [ObservableProperty]
-    private DTOs.CausesOfNonDelivery? currentCauseOfNonDeliverys;
+    private DTOs.CausesOfNonDeliveryDto? currentCauseOfNonDeliverys;
 
     public CausesOfNonDeliveryViewModel()
     {

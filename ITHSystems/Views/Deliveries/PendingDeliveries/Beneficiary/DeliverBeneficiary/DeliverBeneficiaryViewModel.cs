@@ -6,7 +6,15 @@ using ITHSystems.DTOs;
 using ITHSystems.Extensions;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+#if ANDROID
+using Android.Content;
+using Application = Android.App.Application;
+#endif
 
+#if IOS
+using Foundation;
+using UIKit;
+#endif
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary;
 
 public partial class DeliverBeneficiaryViewModel : BaseViewModel
@@ -88,40 +96,47 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
     {
         try
         {
+            var cameraPermissionStatus = await Permissions.CheckStatusAsync<Permissions.Camera>();
 
-            //            var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
-            //            if (status != PermissionStatus.Granted)
-            //            {
-            //                await Permissions.RequestAsync<Permissions.Camera>();
-            //            }
-
-
-
-            //            if (MediaPicker.Default.IsCaptureSupported)
-            //            {
-            //#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            //                FileResult photo = await MediaPicker.Default.CapturePhotoAsync();
-            //#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-
-            //                if (photo != null)
-            //                {
-            //                    // save the file into local storage
-            //                    string localFilePath = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-
-            //                    using Stream sourceStream = await photo.OpenReadAsync();
-            //                    using FileStream localFileStream = File.OpenWrite(localFilePath);
-
-            //                    await sourceStream.CopyToAsync(localFileStream);
-            //                }
-            //            }
-
-            await MainThread.InvokeOnMainThreadAsync(async () =>
+            if (!cameraPermissionStatus.Equals(PermissionStatus.Granted))
             {
-                var status = await Permissions.RequestAsync<Permissions.Camera>();
-                // await MediaPicker.CapturePhotoAsync();
+                var ok = await Shell.Current.DisplayAlert("Camara", $"Para ejecutar esta acción se require acceder a al permiso de la camara", "Dar Acceso", "Cancelar");
+                if (ok)
+                {
+#if ANDROID
+                    var context = Application.Context;
+                    Intent intent = new Intent(Android.Provider.Settings.ActionApplicationDetailsSettings);
+                    intent.AddFlags(ActivityFlags.NewTask);
+                    var uri = Android.Net.Uri.FromParts("package", context.PackageName, null);
+                    intent.SetData(uri);
+                    context.StartActivity(intent);
+#endif
+#if IOS
+                    var url = new NSUrl(UIApplication.OpenSettingsUrlString);
+                    if (UIApplication.SharedApplication.CanOpenUrl(url))
+                    {
+                        UIApplication.SharedApplication.OpenUrl(url, new UIApplicationOpenUrlOptions(), null);
+                    }
+#endif
+                    return;
+                }
+                return;
+            }
 
-                App.Current.MainPage = new CameraControlPage();
-            });
+            var cameraPage = new CameraControlPage()
+            {
+                OnSavePhoto = async (img, isSaved) =>
+                {
+                    if (img is not null && !img.IsEmpty && isSaved)
+                    {
+                        PhotoId = img;
+                        IsPhotoTaken = true;
+                    }
+                    await PopAsync();
+                }
+            };
+            await PushAsync(cameraPage);
+
         }
         catch (Exception ex)
         {
@@ -131,7 +146,7 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
 
 
 
-    
+
 
 
     [RelayCommand]
@@ -168,5 +183,11 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
 
     }
 
-
+    [RelayCommand]
+    public async Task ShowImageId()
+    {
+        if (PhotoId is null || PhotoId.IsEmpty) return;
+        var imageView = new ImageViewControl(PhotoId);
+        await PushAsync(imageView);
+    }
 }

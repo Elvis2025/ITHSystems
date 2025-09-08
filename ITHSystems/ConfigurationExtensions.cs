@@ -10,6 +10,7 @@ public static class ConfigurationExtensions
     {
         builder
             .UseMauiApp<App>()
+            .ConfigureSyncfusionCore()
             .UseMauiCommunityToolkitCamera()
             .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>

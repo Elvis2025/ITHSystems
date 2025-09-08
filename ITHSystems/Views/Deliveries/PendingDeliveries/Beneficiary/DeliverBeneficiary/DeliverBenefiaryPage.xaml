@@ -238,10 +238,8 @@
                        >
 
                         <HorizontalStackLayout HorizontalOptions="Fill"
-                                            BackgroundColor="{StaticResource Primary}"
-                                            Spacing="28"
-                                               
-                                            >
+                                               BackgroundColor="{StaticResource Primary}"
+                                               Spacing="28">
 
                             <Label Text="{Static icon:IconFont.Camera}"
                                 HorizontalOptions="Center"
@@ -268,11 +266,14 @@
                         </HorizontalStackLayout>
 
                         <Border Grid.Row="1"
-                             VerticalOptions="Center"
-                             Stroke="Transparent"
-                             IsVisible="{Binding IsPhotoTaken}">
-                            <Image Source="ibscompany.png"
-                             />
+                                 VerticalOptions="Center"
+                                 Stroke="{StaticResource Black}"
+                                Margin="0,0,0,0"
+                                BackgroundColor="{StaticResource Black}"
+                                 IsVisible="{Binding IsPhotoTaken}">
+                            <Image Source="{Binding PhotoId}"
+                                   HeightRequest="200"
+                                   />
                         </Border>
 
                     </Grid>

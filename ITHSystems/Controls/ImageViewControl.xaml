@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ITHSystems.Controls.ImageViewControl"
+             Title="ImageViewControl"
+             xmlns:resources="clr-namespace:ITHSystems.Resx"
+             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+             BackgroundColor="{StaticResource Black}"
+             >
+    <Grid Margin="0,-40,0,0" BackgroundColor="{StaticResource Black}">
+        <Image x:Name="Img"
+                VerticalOptions="Fill" 
+                HorizontalOptions="Fill"
+               BackgroundColor="{StaticResource Black}"
+                />
+        <Button Text="{Static icon:IconFont.ArrowLeft}"
+                FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                VerticalOptions="Start" 
+                HorizontalOptions="Start"
+                Margin="6,60,0,0"
+                FontSize="22"
+                Clicked="OnClose"
+                BackgroundColor="{StaticResource Black}"
+                />
+    </Grid>
+</ContentPage>

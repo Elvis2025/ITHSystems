@@ -62,7 +62,6 @@
                         Padding="0,0,0,18"
                         StrokeShape="RoundRectangle 0,0,20,20"
                         Stroke="{StaticResource Primary}"
-                        StrokeShape="RoundRectangle 0,0,20,20"
                         >
                 <Grid RowDefinitions="Auto,*,Auto,Auto,Auto"
                           Margin="10"
@@ -131,17 +130,6 @@
 
                         </VerticalStackLayout>
                     </Border>
-                    <HorizontalStackLayout  Grid.Row="3" Margin="10,28,0,0">
-
-                        <Label Margin="0,0,4,0"
-                                Text="Producto:"
-                                FontSize="16"
-                                Grid.Row="3"
-                                VerticalOptions="Center" 
-                                HorizontalOptions="End"
-                                FontAttributes="Bold"
-                                TextColor="{StaticResource  Gray600}"/>
-
                     <HorizontalStackLayout Grid.Row="3"
                                            Margin="5,30,0,0"
                                            >
