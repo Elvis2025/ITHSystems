@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ITHSystems.Attributes;
 using ITHSystems.DTOs;
+using ITHSystems.Enums;
+using System.Collections.ObjectModel;
 using System.Reflection;
 
 namespace ITHSystems.Extensions;
@@ -56,6 +58,7 @@ public static class UtilExtensions
                 FirstName = "Jesus", 
                 LastName = "Peña", 
                 Email = "",
+                CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
             },
             new PersonDto { 
@@ -80,8 +83,43 @@ public static class UtilExtensions
         return persons;
     }
 
-    public static IEnumerable<string> GetModules()
+    public static ObservableCollection<DeliveryOptionDto> GetDeliveryOptions()
     {
-       
+        var options = new List<DeliveryOptionDto>
+        {
+            new() { Id = Receiver.Beneficiary, Name = "Beneficiario" },
+            new() { Id = Receiver.SecondPerson, Name = "Segunda Persona" },
+        };
+        return new(options);
     }
+
+
+    public static ObservableCollection<CausesOfNonDeliveryDto> GetCausesOfNonDelivery()
+    {
+        var options = new List<CausesOfNonDeliveryDto>
+        {
+            new() { Id = 1, Name = "Dirección Incorrecta" },
+            new() { Id = 2, Name = "No se encuentra el cliente" },
+            new() { Id = 3, Name = "Rechazo de plástico" },
+            new() { Id = 4, Name = "Cliente falleció" },
+            new() { Id = 5, Name = "Arreglar nombre" },
+            new() { Id = 6, Name = "Cliente Incorrecto" },
+            new() { Id = 7, Name = "Cliente no Laborando" },
+            new() { Id = 8, Name = "Monto incorrecto" },
+        };
+
+        return new(options);
+    }
+    public static ObservableCollection<GenderDto> GetGenders()
+    {
+        var options = new List<GenderDto>
+        {
+            new() { Id = Gender.Famale, Description = "Femenino" },
+            new() { Id = Gender.Male, Description = "Masculino" },
+            new() { Id = Gender.Undefined, Description = "No definido" },
+        };
+
+        return new(options);
+    }
+
 }

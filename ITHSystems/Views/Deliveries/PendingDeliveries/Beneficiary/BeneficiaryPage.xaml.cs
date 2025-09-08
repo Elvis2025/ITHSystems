@@ -10,5 +10,4 @@ public partial class BeneficiaryPage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
     }
-
 }

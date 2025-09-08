@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ITHSystems.Controls.ControlsPage.SignaturePad.SignaturePadPage"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.SignaturePad;assembly=Syncfusion.Maui.SignaturePad"
+             xmlns:resources="clr-namespace:ITHSystems.Resx"
+             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+             Title="SignaturePad">
+
+    <Grid ColumnDefinitions="*,40" RowDefinitions="*">
+
+        <!-- Área de firma -->
+        <Border Grid.Column="0" Margin="0" BackgroundColor="Black" StrokeThickness="0">
+            <syncfusion:SfSignaturePad x:Name="Sig"
+                                       Background="Black"
+                                       StrokeColor="White"
+                                       
+                                       />
+        </Border>
+
+        <!-- Barra vertical de acciones (derecha) -->
+        <Grid Grid.Column="1" RowDefinitions="*,*,*" ColumnDefinitions="*">
+            <!-- Botón RESETEAR (arriba) -->
+            <Border BackgroundColor="#1F7A6F" Margin="0,0,0,0"
+                    Stroke="#1F7A6F"
+                    >
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnClearTapped"/>
+                </Border.GestureRecognizers>
+                <!-- Texto vertical -->
+                <Label Text="{Static icon:IconFont.ArrowRotateLeft}"
+                       FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       Rotation="90"
+                       FontSize="32"
+                       
+                       />
+            </Border>
+
+            <!-- Botón SALVAR FIRMA (centro) -->
+            <Border Grid.Row="1" BackgroundColor="#00A7F7" Margin="0,0,0,0"
+                    Stroke="#00A7F7">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSaveTapped"/>
+                </Border.GestureRecognizers>
+                <Label Text="{Static icon:IconFont.Check}"
+                       FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="White"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       Rotation="90"
+                       />
+            </Border>
+
+            <!-- Botón CANCELAR (abajo) -->
+            <Border Grid.Row="2" BackgroundColor="#D82621" Margin="0,0,0,0"
+                    Stroke="#D82621"
+                    >
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCancelTapped"/>
+                </Border.GestureRecognizers>
+                <Label Text="{Static icon:IconFont.Xmark}"
+                       FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="White"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       Rotation="90"/>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

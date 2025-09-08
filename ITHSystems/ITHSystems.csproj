@@ -19,7 +19,7 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-
+		<MauiVersion>9.0.90</MauiVersion>
 		<!-- Display name -->
 		<ApplicationTitle>ITH Systems</ApplicationTitle>
 
@@ -39,7 +39,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-	</PropertyGroup>
+	
+</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
@@ -60,13 +61,15 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="15.0.1" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
+		<PackageReference Include="CommunityToolkit.Maui.Camera" Version="1.0.2" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.50" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.100" />
 		<PackageReference Include="sqlite-net-sqlcipher" Version="1.9.172" />
 		<PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
 		<PackageReference Include="SQLitePCLRaw.bundle_sqlcipher" Version="1.1.14" />
+		<PackageReference Include="Syncfusion.Maui.SignaturePad" Version="31.1.17" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -77,6 +80,9 @@
 	  </Compile>
 	  <Compile Update="Views\Deliveries\DeliveriesPage.xaml.cs">
 	    <DependentUpon>DeliveriesPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Deliveries\PendingDeliveries\Beneficiary\BeneficiaryPage.xaml.cs">
+	    <DependentUpon>BeneficiaryPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -91,6 +97,9 @@
 	  <MauiXaml Update="Controls\ActivityIndicatorView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\CameraControlPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\GradientHeader.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -100,10 +109,16 @@
 	  <MauiXaml Update="Controls\ModuleListCard.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\ControlsPage\SignaturePad\SignaturePadPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Deliveries\DeliveriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\Beneficiary.xaml">
+	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\BeneficiaryPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\CausesOfNonDelivery\CausesOfNonDeliveryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\DeliverBeneficiary\DeliverBenefiaryPage.xaml">

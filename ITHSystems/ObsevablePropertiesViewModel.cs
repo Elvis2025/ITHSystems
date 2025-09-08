@@ -15,10 +15,10 @@ public abstract partial class ObsevablePropertiesViewModel : ObservableObject
     [ObservableProperty]
     private string passwordEye = IconsTwoTone.Visibility_off;
     [ObservableProperty]
-    private UserDTO currentUser = new();
+    private UserDto currentUser = new();
     [ObservableProperty]
     private ModuleDto? currentModule;
     private bool IsNotBusy => !IsBusy;
     [ObservableProperty]
-    private UserDTO userDTO = new();
+    private UserDto userDTO = new();
 }

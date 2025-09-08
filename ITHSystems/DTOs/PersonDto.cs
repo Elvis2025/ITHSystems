@@ -14,4 +14,8 @@ public record class PersonDto
     public string CardName{ get; set; } = string.Empty;
     public string CardType { get;  set; } = string.Empty;
     public string CardTypeNormalized => CardType.ToUpper();
+
+    public long Latitude { get; set; }
+    public long Longitude { get; set; }
+    public bool FindByCorrdenates => Latitude > 0 && Longitude > 0;
 }

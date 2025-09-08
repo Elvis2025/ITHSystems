@@ -2,7 +2,7 @@
 
 namespace ITHSystems.DTOs;
 [AutoMap(typeof(Model.User))]
-public class UserDTO
+public record class UserDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
