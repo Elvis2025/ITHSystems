@@ -35,7 +35,7 @@ public partial class SignaturePadPage : ContentPage
                 using var file = File.OpenWrite(path);
                 await stream.CopyToAsync(file);
 
-                await DisplayAlert("Firma", $"Firma guardada en:\n{path}", "OK");
+                await DisplayAlert("Firma", $"Firma guardada exitosamente", "OK");
 
                 OnSaveSignatrue?.Invoke(imageSource,true);
             }

@@ -1,9 +1,12 @@
+using System.Threading.Tasks;
+
 namespace ITHSystems.Controls;
 
 public partial class ImageViewControl : ContentPage
 {
     private readonly ImageSource imageSource;
     public static bool IsGoBack { get; set; } = false;
+    public Action? CameraOn { get;set; }
 
     public ImageViewControl(ImageSource imageSource)
 	{
@@ -31,21 +34,13 @@ public partial class ImageViewControl : ContentPage
 
     public async void OpenCamera(object sender, EventArgs e)
     {
-        var cameraPage = new CameraControlPage()
+        if(CameraOn is null)
         {
-            OnSavePhoto = async (img, isSaved) =>
-            {
-                if (img is not null && !img.IsEmpty && isSaved)
-                {
-                    PhotoId = img;
-                    IsPhotoTaken = true;
-                }
-                IsGoBack = true;
-                await Navigation.PopAsync();
-            }
-        };
-        await PushAsync(cameraPage);
-
+            await Navigation.PopAsync();
+            return;
+        }
+        CameraOn?.Invoke();
+        IsGoBack = true;
     }
 
 

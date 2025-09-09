@@ -13,6 +13,7 @@
                 HorizontalOptions="Fill"
                BackgroundColor="{StaticResource Black}"
                 />
+        
         <Button Text="{Static icon:IconFont.ArrowLeft}"
                 FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
                 VerticalOptions="Start" 
@@ -22,5 +23,19 @@
                 Clicked="OnClose"
                 BackgroundColor="{StaticResource Black}"
                 />
+        
+        <Button Text="{Static icon:IconFont.Camera}"
+                FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                VerticalOptions="End" 
+                HorizontalOptions="Center"
+                Margin="0,0,0,40"
+                FontSize="36"
+                Clicked="OpenCamera"
+                BackgroundColor="{StaticResource Primary}"
+                CornerRadius="100"
+                Padding="18"
+                />
+        
+        
     </Grid>
 </ContentPage>

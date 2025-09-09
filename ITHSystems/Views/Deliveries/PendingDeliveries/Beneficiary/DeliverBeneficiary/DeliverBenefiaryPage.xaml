@@ -266,14 +266,17 @@
                         </HorizontalStackLayout>
 
                         <Border Grid.Row="1"
-                                 VerticalOptions="Center"
-                                 Stroke="{StaticResource Black}"
-                                Margin="0,0,0,0"
+                                VerticalOptions="Center"
+                                Stroke="{StaticResource Black}"
+                                Margin="0,-1,0,0"
                                 BackgroundColor="{StaticResource Black}"
-                                 IsVisible="{Binding IsPhotoTaken}">
+                                IsVisible="{Binding IsPhotoTaken}">
                             <Image Source="{Binding PhotoId}"
                                    HeightRequest="200"
                                    />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowImageIdCommand}"/>
+                            </Border.GestureRecognizers>
                         </Border>
 
                     </Grid>

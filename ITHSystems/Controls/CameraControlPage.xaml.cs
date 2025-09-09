@@ -5,18 +5,29 @@ namespace ITHSystems.Controls;
 [RegisterAsRoute]
 public partial class CameraControlPage : ContentPage
 {
+    private readonly ImageSource? imageSource;
+
     public static int DeliveryId { get; set; }
     public Action<ImageSource?, bool>? OnSavePhoto { get; set; }
-    public CameraControlPage()
+    public CameraControlPage(ImageSource? imageSource = null)
 	{
 		InitializeComponent();
-	}
+        this.imageSource = imageSource;
+
+    }
+
+    protected override void OnAppearing()
+    {
+        if (imageSource is not null && !imageSource.IsEmpty)
+        {
+            Foto.Source = imageSource;
+        }
+    }
     private async void OnSnap(object sender, EventArgs e)
     {
         try
         {
             await Cam.CaptureImage(CancellationToken.None);
-
         }
         catch (Exception ex)
         {
@@ -50,7 +61,9 @@ public partial class CameraControlPage : ContentPage
 
     private async void ShowImage(object sender, TappedEventArgs e)
     {
-     if (Foto.Source.IsEmpty) return;
+        if (Foto.Source is null) return;
+        if (Foto.Source.IsEmpty) return;   
+        
         var imageView = new ImageViewControl(Foto.Source);
         await Navigation.PushAsync(imageView);
 

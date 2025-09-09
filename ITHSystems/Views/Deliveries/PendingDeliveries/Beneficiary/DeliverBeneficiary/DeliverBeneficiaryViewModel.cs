@@ -162,18 +162,14 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
                     {
                         Sign = img;
                         IsSigned = true;
-                        await PopAsync();
                     }
+                    await PopAsync();
 
                 }
 
             };
 
-
             await PushAsync(sigPage);
-
-            await WarningAlert("Entrega", "Entrega firmada correctamente");
-
         }
         catch (Exception e)
         {
@@ -187,7 +183,28 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
     public async Task ShowImageId()
     {
         if (PhotoId is null || PhotoId.IsEmpty) return;
-        var imageView = new ImageViewControl(PhotoId);
+        var imageView = new ImageViewControl(PhotoId)
+        {
+
+            CameraOn = async () =>
+            {
+
+                var cameraPage = new CameraControlPage(PhotoId)
+                {
+                    OnSavePhoto = async (img, isSaved) =>
+                    {
+
+                        if (img is not null && !img.IsEmpty && isSaved)
+                        {
+                            PhotoId = img;
+                            IsPhotoTaken = true;
+                        }
+                        await PopAsync();
+                    }
+                };
+                await PushAsync(cameraPage);
+            }
+        };
         await PushAsync(imageView);
     }
 }
