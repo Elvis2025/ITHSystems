@@ -1,11 +1,39 @@
 using ITHSystems.Attributes;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace ITHSystems.Controls.ControlsPage.SignaturePad;
 
 [RegisterAsRoute]
 public partial class SignaturePadPage : ContentPage
 {
+    private bool showSign;
+
+    public bool ShowSign
+    {
+        get => showSign;
+        set
+        {
+            if (showSign == value) return;
+            showSign = value;
+            OnPropertyChanged(); // <- notifica a la UI
+        }
+    }
+
+    private bool showImgSign;
+
+    public bool ShowImgSign
+    {
+        get => showImgSign;
+        set
+        {
+            if (showImgSign == value) return;
+            showImgSign = value;
+            OnPropertyChanged(); // <- notifica a la UI
+        }
+    }
+
     public static int DeliveryId { get; set; }
     public Action<ImageSource?, bool>? OnSaveSignatrue { get ; set; }
 
@@ -14,6 +42,7 @@ public partial class SignaturePadPage : ContentPage
 		InitializeComponent();
     }
 
+   
     private async void OnSaveTapped(object sender, TappedEventArgs e)
     {
         try
@@ -23,9 +52,9 @@ public partial class SignaturePadPage : ContentPage
                 await DisplayAlert("Firma", "No hay firma dibujada", "OK");
                 return;
             }
-             var imageSource = Sig.ToImageSource();
+             var imageSourceSign = Sig.ToImageSource();
 
-            if (imageSource is StreamImageSource sis)
+            if (imageSourceSign is StreamImageSource sis)
             {
                 using var stream = await sis.Stream(CancellationToken.None);
 
@@ -37,12 +66,12 @@ public partial class SignaturePadPage : ContentPage
 
                 await DisplayAlert("Firma", $"Firma guardada exitosamente", "OK");
 
-                OnSaveSignatrue?.Invoke(imageSource,true);
+                OnSaveSignatrue?.Invoke(imageSourceSign, true);
             }
             else
             {
                 await DisplayAlert("Firma", "No se pudo exportar la firma.", "OK");
-                OnSaveSignatrue?.Invoke(imageSource, false);
+                OnSaveSignatrue?.Invoke(imageSourceSign, false);
             }
         }
         catch (Exception ex)
@@ -54,6 +83,8 @@ public partial class SignaturePadPage : ContentPage
     private void OnClearTapped(object sender, TappedEventArgs e)
     {
         Sig.Clear();
+        ShowSign = true;
+        ShowImgSign = false;
     }
     
     async void OnCancelTapped(object sender, TappedEventArgs e)

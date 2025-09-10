@@ -144,7 +144,12 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
         }
     }
 
-
+    [RelayCommand]
+    public async Task ScanCodeBarId()
+    {
+        var cameraPage = new CameraCodeBarControlPage();
+        await PushAsync(cameraPage);
+    }
 
 
 

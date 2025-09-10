@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
+using ZXing.Net.Maui.Controls;
 
 namespace ITHSystems;
 
@@ -13,6 +14,7 @@ public static class ConfigurationExtensions
             .ConfigureSyncfusionCore()
             .UseMauiCommunityToolkitCamera()
             .UseMauiCommunityToolkit()
+            .UseBarcodeReader()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

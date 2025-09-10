@@ -9,18 +9,18 @@
 
     <Grid ColumnDefinitions="*,40" RowDefinitions="*">
 
-        <!-- Área de firma -->
         <Border Grid.Column="0" Margin="0" BackgroundColor="Black" StrokeThickness="0">
-            <syncfusion:SfSignaturePad x:Name="Sig"
-                                       Background="Black"
-                                       StrokeColor="White"
-                                       
-                                       />
+            <Grid>
+                <syncfusion:SfSignaturePad x:Name="Sig"
+                                           Background="Black"
+                                           StrokeColor="White"
+                                           IsVisible="{Binding ShowSign}"
+                                           />
+            </Grid>
+            
         </Border>
 
-        <!-- Barra vertical de acciones (derecha) -->
         <Grid Grid.Column="1" RowDefinitions="*,*,*" ColumnDefinitions="*">
-            <!-- Botón RESETEAR (arriba) -->
             <Border BackgroundColor="#1F7A6F" Margin="0,0,0,0"
                     Stroke="#1F7A6F"
                     >
@@ -40,7 +40,6 @@
                        />
             </Border>
 
-            <!-- Botón SALVAR FIRMA (centro) -->
             <Border Grid.Row="1" BackgroundColor="#00A7F7" Margin="0,0,0,0"
                     Stroke="#00A7F7">
                 <Border.GestureRecognizers>
@@ -57,10 +56,11 @@
                        />
             </Border>
 
-            <!-- Botón CANCELAR (abajo) -->
-            <Border Grid.Row="2" BackgroundColor="#D82621" Margin="0,0,0,0"
-                    Stroke="#D82621"
-                    >
+            <Border Grid.Row="2" 
+                    BackgroundColor="#D82621" 
+                    Margin="0,0,0,0"
+                    Stroke="#D82621">
+                
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnCancelTapped"/>
                 </Border.GestureRecognizers>

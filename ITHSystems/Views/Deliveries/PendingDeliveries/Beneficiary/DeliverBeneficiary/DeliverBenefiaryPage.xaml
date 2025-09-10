@@ -6,6 +6,7 @@
              xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
              xmlns:controls="clr-namespace:ITHSystems.Controls"
              xmlns:dto="clr-namespace:ITHSystems.DTOs"
+             xmlns:behaviors="clr-namespace:ITHSystems.Behaviors"
              BackgroundColor="{StaticResource bgColorPage}"
              HideSoftInputOnTapped="True"
              
@@ -68,14 +69,18 @@
                                             Stroke="Transparent"
                                             >
                             <Entry HeightRequest="66"
-                                               Placeholder="Cédula..."
-                                               PlaceholderColor="{StaticResource Gray200}"
-                                               Keyboard="Numeric"
-                                               TextColor="{StaticResource Gray500}"
-                                               FontAttributes="Bold"
-                                               FontSize="20"
-                                               ClearButtonVisibility="WhileEditing"
-                                            />
+                                   Placeholder="Cédula..."
+                                   PlaceholderColor="{StaticResource Gray200}"
+                                   Keyboard="Numeric"
+                                   MaxLength="13"
+                                   TextColor="{StaticResource Gray500}"
+                                   FontAttributes="Bold"
+                                   FontSize="20"
+                                   ClearButtonVisibility="WhileEditing">
+                                <Entry.Behaviors>
+                                    <behaviors:PersonIdEntryBehavior />
+                                </Entry.Behaviors>
+                            </Entry>
                         </Border>
 
                         <Label Text="{Static icon:IconFont.Barcode}"
@@ -85,7 +90,11 @@
                                            VerticalOptions="Center"
                                            Grid.Column="2"
                                            TextColor="{StaticResource Gray600}"
-                                           FontFamily="{Static icon:FontFamilyIcons.FaSolid}"/>
+                                           FontFamily="{Static icon:FontFamilyIcons.FaSolid}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ScanCodeBarIdCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
                     </Grid>
                 </Border>
 
