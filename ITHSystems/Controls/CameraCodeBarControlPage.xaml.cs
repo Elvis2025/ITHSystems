@@ -75,7 +75,7 @@ public partial class CameraCodeBarControlPage : ContentPage
 
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            CedulaEntry.Text = formatted;
+            CedulaEntry.Text = cedula;
             // Si quieres seguir escaneando automáticamente, vuelve a activar:
             // BarcodeReader.IsDetecting = true;
         });

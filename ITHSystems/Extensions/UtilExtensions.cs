@@ -121,5 +121,18 @@ public static class UtilExtensions
 
         return new(options);
     }
+    public static ObservableCollection<CountryDto> GetCountries()
+    {
+        var options = new List<CountryDto>
+        {
+            new() { Id = 1, Name = "República Dominicana" },
+            new() { Id = 2, Name = "Australia" },
+            new() { Id = 3, Name = "Tailandia" },
+            new() { Id = 4, Name = "Colombia" },
+            new() { Id = 5, Name = "Perú" },
+        };
+
+        return new(options);
+    }
 
 }

@@ -14,6 +14,7 @@ using Application = Android.App.Application;
 #if IOS
 using Foundation;
 using UIKit;
+using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverSecondPerson;
 #endif
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary;
 
@@ -37,10 +38,20 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
     private ObservableCollection<GenderDto?> genders;
     [ObservableProperty]
     private GenderDto? currentGender;
+    [ObservableProperty]
+    private ObservableCollection<CountryDto?> countries;
+
+    [ObservableProperty]
+    private CountryDto? country;
+    [ObservableProperty]
+    private DateTime? expirationDate = null;
+
+    public bool IsSecondPerson { get; set; } = false;
 
     public DeliverBeneficiaryViewModel()
     {
         Genders = UtilExtensions.GetGenders()!;
+        Countries = UtilExtensions.GetCountries()!;
     }
 
     [RelayCommand]
@@ -50,6 +61,19 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
         IsBusy = true;
         try
         {
+            if (IsSecondPerson)
+            {
+                if(Country is null)
+                {
+                    await WarningAlert("Entrega", "Debes especificar un pais antes de continuar.");
+                    return;
+                }
+                if (ExpirationDate is null || ExpirationDate < DateTime.Now)
+                {
+                    await WarningAlert("Entrega", "Fecha de expiración incorrecta");
+                    return;
+                }
+            }
             if (string.IsNullOrEmpty(PersonID))
             {
                 await WarningAlert("Entrega", "La cedula del beneficiario es obligatoria.");
@@ -75,7 +99,7 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
             await Task.Delay(500);
             await SuccessAlert("Entrega", "Entrega de producto realizada correctamente");
 
-
+            await Shell.Current.GoToAsync("..//..//..");
 
         }
         catch (Exception e)

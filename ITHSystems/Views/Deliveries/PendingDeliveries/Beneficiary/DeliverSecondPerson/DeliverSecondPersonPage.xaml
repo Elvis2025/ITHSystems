@@ -5,17 +5,328 @@
              xmlns:resources="clr-namespace:ITHSystems.Resx"
              xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
              xmlns:controls="clr-namespace:ITHSystems.Controls"
+             xmlns:behaviors="clr-namespace:ITHSystems.Behaviors"
              xmlns:dto="clr-namespace:ITHSystems.DTOs"
              BackgroundColor="{StaticResource bgColorPage}"
              
              >
-    <Grid RowDefinitions="Auto,*">
+  
+    <Grid RowDefinitions="Auto,*,Auto">
         <controls:GradientHeader BackButtonCommand="{Binding GoBackCommand}"
-                                 BackgroundColor="{StaticResource bgColorPage}"
-                                 Title="Segunda persona"/>
+                               BackgroundColor="{StaticResource bgColorPage}"
+                               Title="Segunda Persona"/>
 
-        <controls:ActivityIndicatorView Grid.Row="0"
-                                        Grid.RowSpan="2"
-                                        IsVisible="{Binding IsBusy}"/>      
+        <Label Text="{Static icon:IconFont.IdCard}"
+                 HorizontalOptions="Center"
+                 FontSize="100"
+                 Margin="0,60,0,14"
+                 FontAttributes="Bold"
+                 TextColor="{StaticResource Gray900}"
+                 FontFamily="{Static icon:FontFamilyIcons.FaSolid}"/>
+
+        <Label Text="{Static icon:IconFont.Check}"
+             HorizontalOptions="End"
+             VerticalOptions="Start"
+             FontSize="30"
+             Padding="10,0,20,0"
+             FontAttributes="Bold"
+             TextColor="{StaticResource White}"
+             FontFamily="{Static icon:FontFamilyIcons.FaSolid}">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding DeliveryCommand}"/>
+            </Label.GestureRecognizers>
+        </Label>
+        <ScrollView Grid.Row="1"
+                  VerticalScrollBarVisibility="Never"
+                  >
+
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" 
+                Margin="0,0,0,0"
+                >
+
+                <Border Grid.Row="0"
+                                  Margin="22,22,22,0"
+                                  Stroke="{StaticResource Primary}"
+                                  StrokeThickness="1.5"
+                                  StrokeShape="RoundRectangle 10"
+                                  BackgroundColor="{StaticResource White}"
+                                  >
+                    <Grid ColumnDefinitions="Auto,*,Auto"
+                                    Padding="16,8,16,8"
+                                    ColumnSpacing="8"
+                                    >
+                        <Label Text="{Static icon:IconFont.IdCardClip}"
+                                         HorizontalOptions="Center"
+                                         FontAttributes="Bold"
+                                         FontSize="38"
+                                         VerticalOptions="Center"
+                                         TextColor="{StaticResource Gray600}"
+                                         FontFamily="{Static icon:FontFamilyIcons.FaSolid}"/>
+
+                        <Border Grid.Column="1"
+                                          HeightRequest="36"
+                                          VerticalOptions="Center"
+                                          Stroke="Transparent"
+                                          >
+                            <Entry HeightRequest="66"
+                                 Placeholder="Pasaporte..."
+                                 PlaceholderColor="{StaticResource Gray200}"
+                                 Keyboard="Numeric"
+                                 MaxLength="13"
+                                   Text="{Binding PersonID}"
+                                 TextColor="{StaticResource Gray500}"
+                                 FontAttributes="Bold"
+                                 FontSize="20"
+                                 ClearButtonVisibility="WhileEditing">
+                            </Entry>
+                        </Border>
+                        
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1"
+                                  Stroke="{StaticResource Primary}"
+                                  StrokeThickness="1.5"
+                                  StrokeShape="RoundRectangle 10"
+                                  BackgroundColor="{StaticResource White}"
+                                  Margin="22,22,22,0"
+                                  >
+                    <Grid ColumnDefinitions="Auto,*"
+                                    Padding="16,8,16,8"
+                                    ColumnSpacing="8"
+                                    >
+                        <Label Text="{Static icon:IconFont.CalendarDays}"
+                                         HorizontalOptions="Center"
+                                         FontAttributes="Bold"
+                                         FontSize="38"
+                                         VerticalOptions="Center"
+                                         TextColor="{StaticResource Gray600}"
+                                         FontFamily="{Static icon:FontFamilyIcons.FaSolid}"/>
+
+                        <Border Grid.Column="1"
+                                          HeightRequest="36"
+                                          VerticalOptions="Center"
+                                          Stroke="Transparent"
+                                          >
+                            <DatePicker HeightRequest="66"
+                                        TextColor="{StaticResource Gray300}"
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        Date="{Binding ExpirationDate}"/>
+                        </Border>
+
+                    </Grid>
+                </Border>
+                <Border Grid.Row="2"
+                                  Stroke="{StaticResource Primary}"
+                                  StrokeThickness="1.5"
+                                  StrokeShape="RoundRectangle 10"
+                                  BackgroundColor="{StaticResource White}"
+                                  Margin="22,22,22,0"
+                                  >
+                    <Grid ColumnDefinitions="Auto,*"
+                                    Padding="16,8,16,8"
+                                    ColumnSpacing="8"
+                                    >
+                        <Label Text="{Static icon:IconFont.EarthAmericas}"
+                                         HorizontalOptions="Center"
+                                         FontAttributes="Bold"
+                                         FontSize="38"
+                                         VerticalOptions="Center"
+                                         TextColor="{StaticResource Gray600}"
+                                         FontFamily="{Static icon:FontFamilyIcons.FaSolid}"/>
+
+                        <Border Grid.Column="1"
+                                          HeightRequest="36"
+                                          VerticalOptions="Center"
+                                          Stroke="Transparent"
+                                          >
+                            <Picker HeightRequest="66"
+                                    Title="País..."
+                                    TextColor="{StaticResource Gray300}"
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    TitleColor="{StaticResource Gray300}"
+                                    ItemsSource="{Binding Countries}"
+                                    ItemDisplayBinding="{Binding Name}"
+                                    SelectedItem="{Binding Country}"
+                                    />
+                        </Border>
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="3"
+                                  Stroke="{StaticResource Primary}"
+                                  StrokeThickness="1.5"
+                                  StrokeShape="RoundRectangle 10"
+                                  BackgroundColor="{StaticResource White}"
+                                  Margin="22,22,22,0"
+                                  >
+                    <Grid ColumnDefinitions="Auto,*"
+                                    Padding="16,8,16,8"
+                                    ColumnSpacing="8"
+                                    >
+                        <Label Text="{Static icon:IconFont.VenusMars}"
+                                         HorizontalOptions="Center"
+                                         FontAttributes="Bold"
+                                         FontSize="38"
+                                         VerticalOptions="Center"
+                                         TextColor="{StaticResource Gray600}"
+                                         FontFamily="{Static icon:FontFamilyIcons.FaSolid}"/>
+
+                        <Border Grid.Column="1"
+                                          HeightRequest="36"
+                                          VerticalOptions="Center"
+                                          Stroke="Transparent"
+                                          >
+                            <Picker HeightRequest="66"
+                                              TextColor="{StaticResource Gray300}"
+                                              FontAttributes="Bold"
+                                              FontSize="20"
+                                              Title="Genero"
+                                              TitleColor="{StaticResource Gray200}"
+                                  ItemsSource="{Binding Genders}"
+                                  ItemDisplayBinding="{Binding Description}"
+                                    SelectedItem="{Binding CurrentGender}"
+                                          />
+                        </Border>
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="4"
+                                  Stroke="{StaticResource Primary}"
+                                  StrokeThickness="2.5"
+                                  StrokeShape="RoundRectangle 10"
+                                  BackgroundColor="{StaticResource White}"
+                                  Margin="22,22,22,0"
+                                  >
+                    <Grid RowDefinitions="*,*"
+                        ColumnSpacing="8"
+                        >
+
+                        <HorizontalStackLayout HorizontalOptions="Fill"
+                                                         BackgroundColor="{StaticResource Primary}"
+                                                         Spacing="40"
+                                                         >
+
+                            <Label Text="{Static icon:IconFont.Signature}"
+                                             HorizontalOptions="Center"
+                                             FontAttributes="Bold"
+                                             FontSize="38"
+                                             Margin="16,0,0,0"
+                                             VerticalOptions="Center"
+                                             TextColor="{StaticResource White}"
+                                             FontFamily="{Static icon:FontFamilyIcons.FaSolid}"/>
+                            <Label Text="Firma"
+                                  FontAttributes="Bold"
+                                  FontSize="28"
+                                  Margin="0,0,0,0"
+                                 TextDecorations="Underline"
+                                  HorizontalTextAlignment="Center"
+                                  HorizontalOptions="Center"
+                                  VerticalOptions="Center"
+                                  TextColor="{StaticResource White}"
+                                  />
+
+
+
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SignDeliveryCommand}"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+
+                        </HorizontalStackLayout>
+
+                        <Border Grid.Row="1"
+                                  VerticalOptions="Center"
+                                  Stroke="Black"
+                                  HeightRequest="120"
+                                  BackgroundColor="Black"
+                                  IsVisible="{Binding IsSigned}"
+                                  >
+                            <Image Source="{Binding Sign}"
+                                     Aspect="AspectFit"
+                                     HeightRequest="240"
+                                     Rotation="270"
+                                              />
+                        </Border>
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="5"
+                   Stroke="{StaticResource Primary}"
+                   StrokeThickness="1.5"
+                   StrokeShape="RoundRectangle 10"
+                   BackgroundColor="{StaticResource White}"
+                   Margin="22,22,22,0"
+                   >
+                    <Grid RowDefinitions="*,*"
+                     ColumnSpacing="8"
+                     >
+
+                        <HorizontalStackLayout HorizontalOptions="Fill"
+                                             BackgroundColor="{StaticResource Primary}"
+                                             Spacing="28">
+
+                            <Label Text="{Static icon:IconFont.Camera}"
+                              HorizontalOptions="Center"
+                              FontAttributes="Bold"
+                              FontSize="28"
+                              Margin="16,0,0,0"
+                              VerticalOptions="Center"
+                              TextColor="{StaticResource White}"
+                              FontFamily="{Static icon:FontFamilyIcons.FaSolid}"/>
+                            <Label Text="Foto de la cédula"
+                                 FontAttributes="Bold"
+                                 FontSize="28"
+                                 TextDecorations="Underline"
+                                 Margin="0,0,0,0"
+                                 HorizontalTextAlignment="Center"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 TextColor="{StaticResource White}"
+                              />
+
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TakePhotoIDCommand}"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+                        </HorizontalStackLayout>
+
+                        <Border Grid.Row="1"
+                              VerticalOptions="Center"
+                              Stroke="{StaticResource Black}"
+                              Margin="0,-1,0,0"
+                              BackgroundColor="{StaticResource Black}"
+                              IsVisible="{Binding IsPhotoTaken}">
+                            <Image Source="{Binding PhotoId}"
+                                 HeightRequest="200"
+                                 />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ShowImageIdCommand}"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </ScrollView>
+
+        <Button Grid.Row="2"
+              Margin="24"
+              Text="Entregar"
+              FontAttributes="Bold"
+              FontSize="18"
+              CornerRadius="16"
+              Command="{Binding DeliveryCommand}"
+              />
+
+        <controls:ActivityIndicatorView
+          Grid.Row="0"
+          Grid.RowSpan="3"
+          IsVisible="{Binding IsBusy}"
+          />
     </Grid>
 </ContentPage>

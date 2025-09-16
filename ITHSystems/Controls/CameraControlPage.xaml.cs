@@ -36,7 +36,7 @@ public partial class CameraControlPage : ContentPage
 
     }
 
-    private async void Cam_MediaCaptured(object sender, CommunityToolkit.Maui.Views.MediaCapturedEventArgs e)
+    private async void Cam_MediaCaptured(object sender, CommunityToolkit.Maui.Core.MediaCapturedEventArgs e)
     {
         try
         {
