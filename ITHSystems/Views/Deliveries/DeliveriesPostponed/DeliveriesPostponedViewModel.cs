@@ -6,21 +6,21 @@ using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace ITHSystems.Views.Deliveries.PendingDeliveries;
+namespace ITHSystems.Views.Deliveries.DeliveriesPostponed;
 
-public partial class PendingDeliveriesViewModel : BaseViewModel
+public partial class DeliveriesPostponedViewModel : BaseViewModel
 {
     #region
     [ObservableProperty]
-    private ObservableCollection<PersonDto> persons;
+    private ObservableCollection<PersonDto>? persons;
     [ObservableProperty]
     private PersonDto? currentPerson;
     [ObservableProperty]
     private string? fiterText;
     #endregion
-    public PendingDeliveriesViewModel()
+    public DeliveriesPostponedViewModel()
     {
-        Persons = new(UtilExtensions.GetPersons().Where(x => x.Module == Enums.Modules.PENDINGDELIVERIES));
+        Persons = new(UtilExtensions.GetPersons().Where(x => x.Module == Enums.Modules.DELAYEDDELIVERIES));
     }
 
     #region Commands
@@ -28,16 +28,18 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
     public async Task SelectPerson()
     {
         try
-        {   if (IsBusy) return;
+        {
+            if (IsBusy) return;
             IsBusy = true;
             if (CurrentPerson is null) return;
 
             await PushRelativePageAsync<BeneficiaryPage>(new Dictionary<string, object>
             {
-                ["PersonDto"] = CurrentPerson 
+                ["PersonDto"] = CurrentPerson
             });
-         
-        }catch (Exception e)
+
+        }
+        catch (Exception e)
         {
             Debug.WriteLine($"Error selecting person: {e.Message}");
             await ErrorAlert("Error", $"Error selecting person\n{e.Message}");
@@ -59,14 +61,15 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
 
             if (string.IsNullOrEmpty(FiterText))
             {
-                Persons = new(UtilExtensions.GetPersons().Where(x => x.Module == Enums.Modules.PENDINGDELIVERIES));
+                Persons = new(UtilExtensions.GetPersons()
+                                            .Where(x => x.Module == Enums.Modules.DELAYEDDELIVERIES));
                 return;
             }
             Persons = new(UtilExtensions.GetPersons()
-                                        .Where(p => p.Module == Enums.Modules.PENDINGDELIVERIES && 
-                                                    p.FullNameNormalize.Contains(FiterText.ToUpper()) || 
-                                                    p.CardTypeNormalized.Contains(FiterText.ToUpper())));
-           
+                                        .Where(p => p.Module == Enums.Modules.DELAYEDDELIVERIES && 
+                                              (p.FullNameNormalize.Contains(FiterText.ToUpper()) || 
+                                               p.CardTypeNormalized.Contains(FiterText.ToUpper()))));
+
         }
         catch (Exception e)
         {

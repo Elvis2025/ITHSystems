@@ -1,6 +1,6 @@
 ﻿namespace ITHSystems.Enums;
 
-public enum Statuses
+public enum StatusDelivery
 {
     Delivered = 1,
     Postponed,

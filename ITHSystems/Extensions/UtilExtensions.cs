@@ -52,6 +52,7 @@ public static class UtilExtensions
                 Email = "",
                 CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
+                Module = Modules.PENDINGDELIVERIES,
             },
             new PersonDto { 
                 Id = 2, 
@@ -60,6 +61,7 @@ public static class UtilExtensions
                 Email = "",
                 CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
+                Module = Modules.PENDINGDELIVERIES,
             },
             new PersonDto { 
                 Id = 3, 
@@ -68,6 +70,7 @@ public static class UtilExtensions
                 Email = "",
                 CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
+                Module = Modules.DELAYEDDELIVERIES,
             },
             new PersonDto { 
                 Id = 4, 
@@ -76,6 +79,7 @@ public static class UtilExtensions
                 Email = "",
                 CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
+                Module = Modules.DELIVERESSHIPMENTSNOTSYNCED,
             },
 
         };

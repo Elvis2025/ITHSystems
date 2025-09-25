@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary.DeliverBenefiaryPage"
-             xmlns:resources="clr-namespace:ITHSystems.Resx"
-             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
-             xmlns:controls="clr-namespace:ITHSystems.Controls"
-             xmlns:dto="clr-namespace:ITHSystems.DTOs"
-             xmlns:behaviors="clr-namespace:ITHSystems.Behaviors"
-             BackgroundColor="{StaticResource bgColorPage}"
-             HideSoftInputOnTapped="True"
-             
-             >
+<views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary.DeliverBenefiaryPage"
+                       xmlns:resources="clr-namespace:ITHSystems.Resx"
+                       xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+                       xmlns:controls="clr-namespace:ITHSystems.Controls"
+                       xmlns:dto="clr-namespace:ITHSystems.DTOs"
+                       xmlns:behaviors="clr-namespace:ITHSystems.Behaviors"
+                       xmlns:views="clr-namespace:ITHSystems.Views"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary"
+                       x:TypeArguments="vm:DeliverBeneficiaryViewModel"
+                       BackgroundColor="{StaticResource bgColorPage}"
+                       HideSoftInputOnTapped="True">
+    
     <Grid RowDefinitions="Auto,*,Auto">
         <controls:GradientHeader BackButtonCommand="{Binding GoBackCommand}"
                                  BackgroundColor="{StaticResource bgColorPage}"
@@ -76,6 +78,7 @@
                                    TextColor="{StaticResource Gray500}"
                                    FontAttributes="Bold"
                                    FontSize="20"
+                                   Text="{Binding PersonID}"
                                    ClearButtonVisibility="WhileEditing">
                                 <Entry.Behaviors>
                                     <behaviors:PersonIdEntryBehavior />
@@ -162,13 +165,14 @@
                                             Stroke="Transparent"
                                             >
                             <Picker HeightRequest="66"
-                                                TextColor="{StaticResource Gray300}"
-                                                FontAttributes="Bold"
-                                                FontSize="20"
-                                                Title="Genero"
-                                                TitleColor="{StaticResource Gray200}"
+                                    TextColor="{StaticResource Gray300}"
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Title="Genero"
+                                    TitleColor="{StaticResource Gray200}"
                                     ItemsSource="{Binding Genders}"
                                     ItemDisplayBinding="{Binding Description}"
+                                    SelectedItem="{Binding CurrentGender}"
                                             />
                         </Border>
 
@@ -309,4 +313,4 @@
             IsVisible="{Binding IsBusy}"
             />
     </Grid>
-</ContentPage>
+</views:BaseContentPage>

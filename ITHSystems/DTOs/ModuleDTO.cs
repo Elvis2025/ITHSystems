@@ -1,4 +1,5 @@
 ﻿using ITHSystems.Attributes;
+using ITHSystems.Enums;
 
 namespace ITHSystems.DTOs;
 
@@ -28,4 +29,6 @@ public record class ModuleDto
             return new SolidColorBrush(Color.FromArgb("#FFFFFF"));
         }
     }
+
+    
 }

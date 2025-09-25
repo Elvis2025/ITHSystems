@@ -1,10 +1,13 @@
-﻿using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.DTOs;
 using ITHSystems.Extensions;
 using ITHSystems.Resx;
 using ITHSystems.UsesCases.IconFonts;
 using ITHSystems.Views.Deliveries;
+using ITHSystems.Views.Deliveries.DeliveredShipmentsNotSynchronized;
+using ITHSystems.Views.Deliveries.DeliveriesPostponed;
 using ITHSystems.Views.Deliveries.PendingDeliveries;
 using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 using ITHSystems.Views.Login;
@@ -77,18 +80,30 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
     }
 
 
-    //public static async Task PushPopup<T>() where T : Popup
-    //{
-    //    try
-    //    {
-    //        var popup = CreateInstance<T>();
-    //        //await Shell.Current.ShowPopupAsync(popup);
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        Debug.Write(e.Message);
-    //    }
-    //}
+    public static async Task PushPopupAsync<T>() where T : Popup
+    {
+        try
+        {
+            var popup = CreateInstance<T>();
+            await Shell.Current.ShowPopupAsync(popup);
+        }
+        catch (Exception e)
+        {
+            Debug.Write(e.Message);
+        }
+    }
+
+    public static async Task PopPopupAsync()
+    {
+        try
+        {
+            await Shell.Current.ClosePopupAsync();
+        }
+        catch (Exception e)
+        {
+            Debug.Write(e.Message);
+        }
+    }
 
     public static T CreateInstance<T>() where T : class
     {
@@ -123,7 +138,6 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
                 case Enums.Modules.PICKUPSERVICE:
                     await PushRelativePageAsync<PickupServicePage>();
                     break;
-
                 #region Deliveries
                 case Enums.Modules.DELIVERIES:
                     await PushRelativePageAsync<DeliveriesPage>();
@@ -132,7 +146,10 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
                     await PushRelativePageAsync<PendingDeliveries>();
                     break;
                 case Enums.Modules.DELAYEDDELIVERIES:
-                    await PushRelativePageAsync<DeliveriesPage>();
+                    await PushRelativePageAsync<DeliveriesPostponedPage>();
+                    break;
+                case Enums.Modules.DELIVERESSHIPMENTSNOTSYNCED:
+                    await PushRelativePageAsync<DeliveredShipmentsNotSynchronizedPage>();
                     break;
 
 

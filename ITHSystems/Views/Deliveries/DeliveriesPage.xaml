@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ITHSystems.Views.Deliveries.DeliveriesPage"
-             xmlns:resources="clr-namespace:ITHSystems.Resx"
-            xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
-            xmlns:controls="clr-namespace:ITHSystems.Controls"
-            xmlns:dto="clr-namespace:ITHSystems.DTOs"
-             BackgroundColor="{StaticResource bgColorPage}"
-             >
+<views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="ITHSystems.Views.Deliveries.DeliveriesPage"
+                       xmlns:resources="clr-namespace:ITHSystems.Resx"
+                       xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+                       xmlns:controls="clr-namespace:ITHSystems.Controls"
+                       xmlns:dto="clr-namespace:ITHSystems.DTOs"
+                       xmlns:views="clr-namespace:ITHSystems.Views"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.Deliveries"
+                       x:TypeArguments="vm:DeliveriesViewModel"
+                       BackgroundColor="{StaticResource bgColorPage}">
     <Grid Margin="0" RowDefinitions="*">
         <controls:GradientHeader Title="Entregas"
                                  BackButtonCommand="{Binding GoBackCommand}"/>
@@ -71,4 +73,4 @@
             IsVisible="{Binding IsBusy}"
             />
     </Grid>
-</ContentPage>
+</views:BaseContentPage>

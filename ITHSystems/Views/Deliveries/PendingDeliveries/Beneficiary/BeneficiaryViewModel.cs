@@ -4,7 +4,6 @@ using ITHSystems.DTOs;
 using ITHSystems.Extensions;
 using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.CausesOfNonDelivery;
 using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary;
-using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverSecondPerson;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Web;
@@ -14,20 +13,20 @@ namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 [QueryProperty(nameof(PersonDto), "PersonDto")]
 public partial class BeneficiaryViewModel : BaseViewModel
 {
+    #region
     [ObservableProperty]
     private PersonDto? personDto;
-
     [ObservableProperty]
     private ObservableCollection<DeliveryOptionDto?> deliveryOptions;
     [ObservableProperty]
     private DeliveryOptionDto? currentDeliveryOption;
-
+    #endregion
     public BeneficiaryViewModel()
     {
         DeliveryOptions = UtilExtensions.GetDeliveryOptions()!;
     }
 
-
+    #region
     [RelayCommand]
     public async Task Postpone()
     {
@@ -39,6 +38,7 @@ public partial class BeneficiaryViewModel : BaseViewModel
         }
         catch (Exception e)
         {
+            Debug.Write(e.Message);
             await ErrorAlert("Error", $"Error posponiendo entrega\n{e.Message}");
         }
         finally
@@ -82,9 +82,6 @@ public partial class BeneficiaryViewModel : BaseViewModel
             IsBusy = false;
         }
     }
-
-
-
     [RelayCommand]
     private async Task SeeOnTheMap()
     {
@@ -109,15 +106,20 @@ public partial class BeneficiaryViewModel : BaseViewModel
             {
                 await ShareLocationAsync();
             }
+        }catch (Exception e)
+        {
+            Debug.Write(e.Message);
+            await ErrorAlert("Error", $"Error mostrando ubicación\n{e.Message}");
         }
         finally { IsBusy = false; }
     }
+    #endregion
 
+    #region Methods
     private async Task OpenMapAsync()
     {
         if (PersonDto is null) return;
 
-        // Si tienes lat/lng en el DTO, úsalo:
         if (PersonDto.FindByCorrdenates)
         {
             var location = new Location(PersonDto.Latitude, PersonDto.Longitude);
@@ -129,7 +131,6 @@ public partial class BeneficiaryViewModel : BaseViewModel
             return;
         }
 
-        // Si NO tienes lat/lng, geocodifica la dirección:
         if (!string.IsNullOrWhiteSpace(PersonDto.Address))
         {
             var results = await Geocoding.GetLocationsAsync(PersonDto.Address);
@@ -151,33 +152,41 @@ public partial class BeneficiaryViewModel : BaseViewModel
 
     private async Task ShareLocationAsync()
     {
-        if (PersonDto is null) return;
-
-        string title = $"Ubicación de {PersonDto.FullName ?? "Beneficiario"}";
-
-        string uri;
-
-        if (PersonDto.FindByCorrdenates)
+        try
         {
-            // Google: https://maps.google.com/?q=lat,lng
-            uri = $"https://maps.google.com/?q={PersonDto.Latitude},{PersonDto.Longitude}";
+            if (PersonDto is null) return;
+
+            string title = $"Ubicación de {PersonDto.FullName ?? "Beneficiario"}";
+            string uri;
+
+            if (PersonDto.FindByCorrdenates)
+            {
+                // Google: https://maps.google.com/?q=lat,lng
+                uri = $"https://maps.google.com/?q={PersonDto.Latitude},{PersonDto.Longitude}";
+            }
+            else if (!string.IsNullOrWhiteSpace(PersonDto.Address))
+            {
+                uri = $"https://maps.google.com/?q={HttpUtility.UrlEncode(PersonDto.Address)}";
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Compartir", "No hay dirección ni coordenadas para compartir.", "OK");
+                return;
+            }
+
+            await Share.RequestAsync(new ShareTextRequest
+            {
+                Title = title,
+                Text = $"{title}\n{PersonDto.Address}",
+                Uri = uri
+            });
         }
-        else if (!string.IsNullOrWhiteSpace(PersonDto.Address))
+        catch (Exception e)
         {
-            uri = $"https://maps.google.com/?q={HttpUtility.UrlEncode(PersonDto.Address)}";
+           Debug.Write(e.Message);
+            await ErrorAlert("Error", $"Error compartiendo ubicación\n{e.Message}");
         }
-        else
-        {
-            await Shell.Current.DisplayAlert("Compartir", "No hay dirección ni coordenadas para compartir.", "OK");
-            return;
-        }
-
-        await Share.RequestAsync(new ShareTextRequest
-        {
-            Title = title,
-            Text = $"{title}\n{PersonDto.Address}",
-            Uri = uri
-        });
+       
     }
-
+    #endregion
 }

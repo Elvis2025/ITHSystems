@@ -6,21 +6,22 @@ using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace ITHSystems.Views.Deliveries.PendingDeliveries;
+namespace ITHSystems.Views.Deliveries.DeliveredShipmentsNotSynchronized;
 
-public partial class PendingDeliveriesViewModel : BaseViewModel
+public partial class DeliveredShipmentsNotSynchronizedViewModel : BaseViewModel
 {
+
     #region
     [ObservableProperty]
-    private ObservableCollection<PersonDto> persons;
+    private ObservableCollection<PersonDto>? persons;
     [ObservableProperty]
     private PersonDto? currentPerson;
     [ObservableProperty]
     private string? fiterText;
     #endregion
-    public PendingDeliveriesViewModel()
+    public DeliveredShipmentsNotSynchronizedViewModel()
     {
-        Persons = new(UtilExtensions.GetPersons().Where(x => x.Module == Enums.Modules.PENDINGDELIVERIES));
+        Persons = new(UtilExtensions.GetPersons().Where(x => x.Module == Enums.Modules.DELIVERESSHIPMENTSNOTSYNCED));
     }
 
     #region Commands
@@ -28,16 +29,18 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
     public async Task SelectPerson()
     {
         try
-        {   if (IsBusy) return;
-            IsBusy = true;
-            if (CurrentPerson is null) return;
+        {
+            if (IsBusy) return;
+            //IsBusy = true;
+            //if (CurrentPerson is null) return;
 
-            await PushRelativePageAsync<BeneficiaryPage>(new Dictionary<string, object>
-            {
-                ["PersonDto"] = CurrentPerson 
-            });
-         
-        }catch (Exception e)
+            //await PushRelativePageAsync<BeneficiaryPage>(new Dictionary<string, object>
+            //{
+            //    ["PersonDto"] = CurrentPerson
+            //});
+
+        }
+        catch (Exception e)
         {
             Debug.WriteLine($"Error selecting person: {e.Message}");
             await ErrorAlert("Error", $"Error selecting person\n{e.Message}");
@@ -59,14 +62,14 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
 
             if (string.IsNullOrEmpty(FiterText))
             {
-                Persons = new(UtilExtensions.GetPersons().Where(x => x.Module == Enums.Modules.PENDINGDELIVERIES));
+                Persons = new(UtilExtensions.GetPersons().Where(x => x.Module == Enums.Modules.DELIVERESSHIPMENTSNOTSYNCED));
                 return;
             }
             Persons = new(UtilExtensions.GetPersons()
-                                        .Where(p => p.Module == Enums.Modules.PENDINGDELIVERIES && 
+                                        .Where(p => p.Module == Enums.Modules.DELIVERESSHIPMENTSNOTSYNCED && 
                                                     p.FullNameNormalize.Contains(FiterText.ToUpper()) || 
                                                     p.CardTypeNormalized.Contains(FiterText.ToUpper())));
-           
+
         }
         catch (Exception e)
         {

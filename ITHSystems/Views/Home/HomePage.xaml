@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ITHSystems.Views.Home.HomePage"
-             xmlns:resources="clr-namespace:ITHSystems.Resx"
-             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
-             xmlns:controls="clr-namespace:ITHSystems.Controls"
-             xmlns:dto="clr-namespace:ITHSystems.DTOs"
-             BackgroundColor="{StaticResource bgColorPage}"
-             x:Name="ModulesCV"
-             >
-    <ContentPage.Resources>
+<views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="ITHSystems.Views.Home.HomePage"
+                       xmlns:resources="clr-namespace:ITHSystems.Resx"
+                       xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+                       xmlns:controls="clr-namespace:ITHSystems.Controls"
+                       xmlns:dto="clr-namespace:ITHSystems.DTOs"
+                       xmlns:views="clr-namespace:ITHSystems.Views"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.Home"
+                       x:TypeArguments="vm:HomePageViewModel"
+                       BackgroundColor="{StaticResource bgColorPage}"
+                       x:Name="ModulesCV">
+    <views:BaseContentPage.Resources>
         <x:Boolean x:Key="GoToLogin">True</x:Boolean>
-    </ContentPage.Resources>
+    </views:BaseContentPage.Resources>
 
     <Grid RowDefinitions="*">
         <controls:GradientHeader
@@ -75,4 +77,4 @@
             IsVisible="{Binding IsBusy}"
             />
     </Grid>
-</ContentPage>
+</views:BaseContentPage>

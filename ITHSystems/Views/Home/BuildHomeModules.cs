@@ -1,4 +1,6 @@
 ﻿using ITHSystems.DTOs;
+using ITHSystems.Enums;
+using ITHSystems.Extensions;
 using ITHSystems.UsesCases.IconFonts;
 
 namespace ITHSystems.Views.Home
@@ -38,22 +40,28 @@ namespace ITHSystems.Views.Home
 
         public static List<ModuleDto> GetDeliveriesModules()
         {
+           var products = UtilExtensions.GetPersons();
+
+
+
             return new List<ModuleDto>
             {
                 new ModuleDto
                 {
+                    Id = 1,
                     Title = "Envíos pendientes",
                     IsActive = true,
                     IsDeleted = false,
                     FontFamaly = FontFamilyIcons.FaSolid,
                     Icon = IconFont.BoxesStacked,
-                    Modules = Enums.Modules.PENDINGDELIVERIES,
+                    Modules = Modules.PENDINGDELIVERIES,
                     Order = 1,
                     EnableBadges = true,
-                    Badges = 2
+                    Badges = products.Count(x => x.Module == Modules.PENDINGDELIVERIES)
                 },
                 new ModuleDto
                 {
+                   Id = 2,
                    Title = "Envíos postergados",
                    IsActive = true,
                    IsDeleted = false,
@@ -62,10 +70,11 @@ namespace ITHSystems.Views.Home
                    Modules = Enums.Modules.DELAYEDDELIVERIES,
                    Order = 2,
                    EnableBadges = true,
-                   Badges = 0
+                   Badges = products.Count(x => x.Module == Modules.DELAYEDDELIVERIES)
                 },
                 new ModuleDto
                 {
+                   Id = 3,
                    Title = "Envíos entregados no sincronizados",
                    IsActive = true,
                    IsDeleted = false,
@@ -74,7 +83,7 @@ namespace ITHSystems.Views.Home
                    Modules = Enums.Modules.DELIVERESSHIPMENTSNOTSYNCED,
                    Order = 3,
                    EnableBadges = true,
-                   Badges = 0
+                   Badges = products.Count(x => x.Module == Modules.DELIVERESSHIPMENTSNOTSYNCED)
                 }
             };
         }

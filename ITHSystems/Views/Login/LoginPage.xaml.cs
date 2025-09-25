@@ -3,14 +3,13 @@ using System.Diagnostics;
 namespace ITHSystems.Views.Login;
 
 
-public partial class LoginPage : ContentPage
+public partial class LoginPage : BaseContentPage<LoginPageViewModel>
 {
     private readonly LoginPageViewModel viewModel;
 
-    public LoginPage(LoginPageViewModel viewModel)
-	{
+    public LoginPage(LoginPageViewModel viewModel) : base(viewModel)
+    {
         InitializeComponent();
-		BindingContext = viewModel;
         this.viewModel = viewModel;
     }
 

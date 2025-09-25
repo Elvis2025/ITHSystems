@@ -83,8 +83,14 @@
 	  <Compile Update="Views\Deliveries\DeliveriesPage.xaml.cs">
 	    <DependentUpon>DeliveriesPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Deliveries\DeliveriesPostponed\DeliveriesPostponedPage.xaml.cs">
+	    <DependentUpon>DeliveriesPostponedPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Deliveries\PendingDeliveries\Beneficiary\BeneficiaryPage.xaml.cs">
 	    <DependentUpon>BeneficiaryPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ModalsMessage\AlertMessageModal.xaml.cs">
+	    <DependentUpon>AlertMessageModal.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -120,7 +126,16 @@
 	  <MauiXaml Update="Controls\ControlsPage\SignaturePad\SignaturePadPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\MyFeatureContentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Deliveries\DeliveredShipmentsNotSynchronized\DeliveredShipmentsNotSynchronizedPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Deliveries\DeliveriesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Deliveries\DeliveriesPostponed\DeliveriesPostponedPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\BeneficiaryPage.xaml">
@@ -129,10 +144,13 @@
 	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\CausesOfNonDelivery\CausesOfNonDeliveryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\CausesOfNonDelivery\NonDeliveryPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\DeliverBeneficiary\DeliverBenefiaryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\DeliverSecondPerson\DeliverSecondPersonPage.xaml">
+	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\Beneficiary\DeliverBeneficiary\DeliverSecondPersonPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Deliveries\PendingDeliveries\PendingDeliveries.xaml">
@@ -142,6 +160,18 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Login\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ModalsMessage\AlertMessageModal.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ModalsMessage\ErrorMessagePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ModalsMessage\SuccessMessagePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ModalsMessage\WarningMessagePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PickupService\PickupServicePage.xaml">

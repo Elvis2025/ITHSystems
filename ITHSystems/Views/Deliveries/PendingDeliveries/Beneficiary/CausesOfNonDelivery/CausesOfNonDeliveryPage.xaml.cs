@@ -2,10 +2,10 @@ using ITHSystems.Attributes;
 
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.CausesOfNonDelivery;
 [RegisterAsRoute]
-public partial class CausesOfNonDeliveryPage : ContentPage
+public partial class CausesOfNonDeliveryPage : BaseContentPage<CausesOfNonDeliveryViewModel>
 {
-	public CausesOfNonDeliveryPage()
-	{
+	public CausesOfNonDeliveryPage(CausesOfNonDeliveryViewModel viewModel) : base(viewModel)
+    {
 		InitializeComponent();
 	}
 }

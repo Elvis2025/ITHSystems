@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                       x:Class="ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.CausesOfNonDelivery.CausesOfNonDeliveryPage"
+                       x:Class="ITHSystems.Views.Deliveries.DeliveredShipmentsNotSynchronized.DeliveredShipmentsNotSynchronizedPage"
                        xmlns:resources="clr-namespace:ITHSystems.Resx"
                        xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
                        xmlns:controls="clr-namespace:ITHSystems.Controls"
                        xmlns:dto="clr-namespace:ITHSystems.DTOs"
                        xmlns:views="clr-namespace:ITHSystems.Views"
-                       xmlns:vm="clr-namespace:ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.CausesOfNonDelivery"
-                       x:TypeArguments="vm:CausesOfNonDeliveryViewModel"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.Deliveries.DeliveredShipmentsNotSynchronized"
+                       x:TypeArguments="vm:DeliveredShipmentsNotSynchronizedViewModel"
                        BackgroundColor="{StaticResource bgColorPage}"
-                       HideSoftInputOnTapped="True">
-    
+             >
     <Grid RowDefinitions="Auto,Auto,*">
-        <controls:GradientHeader Title="Motivo de no entrega"
+        <controls:GradientHeader Title="Envios pendientes"
                               BackButtonCommand="{Binding GoBackCommand}"/>
 
         <Border Grid.Row="1"
@@ -47,20 +46,21 @@
                     Padding="30,8,30,8"
                     >
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SearchCommand}" />
+                        <TapGestureRecognizer Command="{Binding SearchPersonCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
             </Grid>
         </Border>
 
-        <CollectionView ItemsSource="{Binding CauseNonDeliveries}"
-                        SelectedItem="{Binding CurrentCauseNonDeliveries}"
-                        SelectionChangedCommand="{Binding SelectCauseOfNonDeliveryCommand}"
-                        Grid.Row="2"
-                        Margin="20"
-                        SelectionMode="Single">
+        <CollectionView ItemsSource="{Binding Persons}"
+                     SelectedItem="{Binding CurrentPerson}"
+                     SelectionChangedCommand="{Binding SelectPersonCommand}"
+                     Grid.Row="2"
+                     Margin="20"
+                     SelectionMode="Single"
+                     >
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="dto:CausesOfNonDeliveryDto">
+                <DataTemplate x:DataType="dto:PersonDto">
                     <Border BackgroundColor="{StaticResource White}"
                          StrokeShape="RoundRectangle 10"
                          Margin="0,0,0,10"
@@ -69,10 +69,18 @@
                          >
                         <Grid>
                             <Label Margin="20,10,10,10" 
-                                Text="{Binding Name}"
+                                Text="{Binding FullName}"
                                 FontSize="16"
                                 FontAttributes="Bold"
                                 TextColor="{StaticResource Gray600}"
+                                />
+                            <Label Text="{Binding CardType}"
+                                HorizontalOptions="End"
+                                VerticalOptions="End"
+                                VerticalTextAlignment="End"
+                                Margin="0,0,14,4"
+                                TextColor="{StaticResource Gray300}"
+                                FontAttributes="Bold"
                                 />
                         </Grid>
                         <VisualStateManager.VisualStateGroups>

@@ -10,50 +10,45 @@ using System.Diagnostics;
 using Android.Content;
 using Application = Android.App.Application;
 #endif
-
 #if IOS
 using Foundation;
 using UIKit;
-using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverSecondPerson;
+using CoreVideo;
 #endif
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary;
 
 public partial class DeliverBeneficiaryViewModel : BaseViewModel
 {
+    #region Properties
     [ObservableProperty]
     private bool isPhotoTaken = false;
-
     [ObservableProperty]
     private bool isSigned = false;
     [ObservableProperty]
     private string? personID;
-
     [ObservableProperty]
     private ImageSource? sign;
-
     [ObservableProperty]
     private ImageSource? photoId;
-
     [ObservableProperty]
     private ObservableCollection<GenderDto?> genders;
     [ObservableProperty]
     private GenderDto? currentGender;
     [ObservableProperty]
     private ObservableCollection<CountryDto?> countries;
-
     [ObservableProperty]
     private CountryDto? country;
     [ObservableProperty]
     private DateTime? expirationDate = null;
-
     public bool IsSecondPerson { get; set; } = false;
-
+    #endregion
     public DeliverBeneficiaryViewModel()
     {
         Genders = UtilExtensions.GetGenders()!;
         Countries = UtilExtensions.GetCountries()!;
     }
 
+    #region Commands
     [RelayCommand]
     public async Task Delivery()
     {
@@ -61,44 +56,9 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
         IsBusy = true;
         try
         {
-            if (IsSecondPerson)
-            {
-                if(Country is null)
-                {
-                    await WarningAlert("Entrega", "Debes especificar un pais antes de continuar.");
-                    return;
-                }
-                if (ExpirationDate is null || ExpirationDate < DateTime.Now)
-                {
-                    await WarningAlert("Entrega", "Fecha de expiración incorrecta");
-                    return;
-                }
-            }
-            if (string.IsNullOrEmpty(PersonID))
-            {
-                await WarningAlert("Entrega", "La cedula del beneficiario es obligatoria.");
-                return;
-            }
-            if (CurrentGender is null)
-            {
-                await WarningAlert("Entrega", "Debes especificar un genero antes de continuar.");
-                return;
-            }
-            if (!IsPhotoTaken)
-            {
-                await WarningAlert("Entrega", "Debes tomar una foto de la cédula para continuar con el proceso de entgrega.");
-                return;
-            }
-            if (!IsSigned)
-            {
-                await WarningAlert("Entrega", "La firma es obigatoria para continuar con el proceso de entrega.");
-                return;
-            }
-
-
-            await Task.Delay(500);
+            if (!await FieldsAreCompletedSuccessfully()) return;
+            
             await SuccessAlert("Entrega", "Entrega de producto realizada correctamente");
-
             await Shell.Current.GoToAsync("..//..//..");
 
         }
@@ -109,8 +69,6 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
         }
         finally
         {
-            IsSigned = false;
-            IsPhotoTaken = false;
             IsBusy = false;
         }
     }
@@ -175,9 +133,6 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
         await PushAsync(cameraPage);
     }
 
-
-
-
     [RelayCommand]
     public async Task SignDelivery()
     {
@@ -236,4 +191,46 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
         };
         await PushAsync(imageView);
     }
+
+    #endregion
+    #region Methods
+    private async Task<bool> FieldsAreCompletedSuccessfully()
+    {
+        if (IsSecondPerson)
+        {
+            if (Country is null)
+            {
+                await WarningAlert("Entrega", "Debes especificar un pais antes de continuar.");
+                return false;
+            }
+            if (ExpirationDate is null || ExpirationDate <= DateTime.Now)
+            {
+                await WarningAlert("Entrega", "Fecha de expiración incorrecta");
+                return false;
+            }
+        }
+        if (string.IsNullOrEmpty(PersonID))
+        {
+            await WarningAlert("Entrega", "La cedula del beneficiario es obligatoria.");
+            return false;
+        }
+        if (CurrentGender is null)
+        {
+            await WarningAlert("Entrega", "Debes especificar un genero antes de continuar.");
+            return false;
+        }
+        if (!IsPhotoTaken)
+        {
+            await WarningAlert("Entrega", "Debes tomar una foto de la cédula para continuar con el proceso de entgrega.");
+            return false;
+        }
+        if (!IsSigned)
+        {
+            await WarningAlert("Entrega", "La firma es obigatoria para continuar con el proceso de entrega.");
+            return false;
+        }
+
+        return true;
+    }
+    #endregion
 }
