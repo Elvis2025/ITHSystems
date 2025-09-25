@@ -10,25 +10,27 @@ public class SQLiteRepository<T> : IRepository<T> where T : class, new()
     {
          this.connection = maangeSQLite.Connection;
     }
-    public Task AddAsync(T entity)
+    public async Task InsertAsync(T entity)
     {
-        throw new NotImplementedException();
+       await connection.InsertAsync(entity);
     }
 
-    public Task DeleteAsync(object id)
+    public async Task DeleteAsync<TEntity>(object id) where TEntity : class, new()
     {
-        throw new NotImplementedException();
+        var entity = await GetAsync<TEntity>(id);
+        await connection.DeleteAsync(entity);
     }
 
-    public Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<TEntity>> GetAllAsync<TEntity>()  where TEntity : class,new()
     {
-        throw new NotImplementedException();
+       return await connection.Table<TEntity>().ToListAsync();
     }
 
-    public Task<T> GetAsync(object id)
+    public Task<TEntity> GetAsync(this T object id) where TEntity : class, new()
     {
-        throw new NotImplementedException();
+        return connection.FindAsync<TEntity>(id);
     }
+   
 
     public Task UpdateAsync(T entity)
     {

@@ -18,6 +18,8 @@ namespace ITHSystems
         private void Init()
         {
             UtilExtensions.RegisterAsRoutes();
+            
+
             ChangeLanguage = async (language) =>
             {
                 if (string.IsNullOrEmpty(language)) return;

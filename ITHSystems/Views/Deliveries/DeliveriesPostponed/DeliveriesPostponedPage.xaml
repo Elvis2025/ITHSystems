@@ -11,7 +11,7 @@
                 x:TypeArguments="vm:DeliveriesPostponedViewModel"
                 BackgroundColor="{StaticResource bgColorPage}">
     <Grid RowDefinitions="Auto,Auto,*">
-        <controls:GradientHeader Title="Envios pendientes"
+        <controls:GradientHeader Title="Envios postergados"
                               BackButtonCommand="{Binding GoBackCommand}"/>
 
         <Border Grid.Row="1"
