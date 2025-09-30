@@ -64,6 +64,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Camera" Version="3.0.2" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.100" />
 		<PackageReference Include="sqlite-net-sqlcipher" Version="1.9.172" />
@@ -177,6 +178,10 @@
 	  <MauiXaml Update="Views\PickupService\PickupServicePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Repositories\Login\" />
 	</ItemGroup>
 
 </Project>

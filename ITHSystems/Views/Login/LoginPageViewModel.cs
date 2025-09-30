@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ITHSystems.Attributes;
 using ITHSystems.Constants;
-using ITHSystems.Repositories;
+using ITHSystems.Model;
+using ITHSystems.Repositories.SQLite;
 using ITHSystems.Resx;
 using ITHSystems.Views.Home;
 using System.Diagnostics;
 
 namespace ITHSystems.Views.Login;
-
+[RegisterViewModsel]
 public partial class LoginPageViewModel : BaseViewModel
 {
     private IEnumerable<Language> Languages = Language.List();
@@ -15,19 +17,22 @@ public partial class LoginPageViewModel : BaseViewModel
     private string languageName = Preferences.Get(nameof(Language), Language.Spanish.Code);
     private Language? CurrentLanguage;
     private readonly ISQLiteManager managerSQLite;
+    private readonly IRepository<User> userRepository;
 
-    public LoginPageViewModel(ISQLiteManager managerSQLite)
+    public LoginPageViewModel(ISQLiteManager managerSQLite, IRepository<User> userRepository)
     {
         this.managerSQLite = managerSQLite;
+        this.userRepository = userRepository;
     }
 
     [RelayCommand]
     public async Task Login()
     {
-               try
+        try
         {
             if (IsBusy) return;
             IsBusy = true;
+            await userRepository.GetAllAsync();
             await PushRelativePageAsync<HomePage>();
         }
         catch (Exception e)
@@ -42,13 +47,13 @@ public partial class LoginPageViewModel : BaseViewModel
     }
 
 
-   public async Task Init()
+    public async Task Init()
     {
         try
         {
             managerSQLite.CreateTablesUnAsync();
         }
-        catch (Exception e )
+        catch (Exception e)
         {
             Debug.WriteLine($"Error creating tables: {e.Message}");
             throw;

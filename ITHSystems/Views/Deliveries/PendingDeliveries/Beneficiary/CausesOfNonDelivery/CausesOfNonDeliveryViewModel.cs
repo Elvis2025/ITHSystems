@@ -1,12 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ITHSystems.Attributes;
 using ITHSystems.Constants;
 using ITHSystems.DTOs;
 using ITHSystems.Extensions;
 using System.Collections.ObjectModel;
 
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.CausesOfNonDelivery;
-
+[RegisterViewModsel]
 public partial class CausesOfNonDeliveryViewModel : BaseViewModel
 {
     #region Properties

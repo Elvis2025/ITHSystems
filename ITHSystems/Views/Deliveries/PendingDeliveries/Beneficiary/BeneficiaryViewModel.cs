@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ITHSystems.Attributes;
 using ITHSystems.DTOs;
 using ITHSystems.Extensions;
 using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.CausesOfNonDelivery;
@@ -11,6 +12,7 @@ using System.Web;
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 
 [QueryProperty(nameof(PersonDto), "PersonDto")]
+[RegisterViewModsel]
 public partial class BeneficiaryViewModel : BaseViewModel
 {
     #region

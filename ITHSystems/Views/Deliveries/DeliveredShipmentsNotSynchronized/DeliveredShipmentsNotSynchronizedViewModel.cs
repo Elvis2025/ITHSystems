@@ -1,13 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ITHSystems.Attributes;
 using ITHSystems.DTOs;
 using ITHSystems.Extensions;
-using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace ITHSystems.Views.Deliveries.DeliveredShipmentsNotSynchronized;
-
+[RegisterViewModsel]
 public partial class DeliveredShipmentsNotSynchronizedViewModel : BaseViewModel
 {
 

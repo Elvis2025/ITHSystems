@@ -6,6 +6,8 @@ using ITHSystems.DTOs;
 using ITHSystems.Extensions;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using ITHSystems.Attributes;
+
 #if ANDROID
 using Android.Content;
 using Application = Android.App.Application;
@@ -16,7 +18,7 @@ using UIKit;
 using CoreVideo;
 #endif
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary;
-
+[RegisterViewModsel]
 public partial class DeliverBeneficiaryViewModel : BaseViewModel
 {
     #region Properties
