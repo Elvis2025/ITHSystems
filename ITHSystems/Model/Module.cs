@@ -1,6 +1,8 @@
-﻿namespace ITHSystems.Model;
+﻿using ITHSystems.Repositories.SQLite;
 
-public class Module : BaseEntity<int>
+namespace ITHSystems.Model;
+
+public class Module : Entity<int>
 {
     public string Title { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;

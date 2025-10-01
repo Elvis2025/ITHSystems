@@ -1,5 +1,8 @@
-﻿using ITHSystems.AutoMapper;
-using ITHSystems.Repositories;
+﻿using ITHSystems.Attributes;
+using ITHSystems.AutoMapper;
+using ITHSystems.Repositories.SQLite;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace ITHSystems;
@@ -30,37 +33,21 @@ public static class ServicesExtensions
 
     private static void RegisterTypesInAssembly(IServiceCollection services, Assembly assembly)
     {
-        var types = assembly.GetTypes();
+        Type[]? types = assembly.GetTypes();
+        //attributesArray.Any(attr => t.IsDefined(attr, inherit: true)
+        Func<Type, bool> allAttributes = t => (t.Namespace != null && t.Namespace == "Attributes") && 
+                                              (t.IsDefined(t,inherit: true));
 
-        foreach (var implType in types.Where(t => t.IsClass && !t.IsAbstract))
+        foreach (var implType in types.Where(allAttributes) )
         {
             var interfaceType = implType.GetInterfaces()
                 .FirstOrDefault(i => i.Name == $"I{implType.Name}");
 
-            if (implType.Name.EndsWith("Repository"))
-            {
                 if (interfaceType is null)
                     services.AddTransient(implType);
                 else
                     services.AddTransient(interfaceType, implType);
-
-                continue;
-            }
-
-            if (implType.Name.EndsWith("Service"))
-            {
-                if (interfaceType is null)
-                    services.AddTransient(implType);
-                else
-                    services.AddTransient(interfaceType, implType);
-
-                continue;
-            }
-
-            if (implType.Name.EndsWith("ViewModel"))
-            {
-                services.AddTransient(implType);
-            }
+           
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace ITHSystems.Repositories;
+namespace ITHSystems.Repositories.SQLite;
 
 public interface ISQLiteManager
 {

@@ -30,7 +30,8 @@ public static class ConfigurationExtensions
 
 
         builder.Services.AddServices();
-        builder.Services.AddSingleton<IFileSystem>(FileSystem.Current);
+        builder.Services.AddSingleton(FileSystem.Current);
+        builder.Services.AddHttpClient();
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

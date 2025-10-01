@@ -3,7 +3,7 @@ using ITHSystems.Constants;
 using SQLite;
 using System.Reflection;
 
-namespace ITHSystems.Repositories;
+namespace ITHSystems.Repositories.SQLite;
 
 public class SQLiteManager : ISQLiteManager
 {
@@ -21,7 +21,7 @@ public class SQLiteManager : ISQLiteManager
 
         var modelTypes = allTypes.Where(t => t.IsClass &&
                                              t.Namespace is not null &&
-                                             t.Namespace.Contains("Model") &&
+                                             t.Namespace == "Model" &&
                                              t.GetCustomAttribute<SQLiteEntityAttribute>() is not null);
 
         foreach (var type in modelTypes)

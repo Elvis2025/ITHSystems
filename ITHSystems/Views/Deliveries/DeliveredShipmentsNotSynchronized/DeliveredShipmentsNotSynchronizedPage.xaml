@@ -12,7 +12,7 @@
                        BackgroundColor="{StaticResource bgColorPage}"
              >
     <Grid RowDefinitions="Auto,Auto,*">
-        <controls:GradientHeader Title="Envios pendientes"
+        <controls:GradientHeader Title="Envios no sincronizados"
                               BackButtonCommand="{Binding GoBackCommand}"/>
 
         <Border Grid.Row="1"
