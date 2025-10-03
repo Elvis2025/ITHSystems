@@ -77,6 +77,7 @@ public partial class LoginPageViewModel : BaseViewModel
             IsBusy = true;
             await Task.Delay(300);
             CurrentLanguage = Languages.FirstOrDefault(x => x.Name == language)!;
+            if (CurrentLanguage is null) return;
             LanguageName = CurrentLanguage.Code;
             AppShell.ChangeLanguage?.Invoke(LanguageName);
             await Task.Delay(4000);
@@ -84,7 +85,7 @@ public partial class LoginPageViewModel : BaseViewModel
         catch (Exception e)
         {
             Debug.WriteLine($"Error changing language {e.Message}");
-            throw;
+            await ErrorAlert("Error", "Error seleccionando un idioma");
         }
         finally
         {
