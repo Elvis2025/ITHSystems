@@ -11,7 +11,7 @@ namespace ITHSystems.Views.Deliveries.DeliveredShipmentsNotSynchronized;
 public partial class DeliveredShipmentsNotSynchronizedViewModel : BaseViewModel
 {
 
-    #region
+    #region Observable Properties
     [ObservableProperty]
     private ObservableCollection<PersonDto>? persons;
     [ObservableProperty]
