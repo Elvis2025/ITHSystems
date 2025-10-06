@@ -1,6 +1,8 @@
 ﻿using ITHSystems.Attributes;
 using ITHSystems.AutoMapper;
 using ITHSystems.Repositories.SQLite;
+using ITHSystems.Views;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -17,6 +19,7 @@ public static class ServicesExtensions
                 {
                     cfg.AddProfile<MapperProfile>();
                 })
+                .AddTransient(typeof(IRepository<>), typeof(SQLiteRepository<>))
                 .RegisterAll();
         return services;
     }
@@ -33,21 +36,40 @@ public static class ServicesExtensions
 
     private static void RegisterTypesInAssembly(IServiceCollection services, Assembly assembly)
     {
-        Type[]? types = assembly.GetTypes();
-        //attributesArray.Any(attr => t.IsDefined(attr, inherit: true)
-        Func<Type, bool> allAttributes = t => (t.Namespace != null && t.Namespace == "Attributes") && 
-                                              (t.IsDefined(t,inherit: true));
-
-        foreach (var implType in types.Where(allAttributes) )
+        try
         {
-            var interfaceType = implType.GetInterfaces()
-                .FirstOrDefault(i => i.Name == $"I{implType.Name}");
+            var types = assembly.GetTypes();
+
+            var toRegister = types
+                .Where(t => t.IsClass && !t.IsAbstract)
+                .Where(t =>
+                  {
+                      var attrTypes = t.GetCustomAttributes(inherit: true)
+                                       .Select(a => a.GetType());
+
+                      return attrTypes.Any(at =>
+                          at.Namespace == "ITHSystems.Attributes" &&
+                          at != typeof(SQLiteEntityAttribute));
+                  })
+          
+                .ToList();
+
+            foreach (var implType in toRegister)
+            {
+                var interfaceType = implType.GetInterfaces()
+                    .FirstOrDefault(i => i.Name == $"I{implType.Name}");
 
                 if (interfaceType is null)
                     services.AddTransient(implType);
                 else
                     services.AddTransient(interfaceType, implType);
-           
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine($"Error registering types from assembly {assembly.FullName}: {e.Message}");
+            MainThread.BeginInvokeOnMainThread(async () =>
+                await BaseViewModel.ErrorAlert("Error App", $"Error registering types from assembly {assembly.FullName}: {e.Message}"));
         }
     }
 }
