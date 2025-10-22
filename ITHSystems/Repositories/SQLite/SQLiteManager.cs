@@ -7,7 +7,9 @@ namespace ITHSystems.Repositories.SQLite;
 
 public class SQLiteManager : ISQLiteManager
 {
-    public ISQLiteAsyncConnection Connection => new SQLiteAsyncConnection(SQLiteConfiguration.DBPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache, true);
+    public ISQLiteAsyncConnection Connection => new SQLiteAsyncConnection(SQLiteConfiguration.DBPath, SQLiteOpenFlags.ReadWrite | 
+                                                                          SQLiteOpenFlags.Create | 
+                                                                          SQLiteOpenFlags.SharedCache, true);
 
     public async Task CreateTables()
     {
