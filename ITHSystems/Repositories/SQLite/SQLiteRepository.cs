@@ -1,34 +1,55 @@
 ﻿using ITHSystems.Model;
+using ITHSystems.Views;
 using SQLite;
 using System.Linq.Expressions;
 
 namespace ITHSystems.Repositories.SQLite;
 
-public class SQLiteRepository<TEntity> : IRepository<TEntity> where TEntity : IBaseEntity,new()
+public class SQLiteRepository<TEntity> : IRepository<TEntity> where TEntity : IBaseEntity, new()
 {
     public readonly ISQLiteAsyncConnection connection;
-    private readonly IRepository<TEntity> entityRepository;
 
-    public SQLiteRepository(ISQLiteManager maangeSQLite,IRepository<TEntity> entityRepository)
+    public SQLiteRepository(ISQLiteManager maangeSQLite)
     {
-         connection = maangeSQLite.Connection;
-        this.entityRepository = entityRepository;
+        connection = maangeSQLite.Connection;
     }
 
 
     #region Insert Methods
     public async Task InsertAsync(TEntity entity)
     {
-       await connection.InsertAsync(entity);
+        try
+        {
+            await connection.InsertAsync(entity);
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+        }
     }
     public async Task InsertAllAsync(IEnumerable<TEntity> entity, bool runInTransaction = true)
     {
-       await connection.InsertAllAsync(entity, runInTransaction);
+        try
+        {
+            await connection.InsertAllAsync(entity, runInTransaction);
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+        }
     }
 
     public async Task InsertOrReplaceAsync(TEntity entity)
     {
-       await connection.InsertOrReplaceAsync(entity);
+        try
+        {
+            await connection.InsertOrReplaceAsync(entity);
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+        }
+
     }
 
     public async Task InsertOrReplaceAllAsync(IEnumerable<TEntity> entity, bool runInTransaction = true)
@@ -50,16 +71,32 @@ public class SQLiteRepository<TEntity> : IRepository<TEntity> where TEntity : IB
     #endregion
 
     #region Get Methods
-    public async Task<IEnumerable<TEntity>> GetAllAsync() 
+    public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-       return await connection.Table<TEntity>().ToListAsync();
+        try
+        {
+            return await connection.Table<TEntity>().ToListAsync();
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+            return new List<TEntity>();
+        }
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity,bool>> whereCondition) 
+    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> whereCondition)
     {
-       return await connection.Table<TEntity>()
-                              .Where(whereCondition)
-                              .ToListAsync();
+        try
+        {
+            return await connection.Table<TEntity>()
+                                   .Where(whereCondition)
+                                   .ToListAsync();
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+            return new List<TEntity>();
+        }
     }
 
     public Task<TEntity> GetAsync(object id)
@@ -71,41 +108,100 @@ public class SQLiteRepository<TEntity> : IRepository<TEntity> where TEntity : IB
     #region Update Methods
     public async Task UpdateAsync(TEntity entity)
     {
-        await connection.UpdateAsync(entity);
+        try
+        {
+            await connection.UpdateAsync(entity);
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+        }
     }
-    public async Task UpdateAllAsync(IEnumerable<TEntity> entity,bool runInTransaction = true)
+    public async Task UpdateAllAsync(IEnumerable<TEntity> entity, bool runInTransaction = true)
     {
-        await connection.UpdateAllAsync(entity, runInTransaction);
+        try
+        {
+            await connection.UpdateAllAsync(entity, runInTransaction);
+
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+        }
     }
     #endregion
 
     #region Delete Methods
     public async Task DeleteByIdAsync(object id)
     {
-        var entitys = await entityRepository.GetAsync(id);
-        await connection.DeleteAsync(entitys);
+        try
+        {
+            var entity = await connection.FindAsync<TEntity>(id);
+            if (entity is null)
+            {
+                await BaseViewModel.ErrorAlert("Error", "Entity not found");
+                return;
+            }
+            await connection.DeleteAsync(entity);
+
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+        }
     }
 
     public async Task DeleteAsync(TEntity entity)
     {
-        await connection.DeleteAsync(entity);
+        try
+        {
+            await connection.DeleteAsync(entity);
+
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+        }
     }
 
     public async Task DeleteAllAsync()
     {
-        await connection.DeleteAllAsync<TEntity>();
+        try
+        {
+            await connection.DeleteAllAsync<TEntity>();
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+        }
     }
     #endregion
 
     #region Query Methods
     public async Task<int> ExecuteQueryAsync(string query)
     {
-        return await connection.ExecuteAsync(query);
+        try
+        {
+            return await connection.ExecuteAsync(query);
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+            return -1;
+        }
     }
 
-    public async Task<IEnumerable<TEntity>> QueryAsync(string query,params object[] args)
+    public async Task<IEnumerable<TEntity>> QueryAsync(string query, params object[] args)
     {
-       return await connection.QueryAsync<TEntity>(query, args);
+        try
+        {
+            return await connection.QueryAsync<TEntity>(query, args);
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+            return new List<TEntity>();
+        }
     }
 
     #endregion

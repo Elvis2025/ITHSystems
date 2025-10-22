@@ -4,7 +4,7 @@ using SQLite;
 using System.Reflection;
 
 namespace ITHSystems.Repositories.SQLite;
-
+[RegisterRepository]
 public class SQLiteManager : ISQLiteManager
 {
     public ISQLiteAsyncConnection Connection => new SQLiteAsyncConnection(SQLiteConfiguration.DBPath, SQLiteOpenFlags.ReadWrite | 

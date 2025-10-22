@@ -1,7 +1,8 @@
-﻿using System.Net.Http;
+﻿using ITHSystems.Attributes;
+using System.Net.Http;
 
 namespace ITHSystems.Services.ApiManager;
-
+[RegisterServiceAttribute]
 public class ApiManagerService : IApiManagerService
 {
     private readonly IHttpClientFactory httpClientFactory;
