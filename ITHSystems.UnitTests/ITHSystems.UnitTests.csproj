@@ -24,11 +24,4 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="src\DeliveriesTest\" />
-    <Folder Include="src\HomeTest\" />
-    <Folder Include="src\NewFolder\" />
-    <Folder Include="src\PendingDeliveriesTest\" />
-  </ItemGroup>
-
 </Project>
