@@ -2,9 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.Attributes;
 using ITHSystems.Constants;
+using ITHSystems.Extensions;
 using ITHSystems.Model;
 using ITHSystems.Repositories.SQLite;
 using ITHSystems.Resx;
+using ITHSystems.Services.General;
 using ITHSystems.Views.Home;
 using System.Diagnostics;
 
@@ -13,16 +15,22 @@ namespace ITHSystems.Views.Login;
 public partial class LoginPageViewModel : BaseViewModel
 {
     private IEnumerable<Language> Languages = Language.List();
+    private IPreferencesService preference;
+
     [ObservableProperty]
-    private string languageName = Preferences.Get(nameof(Language), Language.Spanish.Code);
+    private string languageName;
     private Language? CurrentLanguage;
     private readonly ISQLiteManager managerSQLite;
     private readonly IRepository<User> userRepository;
+    private readonly IITHNavigationService iTHNavigation;
 
-    public LoginPageViewModel(ISQLiteManager managerSQLite, IRepository<User> userRepository)
+    public LoginPageViewModel(ISQLiteManager managerSQLite, IRepository<User> userRepository, IPreferencesService preference, IITHNavigationService iTHNavigation)
     {
         this.managerSQLite = managerSQLite;
         this.userRepository = userRepository;
+        this.iTHNavigation = iTHNavigation;
+        this.preference = ITHPreference.Instance;
+        LanguageName = preference.Get(nameof(Language), Language.Spanish.Code);
     }
 
     [RelayCommand]
@@ -33,7 +41,7 @@ public partial class LoginPageViewModel : BaseViewModel
             if (IsBusy) return;
             IsBusy = true;
             await userRepository.GetAllAsync();
-            await PushRelativePageAsync<HomePage>();
+            await iTHNavigation.PushRelativePageAsync<HomePage>();
         }
         catch (Exception e)
         {

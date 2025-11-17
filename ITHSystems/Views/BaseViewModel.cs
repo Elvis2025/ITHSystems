@@ -222,6 +222,7 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
     {
         throw new NotImplementedException();
     }
+
     private static INavigation Nav =>
     Application.Current?.Windows.FirstOrDefault()?.Page?.Navigation
     ?? throw new InvalidOperationException(
