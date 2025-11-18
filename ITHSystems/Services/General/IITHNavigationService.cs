@@ -10,4 +10,8 @@ public interface IITHNavigationService
     Task PushPopupAsync<T>() where T : Popup;
     Task PopPopupAsync();
     Task PushAsync(Page page);
+    T CreateInstance<T>() where T : class;
+    Task SuccessAlert(string title, string message);
+    Task ErrorAlert(string title, string message);
+    Task WarningAlert(string title, string message);
 }

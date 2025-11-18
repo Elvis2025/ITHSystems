@@ -82,4 +82,23 @@ public class ITHNavigationService : IITHNavigationService
             await Shell.Current.DisplayAlert("Spend Flow Error", e.Message, IBSResources.Ok);
         }
     }
+
+    public T CreateInstance<T>() where T : class
+    {
+        return ActivatorUtilities.GetServiceOrCreateInstance<T>(Application.Current!.Handler.MauiContext!.Services!);
+    }
+
+    public async Task SuccessAlert(string title, string message)
+    {
+        await Shell.Current.DisplayAlert(title, message, IBSResources.Ok);
+    }
+
+    public async Task ErrorAlert(string title, string message)
+    {
+        await Shell.Current.DisplayAlert(title, message, IBSResources.Ok);
+    }
+    public async Task WarningAlert(string title, string message)
+    {
+        await Shell.Current.DisplayAlert(title, message, IBSResources.Ok);
+    }
 }

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.Attributes;
 using ITHSystems.Constants;
+using ITHSystems.DTOs;
 using ITHSystems.Extensions;
 using ITHSystems.Model;
 using ITHSystems.Repositories.SQLite;
@@ -47,6 +48,68 @@ public partial class LoginPageViewModel : BaseViewModel
         {
             Debug.WriteLine($"Error during login: {e.Message}");
             await ErrorAlert(IBSResources.Error, $"Error login\n{e.Message}");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    public async Task Login(UserDto userDto)
+    {
+        try
+        {
+            if (userDto == null) return;
+
+            if (IsBusy) return;
+            IsBusy = true;
+            var users = await userRepository.GetAllAsync();
+            var user = users.FirstOrDefault();
+
+            if(users.Any(x => x.UserName == userDto.UserName && x.Password == userDto.Password))
+            {
+                await iTHNavigation.PushRelativePageAsync<HomePage>();
+            }
+            await iTHNavigation.SuccessAlert("Alerta", $"Usuario no encontrado.");
+            return;
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine($"Error during login: {e.Message}");
+            await iTHNavigation.ErrorAlert(IBSResources.Error, $"Error login\n{e.Message}");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+    private bool userIsNotValid(UserDto userDto)
+    {
+        if (string.IsNullOrEmpty(userDto.UserName)) return true;
+        if (string.IsNullOrEmpty(userDto.Name)) return true;
+        if (string.IsNullOrEmpty(userDto.Password)) return true;
+        if (string.IsNullOrEmpty(userDto.Email)) return true;
+        return false;
+
+    }
+
+
+    public async Task RegisterUser(UserDto userDto)
+    {
+        try
+        {
+            if (userDto == null) return;
+            if(userIsNotValid(userDto)) return;
+            if (IsBusy) return;
+
+            IsBusy = true;
+            await userRepository.InsertAsync(userDto.Map<User>());
+            await iTHNavigation.PushRelativePageAsync<HomePage>();
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine($"Error during login: {e.Message}");
+            await iTHNavigation.ErrorAlert(IBSResources.Error, $"Error login\n{e.Message}");
         }
         finally
         {
