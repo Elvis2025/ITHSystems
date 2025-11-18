@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
+using ITHSystems.Attributes;
 using ITHSystems.Extensions;
 using ITHSystems.Resx;
 using System.Diagnostics;
 
 namespace ITHSystems.Services.General;
-
+[RegisterService]
 public class ITHNavigationService : IITHNavigationService
 {
 

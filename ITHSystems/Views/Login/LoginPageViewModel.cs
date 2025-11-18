@@ -16,7 +16,7 @@ namespace ITHSystems.Views.Login;
 public partial class LoginPageViewModel : BaseViewModel
 {
     private IEnumerable<Language> Languages = Language.List();
-    private IPreferencesService preference;
+    private IPreferenceService preference;
 
     [ObservableProperty]
     private string languageName;
@@ -25,7 +25,7 @@ public partial class LoginPageViewModel : BaseViewModel
     private readonly IRepository<User> userRepository;
     private readonly IITHNavigationService iTHNavigation;
 
-    public LoginPageViewModel(ISQLiteManager managerSQLite, IRepository<User> userRepository, IPreferencesService preference, IITHNavigationService iTHNavigation)
+    public LoginPageViewModel(ISQLiteManager managerSQLite, IRepository<User> userRepository, IPreferenceService preference, IITHNavigationService iTHNavigation)
     {
         this.managerSQLite = managerSQLite;
         this.userRepository = userRepository;
@@ -93,7 +93,7 @@ public partial class LoginPageViewModel : BaseViewModel
 
     }
 
-
+    [RelayCommand]
     public async Task RegisterUser(UserDto userDto)
     {
         try

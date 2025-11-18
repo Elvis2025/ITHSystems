@@ -14,8 +14,6 @@
              BackgroundColor="#ECECEC"
              Title="LoginPage">
 
-
-
     <Grid RowDefinitions="Auto,*,*">
         <Border Grid.Row="0" BackgroundColor="Transparent"
                 Stroke="Transparent"
@@ -32,7 +30,7 @@
         </Border>
 
 
-        <Grid RowDefinitions="Auto,Auto,Auto" Grid.Row="1" 
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto" Grid.Row="1" 
             VerticalOptions="Center"
             RowSpacing="5"
             Margin="52,0,52,0"
@@ -120,6 +118,7 @@
                         TextColor="{StaticResource Gray600}" />
                 </Grid>
             </Border>
+            
             <Button Grid.Row="2"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
@@ -130,6 +129,23 @@
                 FontAttributes="Bold"
                 Command="{Binding LoginCommand}"
             />
+
+            <Label Grid.Row="3"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Padding="0,10"
+                   Text="Registrate"
+                   FontAttributes="Bold"
+                   BackgroundColor="Transparent"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{StaticResource Primary}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RegisterUserCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+            
+            
         </Grid>
 
         

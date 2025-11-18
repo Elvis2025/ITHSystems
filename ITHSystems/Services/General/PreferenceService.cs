@@ -1,6 +1,8 @@
-﻿namespace ITHSystems.Services.General;
+﻿using ITHSystems.Attributes;
 
-public class PreferenceService : IPreferencesService
+namespace ITHSystems.Services.General;
+[RegisterService]
+public class PreferenceService : IPreferenceService
 {
     public string Get(string key, string defaultValue = "")
     {

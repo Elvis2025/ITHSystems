@@ -20,7 +20,7 @@ public class Login
         };
 
         var sqliteManager = Substitute.For<ISQLiteManager>();
-        var preferenceService = Substitute.For<IPreferencesService>();
+        var preferenceService = Substitute.For<IPreferenceService>();
         var iThNavigation = Substitute.For<IITHNavigationService>();
         var user = Substitute.For<IRepository<Model.User>>();
         var viewModel = new LoginPageViewModel(sqliteManager, user, preferenceService, iThNavigation);

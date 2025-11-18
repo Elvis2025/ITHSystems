@@ -57,7 +57,7 @@ public static class ServicesExtensions
             foreach (var implType in toRegister)
             {
                 var interfaceType = implType.GetInterfaces()
-                    .FirstOrDefault(i => i.Name == $"I{implType.Name}");
+                                            .FirstOrDefault(i => i.Name == $"I{implType.Name}");
 
                 if (interfaceType is null)
                     services.AddTransient(implType);
