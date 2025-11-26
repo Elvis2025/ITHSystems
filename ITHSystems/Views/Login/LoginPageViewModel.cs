@@ -8,6 +8,7 @@ using ITHSystems.Model;
 using ITHSystems.Repositories.SQLite;
 using ITHSystems.Resx;
 using ITHSystems.Services.General;
+using ITHSystems.Services.Login;
 using ITHSystems.Views.Home;
 using System.Diagnostics;
 
@@ -24,17 +25,23 @@ public partial class LoginPageViewModel : BaseViewModel
     private readonly ISQLiteManager managerSQLite;
     private readonly IRepository<User> userRepository;
     private readonly IITHNavigationService iTHNavigation;
+    private readonly ILoginService loginService;
 
-    public LoginPageViewModel(ISQLiteManager managerSQLite, IRepository<User> userRepository, IPreferenceService preference, IITHNavigationService iTHNavigation)
+    public LoginPageViewModel(ISQLiteManager managerSQLite,
+                              IRepository<User> userRepository,
+                              IPreferenceService preference,
+                              IITHNavigationService iTHNavigation,
+                              ILoginService loginService)
     {
         this.managerSQLite = managerSQLite;
         this.userRepository = userRepository;
         this.iTHNavigation = iTHNavigation;
+        this.loginService = loginService;
         this.preference = ITHPreference.Instance;
         LanguageName = preference.Get(nameof(Language), Language.Spanish.Code);
     }
 
-    [RelayCommand]
+
     public async Task Login()
     {
         try
@@ -55,6 +62,7 @@ public partial class LoginPageViewModel : BaseViewModel
         }
     }
 
+    [RelayCommand]
     public async Task Login(UserDto userDto)
     {
         try
@@ -63,15 +71,30 @@ public partial class LoginPageViewModel : BaseViewModel
 
             if (IsBusy) return;
             IsBusy = true;
-            var users = await userRepository.GetAllAsync();
-            var user = users.FirstOrDefault();
-
-            if(users.Any(x => x.UserName == userDto.UserName && x.Password == userDto.Password))
+            if (preference.Exist(IBS.JWT))
             {
-                await iTHNavigation.PushRelativePageAsync<HomePage>();
+                UserDTO.JWT = preference.Get(IBS.JWT);
+                await loginService.GetMessengers(UserDTO);
             }
-            await iTHNavigation.SuccessAlert("Alerta", $"Usuario no encontrado.");
-            return;
+            var jwt = await loginService.Login(UserDTO);
+            if (string.IsNullOrEmpty(jwt))
+            {
+                await iTHNavigation.ErrorAlert(IBSResources.Error, "Usuario o contraseña incorrecta.");
+                return;
+            }
+            preference.Set(IBS.JWT, jwt);
+            UserDTO.JWT = jwt;
+            await loginService.GetMessengers(UserDTO);
+
+
+            //var users = await userRepository.GetAllAsync();
+            //var user = users.FirstOrDefault();
+
+            //if(users.Any(x => x.UserName == userDto.UserName && x.Password == userDto.Password))
+            //{
+            //    await iTHNavigation.PushRelativePageAsync<HomePage>();
+            //}
+            //await iTHNavigation.SuccessAlert("Alerta", $"Usuario no encontrado.");
         }
         catch (Exception e)
         {
@@ -99,7 +122,7 @@ public partial class LoginPageViewModel : BaseViewModel
         try
         {
             if (userDto == null) return;
-            if(userIsNotValid(userDto)) return;
+            if (userIsNotValid(userDto)) return;
             if (IsBusy) return;
 
             IsBusy = true;

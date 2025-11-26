@@ -9,5 +9,6 @@ public record class UserDto
     public string Email { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-
+    public string Pin { get; set; } = string.Empty;
+    public string JWT { get; set; } = string.Empty;
 }

@@ -13,4 +13,9 @@ public class PreferenceService : IPreferenceService
     {
         Preferences.Set(key, value);
     }
+    public bool Exist(string key)
+    {
+        return !string.IsNullOrEmpty(Preferences.Get(key, string.Empty));
+    }
+
 }

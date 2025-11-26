@@ -30,7 +30,7 @@
         </Border>
 
 
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto" Grid.Row="1" 
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Grid.Row="1" 
             VerticalOptions="Center"
             RowSpacing="5"
             Margin="52,0,52,0"
@@ -65,12 +65,13 @@
                     HeightRequest="60"
                     HorizontalOptions="Fill"
                     Keyboard="Email"
-                    Text="{Binding UserDTO.UsName}"
+                    Text="{Binding UserDTO.UserName}"
                     Placeholder="{Static resources:IBSResources.User}"
                     PlaceholderColor="{StaticResource Gray200}"
                     />
                 </Grid>
             </Border>
+            
             <Border
                 Grid.Row="1"
                 Grid.Column="0"
@@ -104,7 +105,7 @@
                         IsPassword="{Binding IsPassword}"
                         Placeholder="{Static resources:IBSResources.Password}"
                         PlaceholderColor="{StaticResource Gray200}"
-                        Text="{Binding UserDTO.UsPassword}"
+                        Text="{Binding UserDTO.Password}"
                         />  
                     <Button
                         Grid.Column="2"
@@ -118,8 +119,43 @@
                         TextColor="{StaticResource Gray600}" />
                 </Grid>
             </Border>
-            
-            <Button Grid.Row="2"
+            <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Fill"
+                    BackgroundColor="{StaticResource White}"
+                    HeightRequest="45"
+                    Stroke="{StaticResource Gray100}"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="2">
+                                <Grid
+                    Margin="10,0,0,0"
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="0">
+                                    <Label
+                        Grid.Column="0"
+                        Margin="5,0,10,0"
+                        FontFamily="{Static icon:FontFamilyIcons.IconOutlined}"
+                        FontSize="28"
+                        HorizontalOptions="Center"
+                        Text="{Static icon:IconsOutlined.Pin}"
+                            TextColor="{StaticResource Gray600}"
+                        VerticalOptions="Center" />
+                                    <Entry
+                        Grid.Column="1"
+                        BackgroundColor="Transparent"
+                        ClearButtonVisibility="WhileEditing"
+                        HeightRequest="60"
+                        HorizontalOptions="Fill"
+                        Keyboard="Numeric"
+                        Text="{Binding UserDTO.Pin}"
+                        Placeholder="Pin"
+                        PlaceholderColor="{StaticResource Gray200}"
+        />
+                </Grid>
+            </Border>
+            <Button Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Margin="0,10,0,0"
@@ -128,9 +164,10 @@
                 Text="{Static resources:IBSResources.Login}"
                 FontAttributes="Bold"
                 Command="{Binding LoginCommand}"
+                    CommandParameter="{Binding UserDTO}"
             />
 
-            <Label Grid.Row="3"
+            <Label Grid.Row="4"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
                    Padding="0,10"
