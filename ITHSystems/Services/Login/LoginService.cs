@@ -57,7 +57,7 @@ public class LoginService : ILoginService
     }
     public async Task<bool> GetMessengers(UserDto userDto)
     {
-       
+         
 
         var request = new HttpRequestMessage(HttpMethod.Post, IBS.Authentication.Messengers);
 
