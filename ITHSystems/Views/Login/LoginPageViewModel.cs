@@ -85,8 +85,8 @@ public partial class LoginPageViewModel : BaseViewModel
             preference.Set(IBS.JWT, jwt);
             UserDTO.JWT = jwt;
             await loginService.GetMessengers(UserDTO);
-
-
+            await iTHNavigation.PushRelativePageAsync<HomePage>();
+            await loginService.GetOrder(UserDTO);
             //var users = await userRepository.GetAllAsync();
             //var user = users.FirstOrDefault();
 

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ITHSystems.DTOs;
 using ITHSystems.UsesCases.IconFonts;
+using System.Collections.ObjectModel;
 
 
 namespace ITHSystems.Views;
@@ -21,4 +22,8 @@ public abstract partial class ObsevablePropertiesViewModel : ObservableObject
     private bool IsNotBusy => !IsBusy;
     [ObservableProperty]
     private UserDto userDTO = new();
+    [ObservableProperty]
+    private ObservableCollection<OrdersDto> orders = new();
+
+
 }

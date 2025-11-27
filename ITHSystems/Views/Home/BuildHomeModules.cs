@@ -40,10 +40,6 @@ namespace ITHSystems.Views.Home
 
         public static List<ModuleDto> GetDeliveriesModules()
         {
-           var products = UtilExtensions.GetPersons();
-
-
-
             return new List<ModuleDto>
             {
                 new ModuleDto
@@ -57,7 +53,7 @@ namespace ITHSystems.Views.Home
                     Modules = Modules.PENDINGDELIVERIES,
                     Order = 1,
                     EnableBadges = true,
-                    Badges = products.Count(x => x.Module == Modules.PENDINGDELIVERIES)
+                    Badges = 0
                 },
                 new ModuleDto
                 {
@@ -70,7 +66,7 @@ namespace ITHSystems.Views.Home
                    Modules = Enums.Modules.DELAYEDDELIVERIES,
                    Order = 2,
                    EnableBadges = true,
-                   Badges = products.Count(x => x.Module == Modules.DELAYEDDELIVERIES)
+                   Badges = 0
                 },
                 new ModuleDto
                 {
@@ -83,7 +79,7 @@ namespace ITHSystems.Views.Home
                    Modules = Enums.Modules.DELIVERESSHIPMENTSNOTSYNCED,
                    Order = 3,
                    EnableBadges = true,
-                   Badges = products.Count(x => x.Module == Modules.DELIVERESSHIPMENTSNOTSYNCED)
+                   Badges = 0
                 }
             };
         }

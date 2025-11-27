@@ -39,11 +39,11 @@
                                Grid.Row="1"
                                TextColor="{StaticResource White}"
                                FontAttributes="Bold"
-                               FontSize="38"/>
+                               FontSize="32"/>
 
                     <Label Margin="0,0,0,0"
                                Text="{Binding PersonDto.FullName}"
-                               FontSize="26"
+                               FontSize="22"
                                VerticalOptions="Center" 
                                HorizontalOptions="Center"
                                Grid.Row="1"
@@ -78,7 +78,7 @@
                     <Border Stroke="Transparent"
                                 Grid.Row="1"
                                 Padding="10"
-                                BackgroundColor="{StaticResource Primary}"
+                                BackgroundColor="{StaticResource Gray400}"
                                 StrokeShape="RoundRectangle 10"
                             >
 
@@ -87,7 +87,7 @@
                                    FontSize="16"
                                    FontAttributes="Bold"
                                    TextDecorations="Underline"
-                                   TextColor="{StaticResource White}"
+                                   TextColor="DarkBlue"
                                    >
                         </Label>
                         <Border.GestureRecognizers>
@@ -154,8 +154,9 @@
                                             Spacing="38"
                                             >
                         <Button Text="Posponer"
+                                TextColor="{StaticResource Gray600}"
                                 FontAttributes="Bold"
-                                BackgroundColor="{StaticResource Gray500}"
+                                BackgroundColor="{StaticResource Gray400}"
                                 Command="{Binding PostponeCommand}"
                                 
                                 />

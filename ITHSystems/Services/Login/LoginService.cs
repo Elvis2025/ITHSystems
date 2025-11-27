@@ -6,6 +6,7 @@ using ITHSystems.Services.General;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.Design;
+using System.Text.Json;
 using ZXing.Aztec.Internal;
 
 namespace ITHSystems.Services.Login;
@@ -31,7 +32,6 @@ public class LoginService : ILoginService
             preferenceService.Set(IBS.Key, mobileId);
         }
 
-        var request = new HttpRequestMessage(HttpMethod.Post, IBS.Authentication.CreateOAuthToken);
         var content = new FormUrlEncodedContent(new[]
         {
             new KeyValuePair<string, string>("TenancyName", IBS.TenancyName ),
@@ -42,7 +42,8 @@ public class LoginService : ILoginService
             new KeyValuePair<string, string>("AccessToken", mobileId),
             new KeyValuePair<string, string>("AccessPin", userDto.Pin),
         });
-        request.Content = content;
+
+        var request = IBS.Post(IBS.Authentication.CreateOAuthToken, content);
 
         var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
 
@@ -57,13 +58,8 @@ public class LoginService : ILoginService
     }
     public async Task<bool> GetMessengers(UserDto userDto)
     {
-         
 
-        var request = new HttpRequestMessage(HttpMethod.Post, IBS.Authentication.Messengers);
-
-        request.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", userDto.JWT);
-        request.Content = new StringContent("");
+        var request = IBS.Post(IBS.Authentication.Messengers, userDto.JWT);
 
         var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
 
@@ -72,6 +68,57 @@ public class LoginService : ILoginService
         
         return response.IsSuccessStatusCode;
     }
+    public async Task<ResponseDto<OrdersDto>> GetOrder(UserDto userDto)
+    {
+
+        var content = new FormUrlEncodedContent(new[]
+       {
+            new KeyValuePair<string, string>("filter", ""),
+        });
+
+        var request = IBS.Post(IBS.Authentication.GetOrders, content, userDto.JWT);
+
+        var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
+
+      
+
+        // Aquí deserializamos: wrapper ABP -> result -> paged result
+        var dto = await IBS.DeserealizeDto<OrdersDto>(response);
+        return dto;
+    }
+
+    public async Task<ResponseDto<OrdersDto>> DeliverOrder(UserDto userDto)
+    {
+
+        var content = new FormUrlEncodedContent(new[]
+       {
+            new KeyValuePair<string, string>("WorkingForOfficeId", ""),
+            new KeyValuePair<string, string>("ProductBatchAssignmentId", ""),
+            new KeyValuePair<string, string>("Comment", ""),
+            new KeyValuePair<string, string>("IsSecondPerson", ""),
+            new KeyValuePair<string, string>("SecondPersonRelationshipId", ""),
+            new KeyValuePair<string, string>("IdentificationDocumentPhoto", ""),
+            new KeyValuePair<string, string>("SignatureImage", ""),
+            new KeyValuePair<string, string>("IdentificationDocumentTypeId", ""),
+            new KeyValuePair<string, string>("IdentificationValue", ""),
+            new KeyValuePair<string, string>("Latitude", ""),
+            new KeyValuePair<string, string>("Longitude", ""),
+            new KeyValuePair<string, string>("EventOcurredOn", ""),
+            new KeyValuePair<string, string>("IsSelected", ""),
+            new KeyValuePair<string, string>("CauseSelected", ""),
+        });
+
+        var request = IBS.Post(IBS.Delivery.SendOrder, content, userDto.JWT);
+
+        var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
+
+      
+
+        // Aquí deserializamos: wrapper ABP -> result -> paged result
+        var dto = await IBS.DeserealizeDto<OrdersDto>(response);
+        return dto;
+    }
+
 
 
 }

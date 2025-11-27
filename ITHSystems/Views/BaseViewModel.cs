@@ -143,7 +143,11 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
                     await PushRelativePageAsync<DeliveriesPage>();
                     break;
                 case Enums.Modules.PENDINGDELIVERIES:
-                    await PushRelativePageAsync<PendingDeliveries>();
+                    //await PushRelativePageAsync<PendingDeliveries>();
+                    await PushRelativePageAsync<PendingDeliveries>(new Dictionary<string, object>
+                    {
+                        ["Orders"] = Orders
+                    });
                     break;
                 case Enums.Modules.DELAYEDDELIVERIES:
                     await PushRelativePageAsync<DeliveriesPostponedPage>();
