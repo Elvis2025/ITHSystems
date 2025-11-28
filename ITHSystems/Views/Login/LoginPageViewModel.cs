@@ -42,59 +42,31 @@ public partial class LoginPageViewModel : BaseViewModel
     }
 
 
-    public async Task Login()
-    {
-        try
-        {
-            if (IsBusy) return;
-            IsBusy = true;
-            await userRepository.GetAllAsync();
-            await iTHNavigation.PushRelativePageAsync<HomePage>();
-        }
-        catch (Exception e)
-        {
-            Debug.WriteLine($"Error during login: {e.Message}");
-            await ErrorAlert(IBSResources.Error, $"Error login\n{e.Message}");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
-
     [RelayCommand]
     public async Task Login(UserDto userDto)
     {
         try
         {
-            if (userDto == null) return;
-
-            if (IsBusy) return;
-            IsBusy = true;
-            if (preference.Exist(IBS.JWT))
+            if (userIsNotValid(userDto))
             {
-                UserDTO.JWT = preference.Get(IBS.JWT);
-                await loginService.GetMessengers(UserDTO);
-            }
-            var jwt = await loginService.Login(UserDTO);
-            if (string.IsNullOrEmpty(jwt))
-            {
-                await iTHNavigation.ErrorAlert(IBSResources.Error, "Usuario o contraseña incorrecta.");
+                await iTHNavigation.WarningAlert(IBSResources.Error, $"Debes completar todos los campos, para iniciar sesion.");
                 return;
             }
-            preference.Set(IBS.JWT, jwt);
-            UserDTO.JWT = jwt;
-            await loginService.GetMessengers(UserDTO);
-            await iTHNavigation.PushRelativePageAsync<HomePage>();
-            await loginService.GetOrder(UserDTO);
-            //var users = await userRepository.GetAllAsync();
-            //var user = users.FirstOrDefault();
 
-            //if(users.Any(x => x.UserName == userDto.UserName && x.Password == userDto.Password))
-            //{
-            //    await iTHNavigation.PushRelativePageAsync<HomePage>();
-            //}
-            //await iTHNavigation.SuccessAlert("Alerta", $"Usuario no encontrado.");
+            if (IsBusy) return;
+
+            IsBusy = true;
+
+            await loginService.Login(UserDTO);
+
+            if (string.IsNullOrEmpty(IBS.Authentication.CurrentUser.JWT))
+            {
+                await iTHNavigation.ErrorAlert(IBSResources.Error, "Este usuario no esta autenticado.");
+                return;
+            }
+
+            await iTHNavigation.PushRelativePageAsync<HomePage>();
+    
         }
         catch (Exception e)
         {
@@ -108,10 +80,10 @@ public partial class LoginPageViewModel : BaseViewModel
     }
     private bool userIsNotValid(UserDto userDto)
     {
+        if (userDto is null) return true;
         if (string.IsNullOrEmpty(userDto.UserName)) return true;
-        if (string.IsNullOrEmpty(userDto.Name)) return true;
         if (string.IsNullOrEmpty(userDto.Password)) return true;
-        if (string.IsNullOrEmpty(userDto.Email)) return true;
+        if (string.IsNullOrEmpty(userDto.Pin)) return true;
         return false;
 
     }

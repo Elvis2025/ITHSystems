@@ -65,10 +65,16 @@ public partial class BeneficiaryViewModel : BaseViewModel
             switch (CurrentDeliveryOption.Id)
             {
                 case Enums.Receiver.Beneficiary:
-                    await PushRelativePageAsync<DeliverBenefiaryPage>();
+                    await PushRelativePageAsync<DeliverBenefiaryPage>(new Dictionary<string, object>
+                    {
+                        ["PersonDto"] = PersonDto!
+                    });
                     break;
                 case Enums.Receiver.SecondPerson:
-                    await PushRelativePageAsync<DeliverSecondPersonPage>();
+                    await PushRelativePageAsync<DeliverSecondPersonPage>(new Dictionary<string, object>
+                    {
+                        ["PersonDto"] = PersonDto!
+                    });
                     break;
                 default:
                     break;

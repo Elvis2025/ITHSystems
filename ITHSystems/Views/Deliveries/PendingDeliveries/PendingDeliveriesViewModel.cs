@@ -1,11 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.Attributes;
-using ITHSystems.Constants;
 using ITHSystems.DTOs;
 using ITHSystems.Extensions;
-using ITHSystems.Services.General;
-using ITHSystems.Services.Login;
+using ITHSystems.Services.Delivery;
 using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -25,13 +23,11 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
 
     [ObservableProperty]
     private string? fiterText;
-    private readonly ILoginService loginService;
-    private readonly IPreferenceService preference;
+    private readonly IDeliveryService deliveryService;
     #endregion
-    public PendingDeliveriesViewModel(ILoginService loginService, IPreferenceService preference)
+    public PendingDeliveriesViewModel(IDeliveryService deliveryService)
     {
-        this.loginService = loginService;
-        this.preference = preference;
+        this.deliveryService = deliveryService;
         init();
     }
 
@@ -42,10 +38,11 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
             IsBusy = true;
             if (Orders is null)
             {
-                var _orders = await loginService.GetOrder(new() { JWT = preference.Get(IBS.JWT) });
+                var _orders = await deliveryService.GetOrder();
 
                 Orders = new(_orders.Data.Items);
             }
+            Persons.Clear();
             foreach (var order in Orders!)
             {
                 Persons.Add(
@@ -54,7 +51,8 @@ public partial class PendingDeliveriesViewModel : BaseViewModel
                         FirstName = order.Customer.FullName,
                         CardType = order.Description,
                         Address = order.DeliveryToAddress,
-                        Code = order.Code
+                        Code = order.Code,
+                        Id = order.BatchProductId
                     });
 
             }

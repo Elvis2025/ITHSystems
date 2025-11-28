@@ -2,7 +2,7 @@
 
 namespace ITHSystems.DTOs;
 
-public class ResultDto<T>
+public class ResultDto<T> 
 {
     [JsonProperty("totalCount")]
     public int TotalCount => Items.Count;

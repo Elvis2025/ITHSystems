@@ -1,26 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ITHSystems.Attributes;
-using ITHSystems.Constants;
 using ITHSystems.DTOs;
-using ITHSystems.Services.General;
-using ITHSystems.Services.Login;
+using ITHSystems.Services.Delivery;
 using ITHSystems.Views.Home;
-using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
 
 namespace ITHSystems.Views.Deliveries;
 [RegisterViewModsel]
 public partial class DeliveriesViewModel : BaseViewModel
 {
-    private readonly ILoginService loginService;
-    private readonly IPreferenceService preferenceService;
+    private readonly IDeliveryService deliveryService;
     [ObservableProperty]
     private ObservableCollection<ModuleDto?> deliveriesModules = new();
 
-    public DeliveriesViewModel(ILoginService loginService, IPreferenceService preferenceService)
+    public DeliveriesViewModel(IDeliveryService deliveryService)
     {
-        this.loginService = loginService;
-        this.preferenceService = preferenceService;
+        this.deliveryService = deliveryService;
         init();
     }
 
@@ -29,7 +24,7 @@ public partial class DeliveriesViewModel : BaseViewModel
         Task.Run(async () =>
         {
             IsBusy = true;
-            var orders = await loginService.GetOrder(new() { JWT = preferenceService.Get(IBS.JWT) });
+            var orders = await deliveryService.GetOrder();
             Orders = new(orders.Data.Items);
             var modules = BuildHomeModules.GetDeliveriesModules().OrderBy(x => x.Order);
 

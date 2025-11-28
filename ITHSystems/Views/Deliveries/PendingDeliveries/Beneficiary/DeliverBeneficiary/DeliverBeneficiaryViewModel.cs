@@ -7,6 +7,10 @@ using ITHSystems.Extensions;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using ITHSystems.Attributes;
+using ITHSystems.Services.Login;
+using ITHSystems.Constants;
+using ITHSystems.Services.General;
+using ITHSystems.Services.Delivery;
 
 #if ANDROID
 using Android.Content;
@@ -18,10 +22,13 @@ using UIKit;
 using CoreVideo;
 #endif
 namespace ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary.DeliverBeneficiary;
+[QueryProperty(nameof(PersonDto), "PersonDto")]
 [RegisterViewModsel]
 public partial class DeliverBeneficiaryViewModel : BaseViewModel
 {
     #region Properties
+    [ObservableProperty]
+    private PersonDto? personDto;
     [ObservableProperty]
     private bool isPhotoTaken = false;
     [ObservableProperty]
@@ -31,7 +38,11 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
     [ObservableProperty]
     private ImageSource? sign;
     [ObservableProperty]
+    private string signBase64 = string.Empty;
+    [ObservableProperty]
     private ImageSource? photoId;
+    [ObservableProperty]
+    private string photoIdBase64 = string.Empty;
     [ObservableProperty]
     private ObservableCollection<GenderDto?> genders;
     [ObservableProperty]
@@ -42,12 +53,15 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
     private CountryDto? country;
     [ObservableProperty]
     private DateTime? expirationDate = null;
+    private readonly IDeliveryService deliveryService;
     public bool IsSecondPerson { get; set; } = false;
     #endregion
-    public DeliverBeneficiaryViewModel()
+
+    public DeliverBeneficiaryViewModel(IDeliveryService deliveryService)
     {
         Genders = UtilExtensions.GetGenders()!;
         Countries = UtilExtensions.GetCountries()!;
+        this.deliveryService = deliveryService;
     }
 
     #region Commands
@@ -59,7 +73,30 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
         try
         {
             if (!await FieldsAreCompletedSuccessfully()) return;
-            
+
+            var currentLocation = await UtilExtensions.GetCurrentLocationAsync();
+
+            OrdersDto deliver = new OrdersDto()
+            {
+                WorkingForOfficeId = IBS.Global.WorkingForOfficeId,
+                ProductBatchAssignmentId = PersonDto!.Id,
+                GenderId = (int)CurrentGender!.Id,
+                Comment = "",
+                IsSecondPerson = IsSecondPerson ? 1 : 0,
+                SecondPersonRelationshipId = 0,
+                IdentificationDocumentPhoto = PhotoIdBase64,
+                SignatureImage = SignBase64,
+                IdentificationDocumentTypeId = 1,
+                IdentificationValue = PersonID!,
+                Latitude = currentLocation.Latitude,
+                Longitude = currentLocation.Longitude,
+                EventOcurredOn = DateTime.Now,
+                IsSelected = false,
+                CauseSelected = "",
+                JWT = IBS.Authentication.CurrentUser.JWT
+            };
+
+            await deliveryService.DeliverOrder(deliver);
             await SuccessAlert("Entrega", "Entrega de producto realizada correctamente");
             await Shell.Current.GoToAsync("..//..//..");
 
@@ -114,6 +151,7 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
                     if (img is not null && !img.IsEmpty && isSaved)
                     {
                         PhotoId = img;
+                        PhotoIdBase64 = await img.EncodeImageAsync();
                         IsPhotoTaken = true;
                     }
                     await PopAsync();
@@ -147,6 +185,7 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
                     if (img is not null && !img.IsEmpty && isSaved)
                     {
                         Sign = img;
+                        SignBase64 = await img.EncodeImageAsync();
                         IsSigned = true;
                     }
                     await PopAsync();

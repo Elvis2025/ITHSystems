@@ -3,6 +3,7 @@ using ITHSystems.Attributes;
 using ITHSystems.DTOs;
 using ITHSystems.Enums;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace ITHSystems.Extensions;
@@ -41,41 +42,105 @@ public static class UtilExtensions
         }
     }
 
+    public static async Task<string> ToBase64(this ImageSource imageSource)
+    {
+        if (imageSource == null)
+            return string.Empty;
+
+        Stream imageStream = await GetImageStreamAsync(imageSource);
+        if (imageStream == null)
+            return string.Empty;
+
+        using var memoryStream = new MemoryStream();
+        await imageStream.CopyToAsync(memoryStream);
+
+        var bytes = memoryStream.ToArray();
+        return Convert.ToBase64String(bytes);
+    }
+    public static async Task<string> EncodeImageAsync(this ImageSource imageSource)
+    {
+        try
+        {
+            Stream? stream = null;
+
+            stream = await GetImageStreamAsync(imageSource);
+
+            using var inputStream = stream;
+            using var output = new MemoryStream();
+
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+
+            while ((bytesRead = await inputStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            {
+                await output.WriteAsync(buffer, 0, bytesRead);
+            }
+
+            var bytes = output.ToArray();
+            string encoded = Convert.ToBase64String(bytes);
+
+            return encoded;
+        }
+        catch (Exception e)
+        {
+            Debug.Write(e.Message);
+            return string.Empty;
+        }
+    }
+    private static async Task<Stream> GetImageStreamAsync(ImageSource imageSource)
+    {
+        switch (imageSource)
+        {
+            case FileImageSource fileImage:
+                return File.OpenRead(fileImage.File);
+
+            case StreamImageSource streamImage:
+                return await streamImage.Stream(CancellationToken.None);
+
+            case UriImageSource uriImage:
+                var httpClient = new HttpClient();
+                return await httpClient.GetStreamAsync(uriImage.Uri);
+
+            default:
+                return null;
+        }
+    }
+
     public static IEnumerable<PersonDto> GetPersons()
     {
         var persons = new List<PersonDto>
         {
-            new PersonDto { 
-                Id = 1, 
-                FirstName = "John", 
-                LastName = "Doe", 
+            new PersonDto {
+                Id = 1,
+                FirstName = "John",
+                LastName = "Doe",
                 Email = "",
                 CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
                 Module = Modules.PENDINGDELIVERIES,
             },
-            new PersonDto { 
-                Id = 2, 
-                FirstName = "Jesus", 
-                LastName = "Peña", 
+            new PersonDto {
+                Id = 2,
+                FirstName = "Jesus",
+                LastName = "Peña",
                 Email = "",
                 CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
                 Module = Modules.PENDINGDELIVERIES,
             },
-            new PersonDto { 
-                Id = 3, 
-                FirstName = "Matusalem", 
-                LastName = "Sepeda", 
+            new PersonDto {
+                Id = 3,
+                FirstName = "Matusalem",
+                LastName = "Sepeda",
                 Email = "",
                 CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
                 Module = Modules.DELAYEDDELIVERIES,
             },
-            new PersonDto { 
-                Id = 4, 
-                FirstName = "Efrain", 
-                LastName = "Beriguete", 
+            new PersonDto {
+                Id = 4,
+                FirstName = "Efrain",
+                LastName = "Beriguete",
                 Email = "",
                 CardType = "Visa Clásica",
                 Address = "Av siempre Viva 58,Altos de Arroyo Hondo I, Distrito Nacional, Distrito Nacional, Dominican Republic",
@@ -118,12 +183,24 @@ public static class UtilExtensions
     {
         var options = new List<GenderDto>
         {
-            new() { Id = Gender.Famale, Description = "Femenino" },
             new() { Id = Gender.Male, Description = "Masculino" },
+            new() { Id = Gender.Famale, Description = "Femenino" },
             new() { Id = Gender.Undefined, Description = "No definido" },
         };
 
         return new(options);
+    }
+    public static async Task<(double Latitude, double Longitude)> GetCurrentLocationAsync()
+    {
+        var request = new GeolocationRequest(
+            GeolocationAccuracy.Best,
+            TimeSpan.FromSeconds(10));
+
+        var location = await Geolocation.GetLocationAsync(request);
+
+        if (location == null) return (0.00d, 0.00d);
+
+        return (location.Latitude, location.Longitude);
     }
     public static ObservableCollection<CountryDto> GetCountries()
     {
