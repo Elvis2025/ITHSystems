@@ -4,8 +4,17 @@ namespace ITHSystems.Views.Deliveries;
 [RegisterAsRoute]
 public partial class DeliveriesPage : BaseContentPage<DeliveriesViewModel>
 {
-	public DeliveriesPage(DeliveriesViewModel viewModel) : base(viewModel)
+    private readonly DeliveriesViewModel viewModel;
+
+    public DeliveriesPage(DeliveriesViewModel viewModel) : base(viewModel)
     {
 		InitializeComponent();
+        this.viewModel = viewModel;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        viewModel.init();
     }
 }

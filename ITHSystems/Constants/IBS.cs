@@ -116,4 +116,39 @@ public static class IBS
     }
 
     #endregion
+
+    #region Exeptions
+    public static class Exceptions
+    {
+        public static ResponseListDto<T> ResponseListDto<T>(Exception e)
+        {
+            return new ResponseListDto<T>
+            {
+                Success = false,
+                Error = new ErrorDto
+                {
+                    Message = e.Message,
+                    Code = e.HResult,
+                    Details = e.StackTrace ?? string.Empty
+                }
+            };
+        }
+
+        public static ResponseDto<T> ResponseDto<T>(Exception e)
+        {
+            return new ResponseDto<T>
+            {
+                Success = false,
+                Error = new ErrorDto
+                {
+                    Message = e.Message,
+                    Code = e.HResult,
+                    Details = e.StackTrace ?? string.Empty
+                }
+            };
+        }
+
+
+    }
+    #endregion
 }

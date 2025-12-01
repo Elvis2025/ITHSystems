@@ -97,7 +97,7 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
             };
 
             await deliveryService.DeliverOrder(deliver);
-            await SuccessAlert("Entrega", "Entrega de producto realizada correctamente");
+            await SuccessAlert("Exito", "Entrega de producto realizada correctamente");
             await Shell.Current.GoToAsync("..//..//..");
 
         }

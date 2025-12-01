@@ -4,6 +4,6 @@ namespace ITHSystems.Services.Delivery;
 
 public interface IDeliveryService
 {
-    Task<ResponseListDto<OrdersDto>> DeliverOrder(OrdersDto orderDto);
+    Task<ResponseDto<OrdersDto>> DeliverOrder(OrdersDto orderDto);
     Task<ResponseListDto<OrdersDto>> GetOrder();
 }

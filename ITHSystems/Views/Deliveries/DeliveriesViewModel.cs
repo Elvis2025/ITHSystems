@@ -25,6 +25,8 @@ public partial class DeliveriesViewModel : BaseViewModel
         {
             IsBusy = true;
             var orders = await deliveryService.GetOrder();
+            Orders.Clear();
+            DeliveriesModules.Clear();
             Orders = new(orders.Data.Items);
             var modules = BuildHomeModules.GetDeliveriesModules().OrderBy(x => x.Order);
 
