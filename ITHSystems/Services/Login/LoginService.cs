@@ -1,12 +1,11 @@
 ﻿using ITHSystems.Attributes;
 using ITHSystems.Constants;
 using ITHSystems.DTOs;
+using ITHSystems.Extensions;
+using ITHSystems.Model;
+using ITHSystems.Repositories.SQLite;
 using ITHSystems.Services.ApiManager;
 using ITHSystems.Services.General;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.Design;
-using ZXing.Aztec.Internal;
 
 namespace ITHSystems.Services.Login;
 [RegisterService]
@@ -14,27 +13,29 @@ public class LoginService : ILoginService
 {
     private readonly IApiManagerService apiManagerService;
     private readonly IPreferenceService preferenceService;
+    private readonly IRepository<User> userRepository;
 
-    public LoginService(IApiManagerService apiManagerService,IPreferenceService preferenceService)
+    public LoginService(IApiManagerService apiManagerService, 
+                        IPreferenceService preferenceService,
+                        IRepository<User> userRepository)
     {
         this.apiManagerService = apiManagerService;
         this.preferenceService = preferenceService;
+        this.userRepository = userRepository;
     }
 
-    public async Task<string> Login(UserDto userDto)
+    public async Task<UserDto> Login(UserDto userDto)
     {
-        var mobileId = preferenceService.Get(IBS.Key, string.Empty);
-
-        if (string.IsNullOrEmpty(mobileId)) 
+        var mobileId = preferenceService.Get(IBS.Global.Key, string.Empty);
+        if (string.IsNullOrEmpty(mobileId))
         {
             mobileId = Guid.NewGuid().ToString();
-            preferenceService.Set(IBS.Key, mobileId);
+            preferenceService.Set(IBS.Global.Key, mobileId);
         }
 
-        var request = new HttpRequestMessage(HttpMethod.Post, IBS.Authentication.CreateOAuthToken);
         var content = new FormUrlEncodedContent(new[]
         {
-            new KeyValuePair<string, string>("TenancyName", IBS.TenancyName ),
+            new KeyValuePair<string, string>("TenancyName", IBS.Global.TenancyName ),
             new KeyValuePair<string, string>("UsernameOrEmailAddress", userDto.UserName ),
             new KeyValuePair<string, string>("Password", userDto.Password),
             new KeyValuePair<string, string>("PinSequenceRequest", IBS.Authentication.PinRequest),
@@ -42,35 +43,30 @@ public class LoginService : ILoginService
             new KeyValuePair<string, string>("AccessToken", mobileId),
             new KeyValuePair<string, string>("AccessPin", userDto.Pin),
         });
-        request.Content = content;
+
+        var request = IBS.HttpMethod.Post(IBS.Authentication.CreateOAuthToken, content);
 
         var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
-
-        var returnedJsonStr = await response.Content.ReadAsStringAsync();
-        if (response.IsSuccessStatusCode)
+        var userAuthentication = await IBS.HttpResponse.DeserealizeObject<UserAuthenticationDto>(response);
+        if(userAuthentication is null)
         {
-            var jObject = JObject.Parse(returnedJsonStr);
-            string result = (string)jObject["result"];
-            return result;
+            return userDto;
         }
-        return string.Empty;
+        userDto.JWT = userAuthentication.Result.Token;
+        userDto.Issued = userAuthentication.Result.Issued;
+        userDto.Expires = userAuthentication.Result.Expires;
+        var user = userDto.Map<User>();
+        await userRepository.InsertOrReplaceAsync(user);
+        IBS.Authentication.CurrentUser = userDto;
+        return userDto;
     }
-    public async Task<bool> GetMessengers(UserDto userDto)
+
+    public async Task EnsureValidTokenAsync()
     {
-         
+        var user = IBS.Authentication.CurrentUser;
 
-        var request = new HttpRequestMessage(HttpMethod.Post, IBS.Authentication.Messengers);
-
-        request.Headers.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", userDto.JWT);
-        request.Content = new StringContent("");
-
-        var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
-
-        var returnedJsonStr = await response.Content.ReadAsStringAsync();
-
-        
-        return response.IsSuccessStatusCode;
+        if (user.TokenExpired)
+            await Login(user);
     }
 
 

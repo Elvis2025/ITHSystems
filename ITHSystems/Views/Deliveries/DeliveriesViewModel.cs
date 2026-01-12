@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ITHSystems.Attributes;
 using ITHSystems.DTOs;
+using ITHSystems.Services.Delivery;
 using ITHSystems.Views.Home;
 using System.Collections.ObjectModel;
 
@@ -8,10 +9,11 @@ namespace ITHSystems.Views.Deliveries;
 [RegisterViewModsel]
 public partial class DeliveriesViewModel : BaseViewModel
 {
+    private readonly IDeliveryService deliveryService;
     [ObservableProperty]
     private ObservableCollection<ModuleDto?> deliveriesModules = new();
 
-    public DeliveriesViewModel()
+    public DeliveriesViewModel(IDeliveryService deliveryService)
     {
         init();
     }

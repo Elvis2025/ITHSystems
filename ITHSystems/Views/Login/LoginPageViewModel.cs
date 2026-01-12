@@ -42,25 +42,16 @@ public partial class LoginPageViewModel : BaseViewModel
     }
 
 
-    public async Task Login()
+    [RelayCommand]
+    public async Task Login(UserDto userDto)
     {
         try
         {
-            if (IsBusy) return;
-            IsBusy = true;
-            await userRepository.GetAllAsync();
-            await iTHNavigation.PushRelativePageAsync<HomePage>();
-        }
-        catch (Exception e)
-        {
-            Debug.WriteLine($"Error during login: {e.Message}");
-            await ErrorAlert(IBSResources.Error, $"Error login\n{e.Message}");
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
+            if (userIsNotValid(userDto))
+            {
+                await iTHNavigation.WarningAlert(IBSResources.Error, $"Debes completar todos los campos, para iniciar sesion.");
+                return;
+            }
 
     [RelayCommand]
     public async Task Login(UserDto userDto)
@@ -70,6 +61,7 @@ public partial class LoginPageViewModel : BaseViewModel
             if (userDto is null || userIsNotValid2(userDto)) return;
 
             if (IsBusy) return;
+
             IsBusy = true;
             //if (preference.Exist(IBS.JWT))
             //{
@@ -87,14 +79,8 @@ public partial class LoginPageViewModel : BaseViewModel
             //await loginService.GetMessengers(UserDTO);
             await iTHNavigation.PushRelativePageAsync<HomePage>();
 
-            //var users = await userRepository.GetAllAsync();
-            //var user = users.FirstOrDefault();
-
-            //if(users.Any(x => x.UserName == userDto.UserName && x.Password == userDto.Password))
-            //{
-            //    await iTHNavigation.PushRelativePageAsync<HomePage>();
-            //}
-            //await iTHNavigation.SuccessAlert("Alerta", $"Usuario no encontrado.");
+            await iTHNavigation.PushRelativePageAsync<HomePage>();
+    
         }
         catch (Exception e)
         {
@@ -108,10 +94,10 @@ public partial class LoginPageViewModel : BaseViewModel
     }
     private bool userIsNotValid(UserDto userDto)
     {
+        if (userDto is null) return true;
         if (string.IsNullOrEmpty(userDto.UserName)) return true;
-        if (string.IsNullOrEmpty(userDto.Name)) return true;
         if (string.IsNullOrEmpty(userDto.Password)) return true;
-        if (string.IsNullOrEmpty(userDto.Email)) return true;
+        if (string.IsNullOrEmpty(userDto.Pin)) return true;
         return false;
 
     }
