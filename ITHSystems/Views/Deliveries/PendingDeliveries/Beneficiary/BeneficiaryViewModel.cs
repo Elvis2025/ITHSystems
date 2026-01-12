@@ -61,7 +61,24 @@ public partial class BeneficiaryViewModel : BaseViewModel
                 await WarningAlert("Entregas", $"Debes seleccionar una opción de recepción para continuar la entrega");
                 return;
             }
+                var id = PersonDto?.Id ?? -1;
 
+            if (1 == id)
+            {
+                Preferences.Set("proId1", id);
+            }
+            if (2 == id)
+            {
+                Preferences.Set("proId2", id);
+            }
+            if (3 == id)
+            {
+                Preferences.Set("proId3", id);
+            }
+            if (4 == id)
+            {
+                Preferences.Set("proId4", id);
+            }
             switch (CurrentDeliveryOption.Id)
             {
                 case Enums.Receiver.Beneficiary:

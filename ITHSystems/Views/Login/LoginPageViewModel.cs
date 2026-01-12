@@ -24,7 +24,7 @@ public partial class LoginPageViewModel : BaseViewModel
     private Language? CurrentLanguage;
     private readonly ISQLiteManager managerSQLite;
     private readonly IRepository<User> userRepository;
-    private readonly IITHNavigationService iTHNavigation;
+    private readonly IITHNavigationService iTHNavigation; 
     private readonly ILoginService loginService;
 
     public LoginPageViewModel(ISQLiteManager managerSQLite,
@@ -67,25 +67,25 @@ public partial class LoginPageViewModel : BaseViewModel
     {
         try
         {
-            if (userDto == null) return;
+            if (userDto is null || userIsNotValid2(userDto)) return;
 
             if (IsBusy) return;
             IsBusy = true;
-            if (preference.Exist(IBS.JWT))
-            {
-                UserDTO.JWT = preference.Get(IBS.JWT);
-                await loginService.GetMessengers(UserDTO);
-            }
-            var jwt = await loginService.Login(UserDTO);
-            if (string.IsNullOrEmpty(jwt))
-            {
-                await iTHNavigation.ErrorAlert(IBSResources.Error, "Usuario o contraseña incorrecta.");
-                return;
-            }
-            preference.Set(IBS.JWT, jwt);
-            UserDTO.JWT = jwt;
-            await loginService.GetMessengers(UserDTO);
-
+            //if (preference.Exist(IBS.JWT))
+            //{
+            //    UserDTO.JWT = preference.Get(IBS.JWT);
+            //    await loginService.GetMessengers(UserDTO);
+            //}
+            //var jwt = await loginService.Login(UserDTO);
+            //if (string.IsNullOrEmpty(jwt))
+            //{
+            //    await iTHNavigation.ErrorAlert(IBSResources.Error, "Usuario o contraseña incorrecta.");
+            //    return;
+            //}
+            //preference.Set(IBS.JWT, jwt);
+            //UserDTO.JWT = jwt;
+            //await loginService.GetMessengers(UserDTO);
+            await iTHNavigation.PushRelativePageAsync<HomePage>();
 
             //var users = await userRepository.GetAllAsync();
             //var user = users.FirstOrDefault();
@@ -112,6 +112,14 @@ public partial class LoginPageViewModel : BaseViewModel
         if (string.IsNullOrEmpty(userDto.Name)) return true;
         if (string.IsNullOrEmpty(userDto.Password)) return true;
         if (string.IsNullOrEmpty(userDto.Email)) return true;
+        return false;
+
+    }
+    private bool userIsNotValid2(UserDto userDto)
+    {
+        if (string.IsNullOrEmpty(userDto.UserName)) return true;
+        if (string.IsNullOrEmpty(userDto.Password)) return true;
+        //if (string.IsNullOrEmpty(userDto.Pin)) return true;
         return false;
 
     }

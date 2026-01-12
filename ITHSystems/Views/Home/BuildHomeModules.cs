@@ -11,17 +11,17 @@ namespace ITHSystems.Views.Home
         {
             return new List<ModuleDto>
             {
-                new ModuleDto
-                {
-                    Title = "Servicio de recogida",
-                    IsActive = true,
-                    IsDeleted = false,
-                    FontFamaly = FontFamilyIcons.FaSolid,
-                    Icon = IconFont.Route,
-                    Modules = Enums.Modules.PICKUPSERVICE,
-                    Order = 2,
-                    EnableBadges = false
-                },
+                //new ModuleDto
+                //{
+                //    Title = "Servicio de recogida",
+                //    IsActive = true,
+                //    IsDeleted = false,
+                //    FontFamaly = FontFamilyIcons.FaSolid,
+                //    Icon = IconFont.Route,
+                //    Modules = Enums.Modules.PICKUPSERVICE,
+                //    Order = 2,
+                //    EnableBadges = false
+                //},
                 new ModuleDto
                 {
                     Title = "Entregas",
@@ -40,9 +40,20 @@ namespace ITHSystems.Views.Home
 
         public static List<ModuleDto> GetDeliveriesModules()
         {
-           var products = UtilExtensions.GetPersons();
-
-
+           var productsAll = UtilExtensions.GetPersons();
+            var products = new List<PersonDto>();
+            Preferences.Get("proId1", -1);
+            Preferences.Get("proId2", -1);
+            Preferences.Get("proId3", -1);
+            Preferences.Get("proId4", -1);
+            foreach (var item in productsAll)
+            {
+                if (Preferences.Get("proId1", -1) == item.Id) continue;
+                if (Preferences.Get("proId2", -1) == item.Id) continue;
+                if (Preferences.Get("proId3", -1) == item.Id) continue;
+                if (Preferences.Get("proId4", -1) == item.Id) continue;
+                products.Add(item);
+            }
 
             return new List<ModuleDto>
             {

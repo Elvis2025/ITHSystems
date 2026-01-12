@@ -9,12 +9,16 @@ namespace ITHSystems.Views.Deliveries;
 public partial class DeliveriesViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private ObservableCollection<ModuleDto?> deliveriesModules;
+    private ObservableCollection<ModuleDto?> deliveriesModules = new();
 
     public DeliveriesViewModel()
     {
-        DeliveriesModules = new(BuildHomeModules.GetDeliveriesModules().OrderBy(x => x.Order));
+        init();
     }
 
+    public void init()
+    {
+        DeliveriesModules = new(BuildHomeModules.GetDeliveriesModules().OrderBy(x => x.Order));
+    }
 
 }
