@@ -69,5 +69,16 @@ public class LoginService : ILoginService
             await Login(user);
     }
 
+    public Task GetMessengers(UserDto userDTO)
+    {
+        try
+        {
+            return Task.CompletedTask;
+        }
+        catch (Exception e)
+        {
 
+            throw;
+        }
+    }
 }

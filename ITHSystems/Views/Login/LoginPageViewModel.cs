@@ -13,6 +13,7 @@ using ITHSystems.Views.Home;
 using System.Diagnostics;
 
 namespace ITHSystems.Views.Login;
+
 [RegisterViewModsel]
 public partial class LoginPageViewModel : BaseViewModel
 {
@@ -24,7 +25,7 @@ public partial class LoginPageViewModel : BaseViewModel
     private Language? CurrentLanguage;
     private readonly ISQLiteManager managerSQLite;
     private readonly IRepository<User> userRepository;
-    private readonly IITHNavigationService iTHNavigation; 
+    private readonly IITHNavigationService iTHNavigation;
     private readonly ILoginService loginService;
 
     public LoginPageViewModel(ISQLiteManager managerSQLite,
@@ -47,40 +48,28 @@ public partial class LoginPageViewModel : BaseViewModel
     {
         try
         {
-            if (userIsNotValid(userDto))
-            {
-                await iTHNavigation.WarningAlert(IBSResources.Error, $"Debes completar todos los campos, para iniciar sesion.");
-                return;
-            }
-
-    [RelayCommand]
-    public async Task Login(UserDto userDto)
-    {
-        try
-        {
             if (userDto is null || userIsNotValid2(userDto)) return;
 
             if (IsBusy) return;
 
             IsBusy = true;
-            //if (preference.Exist(IBS.JWT))
-            //{
-            //    UserDTO.JWT = preference.Get(IBS.JWT);
-            //    await loginService.GetMessengers(UserDTO);
-            //}
-            //var jwt = await loginService.Login(UserDTO);
-            //if (string.IsNullOrEmpty(jwt))
-            //{
-            //    await iTHNavigation.ErrorAlert(IBSResources.Error, "Usuario o contraseña incorrecta.");
-            //    return;
-            //}
-            //preference.Set(IBS.JWT, jwt);
-            //UserDTO.JWT = jwt;
+            if (preference.Exist(IBS.Global.KeyJWT))
+            {
+                UserDTO.JWT = preference.Get(IBS.Global.KeyJWT);
+                //await loginService.GetMessengers(UserDTO);
+            }
+            var jwt = await loginService.Login(UserDTO) ?? new();
+            if (string.IsNullOrEmpty(jwt.JWT))
+            {
+                await iTHNavigation.ErrorAlert(IBSResources.Error, "Usuario o contraseña incorrecta.");
+                return;
+            }
+            preference.Set(IBS.Global.KeyJWT, jwt.JWT);
+            UserDTO.JWT = jwt.JWT;
             //await loginService.GetMessengers(UserDTO);
-            await iTHNavigation.PushRelativePageAsync<HomePage>();
 
             await iTHNavigation.PushRelativePageAsync<HomePage>();
-    
+
         }
         catch (Exception e)
         {
