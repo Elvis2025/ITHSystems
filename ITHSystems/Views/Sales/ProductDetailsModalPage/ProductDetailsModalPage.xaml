@@ -11,7 +11,9 @@
                        x:TypeArguments="vm:ProductDetailsViewModel"
                        BackgroundColor="{StaticResource White}"
                        HideSoftInputOnTapped="True">
-
+    <views:BaseContentPage.Resources>
+        <x:Boolean x:Key="GoToLogin">False</x:Boolean>
+    </views:BaseContentPage.Resources>
     <Grid RowDefinitions="Auto,*">
 
         <ScrollView Grid.Row="1"
@@ -91,8 +93,8 @@
                                   VerticalTextAlignment="Center"
                                    >
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding GoBackCommand}" 
-                                                          CommandParameter="{Binding .}"
+                                    <TapGestureRecognizer Command="{Binding GoBackCommand}"
+                                                          CommandParameter="{StaticResource GoToLogin}"
                                                           />
                                 </Label.GestureRecognizers>
                                 

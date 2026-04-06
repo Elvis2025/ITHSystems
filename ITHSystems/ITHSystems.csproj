@@ -106,6 +106,9 @@
 	  <MauiXaml Update="Controls\ActivityIndicatorView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\BarcodeScannerView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\CameraCodeBarControlPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
