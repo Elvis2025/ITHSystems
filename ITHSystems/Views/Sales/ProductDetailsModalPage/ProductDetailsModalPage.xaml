@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:views="clr-namespace:ITHSystems.Views"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="ITHSystems.Views.Sales.ProductDetailsModalPage.ProductDetailsModalPage"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.Sales.ProductDetailsModalPage"
+                       xmlns:resources="clr-namespace:ITHSystems.Resx"
+                       xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+                       xmlns:controls="clr-namespace:ITHSystems.Controls"
+                       xmlns:dto="clr-namespace:ITHSystems.DTOs"
+                       x:TypeArguments="vm:ProductDetailsViewModel"
+                       BackgroundColor="{StaticResource White}"
+                       HideSoftInputOnTapped="True">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <ScrollView Grid.Row="1"
+                    VerticalScrollBarVisibility="Never">
+
+            <VerticalStackLayout Spacing="0"
+                                 Padding="0">
+
+                <!-- Imagen -->
+                <Border BackgroundColor="#C8BCBC"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 0,0,28,28"
+                        Padding="0"
+                        Margin="0,0,0,6">
+                    <Border StrokeShape="RoundRectangle 28"
+                            Margin="22">
+                        <Image Source="{Binding CurrentProduct.ImageSource}"
+                               Aspect="AspectFit" />
+                    </Border>
+                </Border>
+
+                <!-- Card principal -->
+                <Border BackgroundColor="{StaticResource White}"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 30"
+                        Padding="20,6,20,18">
+
+                    <VerticalStackLayout Spacing="14">
+
+                        <!-- Nombre + icono -->
+                        <Grid ColumnDefinitions="*,Auto"
+                              ColumnSpacing="10">
+
+                            <Label Text="{Binding CurrentProduct.Description}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#1F1F1F"
+                                   VerticalOptions="Center"
+                                   MaxLines="2"
+                                   LineBreakMode="TailTruncation" />
+
+                            <Border Grid.Column="1"
+                                    WidthRequest="32"
+                                    HeightRequest="32"
+                                    BackgroundColor="Transparent"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 10"
+                                    VerticalOptions="Center">
+                                <Label Text="{Static icon:IconFont.CartShopping}"
+                                       FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                                       FontSize="15"
+                                       TextColor="#333333"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Precio unitario -->
+                        <HorizontalStackLayout HorizontalOptions="Fill">
+
+                            <Label Text="{Binding CurrentProduct.Price, StringFormat='RD$ {0:N2}'}"
+                                   FontSize="18"
+                                   Padding="10,0,10,0"
+                                   FontAttributes="Bold"
+                                   TextColor="Green" 
+                                   HorizontalOptions="Start"
+                                   HorizontalTextAlignment="Center"
+                                   />
+
+                            <Label Text="{Static icon:IconFont.TentArrowTurnLeft}"
+                                   FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                                     FontSize="26"
+                                  TextColor="#333333"
+                                   Margin="90,0,6,0"
+                                       Padding="10,0,10,0"
+                                  HorizontalTextAlignment="Center"
+                                  VerticalTextAlignment="Center"
+                                   >
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding GoBackCommand}" 
+                                                          CommandParameter="{Binding .}"
+                                                          />
+                                </Label.GestureRecognizers>
+                                
+                            </Label>
+                            
+                            <Label Text="{Static icon:IconFont.Barcode}"
+                                   FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                                     FontSize="26"
+                                  TextColor="#333333"
+                                         Padding="10,0,10,0"
+                                  HorizontalTextAlignment="End"
+                                   HorizontalOptions="End"
+                                  VerticalTextAlignment="Center"
+                                   >
+                                
+                                
+                            </Label>
+                            
+                            
+                        </HorizontalStackLayout>
+
+                        <BoxView HeightRequest="1"
+                                 Color="#EEEEEE" />
+
+                        <!-- Cantidad -->
+                        <Grid ColumnDefinitions="Auto,*"
+                              ColumnSpacing="14"
+                              VerticalOptions="Center">
+
+                            <Label Text="Cantidad"
+                                   FontSize="15"
+                                   FontAttributes="Bold"
+                                   TextColor="#222222"
+                                   VerticalOptions="Center" />
+
+                            <HorizontalStackLayout Grid.Column="1"
+                                                   Spacing="8"
+                                                   HorizontalOptions="End"
+                                                   VerticalOptions="Center">
+
+                                <Border WidthRequest="34"
+                                        HeightRequest="34"
+                                        BackgroundColor="#F5F5F5"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 9"
+                                        VerticalOptions="Center">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DecreaseQuantityCommand}" />
+                                    </Border.GestureRecognizers>
+
+                                    <Label Text="{Static icon:IconFont.Minus}"
+                                           FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                                           FontSize="12"
+                                           TextColor="#4B5563"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Border>
+
+                                <Border WidthRequest="50"
+                                        HeightRequest="34"
+                                        BackgroundColor="Transparent"
+                                        Stroke="#E5E7EB"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 9"
+                                        VerticalOptions="Center">
+                                    <Entry Text="{Binding Quantity}"
+                                           Keyboard="Numeric"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="#111827"
+                                           HeightRequest="100"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           BackgroundColor="Transparent"
+                                           Margin="0,-2,0,0" />
+                                </Border>
+
+                                <Border WidthRequest="34"
+                                        HeightRequest="34"
+                                        BackgroundColor="#F5F5F5"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 9"
+                                        VerticalOptions="Center">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding IncreaseQuantityCommand}" />
+                                    </Border.GestureRecognizers>
+
+                                    <Label Text="{Static icon:IconFont.Plus}"
+                                           FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                                           FontSize="12"
+                                           TextColor="#4B5563"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </Grid>
+
+                        <BoxView HeightRequest="1"
+                                 Color="#EEEEEE" />
+
+                        <!-- Resumen -->
+                        <VerticalStackLayout Spacing="10">
+
+                            <Label Text="Detalle del producto"
+                                   FontSize="15"
+                                   FontAttributes="Bold"
+                                   TextColor="#222222" />
+
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Subtotal"
+                                       FontSize="14"
+                                       TextColor="#6B7280" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding Subtotal, StringFormat='RD$ {0:N2}'}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#1F2937" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding CurrentProduct.Tax, StringFormat='ITBIS ({0:N2}% )'}"
+                                       FontSize="14"
+                                       TextColor="#6B7280" />
+                                <Label Grid.Column="1"
+                                       Text="{Binding TaxAmount, StringFormat='RD$ {0:N2}'}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#1F2937" />
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <BoxView HeightRequest="1"
+                                 Color="#EEEEEE" />
+
+                        <!-- Footer compacto -->
+                        <Grid ColumnDefinitions="*,Auto"
+                              ColumnSpacing="12"
+                              VerticalOptions="Center">
+
+                            <VerticalStackLayout Spacing="0"
+                                                 VerticalOptions="Center">
+                                <Label Text="Precio Total"
+                                       FontSize="12"
+                                       TextColor="#9CA3AF" />
+                                <Label Text="{Binding Total, StringFormat='RD$ {0:N2}'}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="#111827" />
+                            </VerticalStackLayout>
+
+                            <Button Grid.Column="1"
+                                    Text="Facturar"
+                                    Command="{Binding AddToCartCommand}"
+                                    BackgroundColor="#35C9C2"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    CornerRadius="14"
+                                    HeightRequest="44"
+                                    Padding="24,0"
+                                    MinimumWidthRequest="120"
+                                    Shadow="{x:Null}"
+                                    VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</views:BaseContentPage>

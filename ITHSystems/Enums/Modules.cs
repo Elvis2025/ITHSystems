@@ -6,6 +6,7 @@ public enum Modules
     NONE,
     DELIVERIES,
     PICKUPSERVICE,
+    SALES,
     #endregion
 
     #region Deliveries Modules

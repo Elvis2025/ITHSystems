@@ -10,7 +10,6 @@
              xmlns:vm="clr-namespace:ITHSystems.Views.Login"
              x:TypeArguments="vm:LoginPageViewModel"
              HideSoftInputOnTapped="True"
-             Shell.NavBarIsVisible="False"
              BackgroundColor="#ECECEC"
              Title="LoginPage">
 

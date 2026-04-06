@@ -6,12 +6,13 @@
      xmlns:resources="clr-namespace:ITHSystems.Resx"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:login="clr-namespace:ITHSystems.Views.Login"
+    xmlns:views="clr-namespace:ITHSystems.Views.Home"
     xmlns:camera="clr-namespace:ITHSystems.Controls"
     xmlns:home="clr-namespace:ITHSystems.Views.Home"
     FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="False"
     
-    Title="ITHSystems">
+    Title="iThot System">
   
     <ShellContent
         Title="{Static resources:IBSResources.Logout}"
@@ -21,5 +22,13 @@
         Title="cameraPage"
         ContentTemplate="{DataTemplate camera:CameraControlPage}"
         Route="CameraControlPage" />
+    
+    <FlyoutItem Title="Home" Route="HomePage">
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="HomePage"
+            />
+    </FlyoutItem>
 
 </Shell>

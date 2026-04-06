@@ -13,7 +13,9 @@ public partial class HomePageViewModel : BaseViewModel
 
     public HomePageViewModel()
     {
-        HomeModule = new(BuildHomeModules.GetHomeModules().OrderBy(x => x.Order));
+        HomeModule = new(BuildHomeModules.GetHomeModules().Where(x => x.IsVisible)
+                                                          .OrderBy(x => x.Order)
+                                                          .ToList());
     }
 
     

@@ -12,6 +12,7 @@ using ITHSystems.Views.Deliveries.PendingDeliveries;
 using ITHSystems.Views.Deliveries.PendingDeliveries.Beneficiary;
 using ITHSystems.Views.Login;
 using ITHSystems.Views.PickupService;
+using ITHSystems.Views.Sales;
 using System.Diagnostics;
 
 namespace ITHSystems.Views;
@@ -138,6 +139,10 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
                 case Enums.Modules.PICKUPSERVICE:
                     await PushRelativePageAsync<PickupServicePage>();
                     break;
+                case Enums.Modules.SALES:
+                    await PushRelativePageAsync<SalesPage>();
+                    break;
+
                 #region Deliveries
                 case Enums.Modules.DELIVERIES:
                     await PushRelativePageAsync<DeliveriesPage>();
@@ -178,8 +183,35 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
         {
             if(IsBusy) return;
             IsBusy = true;
-            if(goToLogin) await PushPageAsync<LoginPage>();
+            if (goToLogin)
+            {
+                Shell.Current.FlyoutIsPresented = true;
+                return;
+            }
             await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception e)
+        {
+
+            Debug.Write(e.Message);
+            await ErrorAlert("iThot system navigation Error", e.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+       
+    }
+
+    [RelayCommand]
+    public async void IbsFlayout()
+    {
+        try
+        {
+            if(IsBusy) return;
+            IsBusy = true;
+
+            Shell.Current.FlyoutIsPresented = !Shell.Current.FlyoutIsPresented;
         }
         catch (Exception e)
         {

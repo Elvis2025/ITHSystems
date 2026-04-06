@@ -181,10 +181,17 @@
 	  <MauiXaml Update="Views\PickupService\PickupServicePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Sales\ProductDetailsModalPage\ProductDetailsModalPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Sales\SalesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Repositories\Login\" />
+	  <Folder Include="Services\ApiManager\NewFolder\" />
 	</ItemGroup>
 
 </Project>

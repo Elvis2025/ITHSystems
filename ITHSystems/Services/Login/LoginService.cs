@@ -6,6 +6,8 @@ using ITHSystems.Model;
 using ITHSystems.Repositories.SQLite;
 using ITHSystems.Services.ApiManager;
 using ITHSystems.Services.General;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace ITHSystems.Services.Login;
 [RegisterService]
@@ -15,7 +17,7 @@ public class LoginService : ILoginService
     private readonly IPreferenceService preferenceService;
     private readonly IRepository<User> userRepository;
 
-    public LoginService(IApiManagerService apiManagerService, 
+    public LoginService(IApiManagerService apiManagerService,
                         IPreferenceService preferenceService,
                         IRepository<User> userRepository)
     {
@@ -33,22 +35,22 @@ public class LoginService : ILoginService
             preferenceService.Set(IBS.Global.Key, mobileId);
         }
 
-        var content = new FormUrlEncodedContent(new[]
+        var content = new 
         {
-            new KeyValuePair<string, string>("TenancyName", IBS.Global.TenancyName ),
-            new KeyValuePair<string, string>("UsernameOrEmailAddress", userDto.UserName ),
-            new KeyValuePair<string, string>("Password", userDto.Password),
-            new KeyValuePair<string, string>("PinSequenceRequest", IBS.Authentication.PinRequest),
-            new KeyValuePair<string, string>("IsMobile", IBS.Authentication.IsMobile ),
-            new KeyValuePair<string, string>("AccessToken", mobileId),
-            new KeyValuePair<string, string>("AccessPin", userDto.Pin),
-        });
-
-        var request = IBS.HttpMethod.Post(IBS.Authentication.CreateOAuthToken, content);
+            tenancyName = "ibs",
+            usernameOrEmailAddress = userDto.UserName,
+            password = userDto.Password,
+            pinSequenceRequest = IBS.Authentication.PinRequest,
+            isMobile = IBS.Authentication.IsMobile,
+            accessToken = mobileId,
+            accessPin = userDto.Pin,
+        };
+        var json = JsonConvert.SerializeObject(content);
+        var request = IBS.HttpMethod.PostJson(IBS.Authentication.Endpoint.CreateOAuthToken, json);
 
         var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
         var userAuthentication = await IBS.HttpResponse.DeserealizeObject<UserAuthenticationDto>(response);
-        if(userAuthentication is null)
+        if (userAuthentication is null)
         {
             return userDto;
         }
@@ -57,8 +59,40 @@ public class LoginService : ILoginService
         userDto.Expires = userAuthentication.Result.Expires;
         var user = userDto.Map<User>();
         await userRepository.InsertOrReplaceAsync(user);
+      
         IBS.Authentication.CurrentUser = userDto;
+        await SetCurrentLogin();
         return userDto;
+    }
+
+
+    public async Task SetCurrentLogin()
+    {
+        try
+        {
+
+            if (IBS.Authentication.CurrentUser is null || IBS.Authentication.CurrentUser.JWT == string.Empty)
+                return;
+            var content = new Dictionary<string, string>() 
+            { 
+                { "jwt", $"{IBS.Authentication.CurrentUser.JWT}" }       
+        
+            };
+
+            var request = IBS.HttpMethod.Get(IBS.Authentication.Endpoint.GetCurrentLogin, content);
+
+            var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
+            if (!response.IsSuccessStatusCode)
+                return;
+
+            var userAuthentication = await IBS.HttpResponse.DeserealizeObject<CurrentLoginDto>(response);
+
+            IBS.Authentication.CurrentLogin = userAuthentication.Result;
+        }
+        catch (Exception e)
+        {
+            Debug.Write(e);
+        }
     }
 
     public async Task EnsureValidTokenAsync()
@@ -67,6 +101,7 @@ public class LoginService : ILoginService
 
         if (user.TokenExpired)
             await Login(user);
+        await SetCurrentLogin();
     }
 
     public Task GetMessengers(UserDto userDTO)

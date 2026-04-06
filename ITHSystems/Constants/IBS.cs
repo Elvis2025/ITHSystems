@@ -1,5 +1,6 @@
 ﻿using ITHSystems.DTOs;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace ITHSystems.Constants;
 
@@ -9,15 +10,27 @@ public static class IBS
     public static class Authentication
     {
         public static UserDto CurrentUser { get; set; } = new();
+        public static CurrentLoginDto CurrentLogin { get; set; } = new();
 
-        public const string CreateOAuthToken = Global.BaseUrl + "/api/Account/AuthenticateExt";
         public const string Messengers = Global.BaseUrl + "/api/services/itcCoreSystem/messengers/MyInfo";
         public const string GetOrders = Global.BaseUrl + "/api/services/itcEntregas/orders/GetOrders";
         public const string PinRequest = "10";
         public const string IsMobile = "false";
+        public static class Endpoint
+        {
+            public const string CreateOAuthToken = "https://mngzc8cn-44310.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
+            public const string GetCurrentLogin = "https://mngzc8cn-44310.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
+        }
     }
     #endregion
 
+    public static class RawQuery
+    {
+        public static class Endpoint
+        {
+            public const string Execute = "https://mngzc8cn-44310.use2.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
+        }
+    }
     #region Delivery Endpoints
     public static class Delivery
     {
@@ -78,6 +91,40 @@ public static class IBS
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwt);
             }
             request.Content = httpContent;
+
+            return request;
+        }
+        public static HttpRequestMessage PostJson(string url, string json, string jwt = "")
+        {
+            var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Post, url);
+
+            if (!string.IsNullOrWhiteSpace(jwt))
+            {
+                request.Headers.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwt);
+            }
+
+            request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return request;
+        }
+        public static HttpRequestMessage Get(string url, Dictionary<string, string>? parameters)
+        {
+            if (parameters != null && parameters.Count > 0)
+            {
+                var query = string.Join("&",
+                    parameters.Select(p => $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
+
+                url = $"{url}?{query}";
+            }
+
+            var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
+
+            //if (!string.IsNullOrEmpty(jwt))
+            //{
+            //    request.Headers.Authorization =
+            //        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwt);
+            //}
 
             return request;
         }

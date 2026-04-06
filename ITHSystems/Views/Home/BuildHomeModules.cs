@@ -11,30 +11,31 @@ namespace ITHSystems.Views.Home
         {
             return new List<ModuleDto>
             {
-                //new ModuleDto
-                //{
-                //    Title = "Servicio de recogida",
-                //    IsActive = true,
-                //    IsDeleted = false,
-                //    FontFamaly = FontFamilyIcons.FaSolid,
-                //    Icon = IconFont.Route,
-                //    Modules = Enums.Modules.PICKUPSERVICE,
-                //    Order = 2,
-                //    EnableBadges = false
-                //},
+                
                 new ModuleDto
                 {
                     Title = "Entregas",
-                    IsActive = true,
-                    IsDeleted = false,
+                    IsActive = false,
+                    IsDeleted = true,
                     FontFamaly = FontFamilyIcons.FaSolid,
                     Icon = IconFont.PeopleCarryBox,
                     Modules = Enums.Modules.DELIVERIES,
                     Order = 1,
                     EnableBadges = false
+                },
 
+                new ModuleDto
+                {
+                    Title = "Ventas",
+                    IsActive = true,
+                    IsDeleted = false,
+                    FontFamaly = FontFamilyIcons.FaSolid,
+                    Icon = IconFont.Store,
+                    Modules = Enums.Modules.SALES,
+                    Order = 1,
+                    EnableBadges = false
+                },
 
-                }
             };
         }
 

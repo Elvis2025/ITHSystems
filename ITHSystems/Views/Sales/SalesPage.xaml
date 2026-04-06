@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:views="clr-namespace:ITHSystems.Views"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="ITHSystems.Views.Sales.SalesPage"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.Sales"
+                       xmlns:resources="clr-namespace:ITHSystems.Resx"
+                       xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+                       xmlns:controls="clr-namespace:ITHSystems.Controls"
+                       xmlns:dto="clr-namespace:ITHSystems.DTOs"
+                       BackgroundColor="{StaticResource bgColorPage}"
+                       HideSoftInputOnTapped="True"
+                       x:TypeArguments="vm:SalesViewModel">
+
+    <Grid RowDefinitions="Auto,Auto,*"
+          RowSpacing="0">
+
+        <!-- Header -->
+        <Grid Grid.Row="0">
+            <controls:GradientHeader
+                Title="Productos"
+                BackButtonCommand="{Binding GoBackCommand}" />
+
+            <Border Margin="16,86,16,-28"
+                    Padding="0"
+                    BackgroundColor="{StaticResource White}"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 24"
+                    VerticalOptions="End">
+
+                <Grid ColumnDefinitions="Auto,*,Auto"
+                      ColumnSpacing="10"
+                      Padding="14,10">
+
+                    <Border WidthRequest="42"
+                            HeightRequest="42"
+                            BackgroundColor="#F4F6F8"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 14"
+                            VerticalOptions="Center">
+                        <Label Text="{Static icon:IconFont.MagnifyingGlass}"
+                               FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                               FontSize="18"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FindProductsCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Border>
+
+                    <Entry Grid.Column="1"
+                           Placeholder="Buscar por descripción o código..."
+                           PlaceholderColor="{StaticResource Gray400}"
+                           Text="{Binding FilterText}"
+                           TextColor="{StaticResource Gray900}"
+                           BackgroundColor="Transparent"
+                           ClearButtonVisibility="WhileEditing"
+                           FontSize="15"
+                           VerticalOptions="Center"
+                           
+                           ReturnType="Search">
+                        <Entry.Behaviors>
+                        </Entry.Behaviors>
+                        <Entry.ReturnCommand>
+                            <Binding Path="FindProductsCommand" />
+                        </Entry.ReturnCommand>
+                    </Entry>
+
+                    <Border Grid.Column="2"
+                            BackgroundColor="{StaticResource Primary}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="16,10"
+                            VerticalOptions="Center">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding FindProductsCommand}" />
+                        </Border.GestureRecognizers>
+
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="{Static icon:IconFont.MagnifyingGlass}"
+                                   FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                                   FontSize="16"
+                                   TextColor="{StaticResource White}"
+                                   VerticalTextAlignment="Center" />
+                            <Label Text="Buscar"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource White}"
+                                   VerticalTextAlignment="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Summary / helper -->
+        <Grid Grid.Row="1"
+              Padding="16,40,16,12">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Spacing="2">
+                    <Label Text="Catálogo disponible"
+                           FontSize="13"
+                           TextColor="{StaticResource Gray500}" />
+                    <Label Text="{Binding Products.Count, StringFormat='{}{0} productos encontrados'}"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}" />
+                </VerticalStackLayout>
+
+                <Border Grid.Column="1"
+                        BackgroundColor="#FFF3E8"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="12,8"
+                        VerticalOptions="Center">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="{Static icon:IconFont.Tag}"
+                               FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                               FontSize="14"
+                               TextColor="#D96A1B" />
+                        <Label Text="Precios actualizados"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="#D96A1B" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- Products -->
+        <CollectionView Grid.Row="2"
+                        Margin="16,0,16,10"
+                        ItemsSource="{Binding Products}"
+                        SelectionMode="None"
+                        VerticalScrollBarVisibility="Never"
+                        BackgroundColor="Transparent">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="14" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="20,40"
+                                     Spacing="12"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center">
+                    <Border WidthRequest="72"
+                            HeightRequest="72"
+                            BackgroundColor="#F4F6F8"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 24">
+                        <Label Text="{Static icon:IconFont.BoxOpen}"
+                               FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                               FontSize="30"
+                               TextColor="{StaticResource Gray400}"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+                    </Border>
+
+                    <Label Text="No se encontraron productos"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           HorizontalTextAlignment="Center" />
+
+                    <Label Text="Prueba con otra descripción o código de barra."
+                           FontSize="13"
+                           TextColor="{StaticResource Gray500}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:ProductDto">
+                    <Border BackgroundColor="{StaticResource White}"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 24"
+                            Padding="12">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenProductDetailsCommand}"
+                                                  CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="96,*,Auto"
+                              ColumnSpacing="14">
+
+                            <!-- Product image -->
+                            <Border Grid.Column="0"
+                                    WidthRequest="96"
+                                    HeightRequest="96"
+                                    BackgroundColor="#F7F8FA"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 20">
+                                <Grid>
+                                    <Image Source="{Binding ImageSource}"
+                                           Aspect="AspectFill" />
+
+                                    <Border Margin="8"
+                                            BackgroundColor="#CCFFFFFF"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 10"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Start"
+                                            Padding="8,4">
+                                        <Label Text="Disponible"
+                                               FontSize="10"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Primary}" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+
+                            <!-- Product info -->
+                            <VerticalStackLayout Grid.Column="1"
+                                                 Spacing="6"
+                                                 VerticalOptions="Center">
+
+                                <Label Text="{Binding Description}"
+                                       FontSize="17"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray900}"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2" />
+
+                                <Label Text="{Binding Barcode, StringFormat='Código: {0}'}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource Gray500}"
+                                       LineBreakMode="TailTruncation" />
+
+                                <Border BackgroundColor="#F5F7FB"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 14"
+                                        Padding="10,6"
+                                        HorizontalOptions="Start">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="{Static icon:IconFont.Receipt}"
+                                               FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource Primary}" />
+                                        <Label Text="{Binding Tax, StringFormat='ITBIS {0:N2}%'}"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource Primary}" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Price + CTA -->
+                            <VerticalStackLayout Grid.Column="2"
+                                                 Spacing="10"
+                                                 VerticalOptions="Center"
+                                                 HorizontalOptions="End">
+
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Precio"
+                                           FontSize="11"
+                                           TextColor="{StaticResource Gray400}"
+                                           HorizontalTextAlignment="End" />
+
+                                    <Label Text="{Binding Price, StringFormat='RD$ {0:N2}'}"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}"
+                                           HorizontalTextAlignment="End" />
+                                </VerticalStackLayout>
+
+                                <Border BackgroundColor="{StaticResource Primary}"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 16"
+                                        Padding="12,8"
+                                        HorizontalOptions="End">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="{Static icon:IconFont.CartPlus}"
+                                               FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                                               FontSize="14"
+                                               TextColor="{StaticResource White}" />
+                                        <Label Text="Agregar"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               TextColor="{StaticResource White}" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <controls:ActivityIndicatorView IsVisible="{Binding IsBusy}" />
+    </Grid>
+</views:BaseContentPage>

@@ -216,4 +216,20 @@ public static class UtilExtensions
         return new(options);
     }
 
+    public static ImageSource ConvertBase64ToImageSource(string base64)
+    {
+        if (string.IsNullOrWhiteSpace(base64))
+            return null;
+
+        try
+        {
+            byte[] imageBytes = Convert.FromBase64String(base64);
+
+            return ImageSource.FromStream(() => new MemoryStream(imageBytes));
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }
