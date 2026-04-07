@@ -152,7 +152,7 @@ public partial class BarcodeScannerView : ContentView
             {
                 BarcodeDetectedCommand.Execute(BarcodeDetectedCommandParameter);
             }
-
+            IsScanning = true;
             await Task.Delay(1200);
         }
         finally

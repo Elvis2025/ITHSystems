@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ITHSystems.Views.Sales.ProductDetailsModalPage;
+using ITHSystems.Controls;
 
 namespace ITHSystems.Views.Sales;
 
@@ -22,6 +23,8 @@ public partial class SalesViewModel : BaseViewModel
 
     [ObservableProperty]
     private ProductDto currentProduct = null!;
+    [ObservableProperty]
+    private string lastScannedBarcode = string.Empty;
 
     private List<ProductDto> allProducts = new();
     private readonly IRawQueryService rawQueryService;
@@ -55,6 +58,60 @@ public partial class SalesViewModel : BaseViewModel
         Products = new ObservableCollection<ProductDto>(allProducts);
     }
 
+
+    [RelayCommand]
+    public async Task ScanBarcode()
+    {
+        try
+        {
+
+           // var cameraPage = new BarcodeScannerView();
+           // await PushAsync(cameraPage);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error scanning barcode: {ex.Message}");
+            await ErrorAlert("Error", $"Error scanning barcode\n{ex.Message}");
+        }
+    }
+
+    [RelayCommand]
+    private async Task SearchProductByBarcode(string barcode)
+    {
+        if (string.IsNullOrWhiteSpace(barcode))
+            return;
+
+        LastScannedBarcode = barcode.Trim();
+
+        var product = allProducts.FirstOrDefault(x =>
+            (x.Barcode ?? string.Empty).Trim() == LastScannedBarcode);
+
+        if (product is null)
+        {
+
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+            await WarningAlert("Producto no encontrado",
+                $"No se encontró un producto con el código {LastScannedBarcode}.");
+            });
+            return;
+        }
+
+        CurrentProduct = product;
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            CurrentProduct = product;
+            await OpenProductDetails(product);
+        });
+        // Si quieres filtrar el listado:
+        //   Products = new ObservableCollection<ProductDto>(new[] { CurrentProduct });
+
+        // Aquí puedes también:
+        // - abrir detalle
+        // - agregar al carrito
+        // - incrementar cantidad
+    }
     [RelayCommand]
     public void FindProducts()
     {

@@ -270,7 +270,8 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
           : MainThread.InvokeOnMainThreadAsync(() => Nav.PushAsync(page));
     public Task PushAsync(Page page, bool animated)
     {
-        throw new NotImplementedException();
+        if(page is null) return Task.FromException(new ArgumentNullException(nameof(page)));
+        return MainThread.InvokeOnMainThreadAsync(() => Nav.PushAsync(page,animated));
     }
 
     public Task PushModalAsync(Page page)

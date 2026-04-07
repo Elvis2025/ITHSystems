@@ -32,6 +32,13 @@
                     <TapGestureRecognizer Command="{Binding FindProductsCommand}"/>
                 </Label.GestureRecognizers>
             </Label>
+            <controls:BarcodeScannerView BarcodeDetectedCommand="{Binding SearchProductByBarcodeCommand}"
+                  LastDetectedBarcode="{Binding LastScannedBarcode}"
+                  IsScanning="True" 
+                                        Margin="0,0,0,90"
+                                         IsVisible="True"
+                                         ZIndex="2"
+                                         />
             <Border Padding="5,1"
                     VerticalOptions="Start"
                     HorizontalOptions="End"
