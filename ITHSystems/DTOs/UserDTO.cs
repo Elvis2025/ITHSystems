@@ -14,5 +14,19 @@ public record class UserDto
     public string JWT { get; set; } = string.Empty;
     public DateTime Issued { get; set; }
     public DateTime Expires { get; set; }
-    public bool TokenExpired => DateTime.UtcNow >= Expires.AddMinutes(-5);
+    public bool TokenExpired 
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(JWT))
+                return true;
+
+            if (Expires <= DateTime.MinValue.AddMinutes(5))
+                return true; 
+
+            return DateTime.UtcNow >= Expires.AddMinutes(-5);
+        }
+
+
+    }
 }

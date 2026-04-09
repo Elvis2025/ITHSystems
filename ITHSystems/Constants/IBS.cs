@@ -18,19 +18,46 @@ public static class IBS
         public const string IsMobile = "false";
         public static class Endpoint
         {
-            public const string CreateOAuthToken = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
-            public const string GetCurrentLogin = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
+            //public const string CreateOAuthToken = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
+            //public const string GetCurrentLogin = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
+
+            public const string CreateOrAuthToken = "https://dev.ibsystems.com.do" + "/api/Account/AuthenticateExt";
+            public const string GetCurrentLogin = "https://dev.ibsystems.com.do" + "/api/services/app/Session/GetCurrentLoginInformations";
         }
     }
     #endregion
+
+    #region Sales Endpoint
+    public static class Sales
+    {
+     
+        public static class Endpoint
+        {
+            //public const string CreateOAuthToken = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
+            //public const string GetCurrentLogin = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
+            
+           
+            public const string SaveInvoice       = "https://dev.ibsystems.com.do" + "/api/services/app/Pos/SaveInvoice";
+            public const string GetProducts       = "https://dev.ibsystems.com.do" + "/api/services/app/Product/GetProducts";
+
+        }
+    }
+    #endregion
+    
+
+
 
     public static class RawQuery
     {
         public static class Endpoint
         {
-            public const string Execute = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
+            //HOme public const string Execute = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
+            public const string Execute = "https://xvkhk6p9-7055.use.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
         }
     }
+
+
+
     #region Delivery Endpoints
     public static class Delivery
     {

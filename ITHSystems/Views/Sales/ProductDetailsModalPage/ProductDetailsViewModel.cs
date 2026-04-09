@@ -1,13 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.Attributes;
-using ITHSystems.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ITHSystems.Views.Sales.Dto;
 
 namespace ITHSystems.Views.Sales.ProductDetailsModalPage;
 

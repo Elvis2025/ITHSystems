@@ -49,7 +49,7 @@ namespace ITHSystems.Services.RawQuery
             };
 
             var json = JsonConvert.SerializeObject(content);
-            var request = IBS.HttpMethod.PostJson(IBS.Authentication.Endpoint.CreateOAuthToken, json);
+            var request = IBS.HttpMethod.PostJson(IBS.Authentication.Endpoint.CreateOrAuthToken, json);
 
             var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
             var userAuthentication = await IBS.HttpResponse.DeserealizeObject<T>(response);

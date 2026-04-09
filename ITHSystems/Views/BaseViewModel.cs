@@ -14,6 +14,7 @@ using ITHSystems.Views.Login;
 using ITHSystems.Views.PickupService;
 using ITHSystems.Views.Sales;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ITHSystems.Views;
 
@@ -23,6 +24,7 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
 
     public IReadOnlyList<Page> NavigationStack => throw new NotImplementedException();
 
+    public bool HasInternet => Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
     [RelayCommand]
     public void ShowPassword()
     {
@@ -41,7 +43,15 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
     }
 
 
+    public async Task<bool> NoInternetConnection()
+    {
+        if (HasInternet)
+        {
+            await WarningAlert("No internet connection", "Please check your internet connection and try again.");
+        }
 
+        return HasInternet;
+    }
 
     public static async Task PushPageAsync<T>() where T : ContentPage
     {

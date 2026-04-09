@@ -14,5 +14,5 @@ public class TenantDto
     public string Path { get; set; } = string.Empty;
     public string Extension { get; set; } = string.Empty;
     public string ImageBase64String { get; set; } = string.Empty;
-    public string Id { get; set; } = string.Empty;
+    public int Id { get; set; } = -1;
 }

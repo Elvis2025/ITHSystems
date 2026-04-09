@@ -35,18 +35,18 @@ public class LoginService : ILoginService
             preferenceService.Set(IBS.Global.Key, mobileId);
         }
 
-        var content = new 
-        {
-            tenancyName = "ibs",
-            usernameOrEmailAddress = userDto.UserName,
-            password = userDto.Password,
-            pinSequenceRequest = IBS.Authentication.PinRequest,
-            isMobile = IBS.Authentication.IsMobile,
-            accessToken = mobileId,
-            accessPin = userDto.Pin,
-        };
-        var json = JsonConvert.SerializeObject(content);
-        var request = IBS.HttpMethod.PostJson(IBS.Authentication.Endpoint.CreateOAuthToken, json);
+        var content = new FormUrlEncodedContent(new[]
+       {
+            new KeyValuePair<string, string>("TenancyName", "ibs" ),
+            new KeyValuePair<string, string>("UsernameOrEmailAddress", userDto.UserName ),
+            new KeyValuePair<string, string>("Password", userDto.Password),
+            new KeyValuePair<string, string>("PinSequenceRequest", IBS.Authentication.PinRequest),
+            new KeyValuePair<string, string>("IsMobile", IBS.Authentication.IsMobile ),
+            new KeyValuePair<string, string>("AccessToken", mobileId),
+            new KeyValuePair<string, string>("AccessPin", userDto.Pin),
+        });
+
+        var request = IBS.HttpMethod.Post(IBS.Authentication.Endpoint.CreateOrAuthToken, content);
 
         var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
         var userAuthentication = await IBS.HttpResponse.DeserealizeObject<UserAuthenticationDto>(response);
@@ -57,8 +57,7 @@ public class LoginService : ILoginService
         userDto.JWT = userAuthentication.Result.Token;
         userDto.Issued = userAuthentication.Result.Issued;
         userDto.Expires = userAuthentication.Result.Expires;
-        var user = userDto.Map<User>();
-        await userRepository.InsertOrReplaceAsync(user);
+   
       
         IBS.Authentication.CurrentUser = userDto;
         await SetCurrentLogin();
@@ -78,16 +77,21 @@ public class LoginService : ILoginService
                 { "jwt", $"{IBS.Authentication.CurrentUser.JWT}" }       
         
             };
-
+            var userDto = IBS.Authentication.CurrentUser;
             var request = IBS.HttpMethod.Get(IBS.Authentication.Endpoint.GetCurrentLogin, content);
 
             var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-                return;
+            if (!response.IsSuccessStatusCode) return;
 
             var userAuthentication = await IBS.HttpResponse.DeserealizeObject<CurrentLoginDto>(response);
 
             IBS.Authentication.CurrentLogin = userAuthentication.Result;
+
+            var user = userDto.Map<User>();
+            user.TenantId = userAuthentication.Result.Tenant.Id;
+            user.TenantName = userAuthentication.Result.Tenant.Name;
+            await userRepository.DeleteAllAsync();
+            await userRepository.InsertAsync(user);
         }
         catch (Exception e)
         {

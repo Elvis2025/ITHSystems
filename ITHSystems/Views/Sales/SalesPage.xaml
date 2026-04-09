@@ -7,7 +7,7 @@
                        xmlns:resources="clr-namespace:ITHSystems.Resx"
                        xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
                        xmlns:controls="clr-namespace:ITHSystems.Controls"
-                       xmlns:dto="clr-namespace:ITHSystems.DTOs"
+                       xmlns:dto="clr-namespace:ITHSystems.Views.Sales.Dto"
                        BackgroundColor="{StaticResource bgColorPage}"
                        HideSoftInputOnTapped="True"
                        x:TypeArguments="vm:SalesViewModel">

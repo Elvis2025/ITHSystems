@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITHSystems.DTOs;
+namespace ITHSystems.Views.Sales.Dto;
 
 public sealed record class ProductDto
 {
@@ -20,6 +20,4 @@ public sealed record class ProductDto
     public string Extension { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
     public ImageSource ImageSource => UtilExtensions.ConvertBase64ToImageSource(Image);
-
-
 }

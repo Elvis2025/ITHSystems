@@ -53,20 +53,37 @@ public partial class LoginPageViewModel : BaseViewModel
             if (IsBusy) return;
 
             IsBusy = true;
-            if (preference.Exist(IBS.Global.KeyJWT))
+            string jwt = string.Empty;
+            var currentUser = (await userRepository.GetAllAsync()).FirstOrDefault() ?? new();
+            var currentUserDto = currentUser.Map<UserDto>();
+
+
+            if (currentUserDto is null && await NoInternetConnection()) return;
+
+
+            if (currentUserDto!.TokenExpired)
             {
-                UserDTO.JWT = preference.Get(IBS.Global.KeyJWT);
-                //await loginService.GetMessengers(UserDTO);
+                var user = await loginService.Login(UserDTO) ?? new();
+               
+                UserDTO.JWT = user.JWT;
             }
-            var jwt = await loginService.Login(UserDTO) ?? new();
-            if (string.IsNullOrEmpty(jwt.JWT))
+            else
+            {
+               if(UserDTO.UserName == currentUser.UserName &&
+                  UserDTO.Password == currentUser.Password)
+                {
+                    UserDTO.JWT = currentUser.JWT;
+                }
+
+            }
+
+            if (string.IsNullOrEmpty(UserDTO.JWT))
             {
                 await iTHNavigation.ErrorAlert(IBSResources.Error, "Usuario o contraseña incorrecta.");
                 return;
             }
-            preference.Set(IBS.Global.KeyJWT, jwt.JWT);
-            UserDTO.JWT = jwt.JWT;
-            //await loginService.GetMessengers(UserDTO);
+
+            preference.Set(IBS.Global.KeyJWT, UserDTO.JWT);
 
             await iTHNavigation.PushRelativePageAsync<HomePage>();
 

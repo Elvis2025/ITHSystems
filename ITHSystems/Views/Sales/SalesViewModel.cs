@@ -12,6 +12,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ITHSystems.Views.Sales.ProductDetailsModalPage;
 using ITHSystems.Controls;
+using ITHSystems.Constants;
+using ITHSystems.Views.Sales.Dto;
+using ITHSystems.Services.Sale;
 
 namespace ITHSystems.Views.Sales;
 
@@ -27,40 +30,30 @@ public partial class SalesViewModel : BaseViewModel
     private string lastScannedBarcode = string.Empty;
 
     private List<ProductDto> allProducts = new();
-    private readonly IRawQueryService rawQueryService;
+    private readonly ISaleService saleService;
     [ObservableProperty]
     private string fiterText = string.Empty;
 
     [ObservableProperty]
     private bool openScannCodeBar = false;
 
+    [ObservableProperty]
+    private int totalCount = 0;
 
-    public SalesViewModel(IRawQueryService rawQueryService)
+
+    public SalesViewModel(ISaleService saleService)
 	{
-        this.rawQueryService = rawQueryService;
+        this.saleService = saleService;
         Init();
     }
 
     public async Task GetProduct()
     {
-        var query = @$"SELECT 
-                            p.Id AS Id, 
-                            Barcode,	
-                            Description, 
-                            Tax, Cost,	
-                            Price, 
-                            [pi].Id AS ImageId, 
-                            [pi].[Name] AS ImageName, 
-                            [pi].Image AS Image,
-                            [pi].Extension AS Extension 
-                        FROM Products p 
-                        INNER JOIN ProductImages [pi] ON p.Id = [pi].ProductId 
-                        WHERE p.TenantId = 3";
+        var result = await saleService.GetProductAsync();
 
-        var result = await rawQueryService.ExcequteQueryList<ProductDto>(query);
-
-        allProducts = result?.Data?.Items?.ToList() ?? new List<ProductDto>();
+        allProducts = result?.Items?.ToList() ?? new List<ProductDto>();
         Products = new ObservableCollection<ProductDto>(allProducts);
+        TotalCount = Products.Count;
     }
 
 
@@ -131,7 +124,9 @@ public partial class SalesViewModel : BaseViewModel
             .ToList();
 
         Products = new ObservableCollection<ProductDto>(filteredProducts);
+        TotalCount = Products.Count;
     }
+
     [RelayCommand]
     public async Task OpenProductDetails(ProductDto? product)
     {
@@ -160,6 +155,7 @@ public partial class SalesViewModel : BaseViewModel
             CurrentProduct = null!;
         }
     }
+
     public async void Init()
     {
         
