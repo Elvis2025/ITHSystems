@@ -18,8 +18,8 @@ public static class IBS
         public const string IsMobile = "false";
         public static class Endpoint
         {
-            public const string CreateOAuthToken = "https://xvkhk6p9-7055.use.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
-            public const string GetCurrentLogin = "https://xvkhk6p9-7055.use.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
+            public const string CreateOAuthToken = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
+            public const string GetCurrentLogin = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
         }
     }
     #endregion
@@ -28,7 +28,7 @@ public static class IBS
     {
         public static class Endpoint
         {
-            public const string Execute = "https://xvkhk6p9-7055.use.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
+            public const string Execute = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
         }
     }
     #region Delivery Endpoints

@@ -30,6 +30,11 @@ public partial class SalesViewModel : BaseViewModel
     private readonly IRawQueryService rawQueryService;
     [ObservableProperty]
     private string fiterText = string.Empty;
+
+    [ObservableProperty]
+    private bool openScannCodeBar = false;
+
+
     public SalesViewModel(IRawQueryService rawQueryService)
 	{
         this.rawQueryService = rawQueryService;
@@ -60,20 +65,7 @@ public partial class SalesViewModel : BaseViewModel
 
 
     [RelayCommand]
-    public async Task ScanBarcode()
-    {
-        try
-        {
-
-           // var cameraPage = new BarcodeScannerView();
-           // await PushAsync(cameraPage);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error scanning barcode: {ex.Message}");
-            await ErrorAlert("Error", $"Error scanning barcode\n{ex.Message}");
-        }
-    }
+    public async Task ScanBarcode() => OpenScannCodeBar = !OpenScannCodeBar;
 
     [RelayCommand]
     private async Task SearchProductByBarcode(string barcode)
