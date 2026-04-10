@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using ITHSystems.Attributes;
 using ITHSystems.Views.Sales.Dto;
 
-namespace ITHSystems.Views.Sales.ProductDetailsModalPage;
+namespace ITHSystems.Views.Sales.ProductDetails;
 
 [RegisterViewModsel]
 [QueryProperty(nameof(CurrentProduct), "CurrentProduct")]

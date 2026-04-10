@@ -258,15 +258,8 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel, INav
         throw new NotImplementedException();
     }
 
-    public Task<Page> PopModalAsync()
-    {
-        throw new NotImplementedException();
-    }
+   
 
-    public Task<Page> PopModalAsync(bool animated)
-    {
-        throw new NotImplementedException();
-    }
 
     public Task PopToRootAsync()
     {
@@ -281,7 +274,7 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel, INav
     private static INavigation Nav =>
     Application.Current?.Windows.FirstOrDefault()?.Page?.Navigation
     ?? throw new InvalidOperationException(
-        "No hay NavigationPage en la raíz. Envuelve tu MainPage en un NavigationPage.");
+        "No hay Navigation Page en la raíz. Envuelve tu MainPage en un NavigationPage.");
 
     public Task PushAsync(Page page) =>
       page is null
@@ -293,15 +286,50 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel, INav
         return MainThread.InvokeOnMainThreadAsync(() => Nav.PushAsync(page,animated));
     }
 
-    public Task PushModalAsync(Page page)
+    public Task PushModalAsync(Page page) =>
+      page is null
+          ? Task.FromException(new ArgumentNullException(nameof(page)))
+          : MainThread.InvokeOnMainThreadAsync(() => Nav.PushModalAsync(page));
+
+    public Task PushModalAsync<T>() where T : Page
     {
-        throw new NotImplementedException();
+        Page page = CreateInstance<T>();
+        if (page is null)
+        {
+            return Task.FromException(new ArgumentNullException(nameof(page)));
+        }
+
+       return MainThread.InvokeOnMainThreadAsync(() => Nav.PushModalAsync(page));
     }
 
-    public Task PushModalAsync(Page page, bool animated)
+    public Task PushModalAsync<T>(bool animated) where T : Page
     {
-        throw new NotImplementedException();
+        Page page = CreateInstance<T>();
+        if (page is null)
+        {
+            return Task.FromException(new ArgumentNullException(nameof(page)));
+        }
+
+       return MainThread.InvokeOnMainThreadAsync(() => Nav.PushModalAsync(page, animated));
     }
+
+    public Task PushModalAsync(Page page, bool animated) =>
+      page is null
+          ? Task.FromException(new ArgumentNullException(nameof(page)))
+          : MainThread.InvokeOnMainThreadAsync(() => Nav.PushModalAsync(page, animated));
+
+
+    public Task<Page> PopModalAsync() =>
+     MainThread.InvokeOnMainThreadAsync(() => Nav.PopModalAsync());
+
+    public Task<Page> PopModalAsync(bool animated) =>
+      MainThread.InvokeOnMainThreadAsync(() => Nav.PopModalAsync(animated));
+
+   
+
+
+
+
 
     public void RemovePage(Page page)
     {

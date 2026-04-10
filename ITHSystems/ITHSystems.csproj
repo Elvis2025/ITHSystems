@@ -37,14 +37,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 	
 </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-		<ApplicationTitle>iThot System</ApplicationTitle>
-		<ApplicationId>com.ibsystems.ithotsystem</ApplicationId>
-		<RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
-		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-		<AndroidLinkTool>r8</AndroidLinkTool>
-		<DebugSymbols>False</DebugSymbols>
-	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.png" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" BaseSize="64,64"/>

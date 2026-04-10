@@ -1,36 +1,74 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ITHSystems.Controls.BarcodeScannerView"
-              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
-              xmlns:zx="clr-namespace:ZXing.Net.Maui;assembly=ZXing.Net.MAUI"
+             x:Class="ITHSystems.Controls.BarcodeScannerPage"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+             xmlns:zx="clr-namespace:ZXing.Net.Maui;assembly=ZXing.Net.MAUI"
+             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
              x:Name="This"
-             >
-    <Border Stroke="#D9D9D9"
-        StrokeThickness="0"
-        BackgroundColor="Transparent"
-        HeightRequest="240">
+             Shell.PresentationMode="ModalAnimated"
+             Padding="0"
+             BackgroundColor="Transparent">
 
-        <Grid>
-            <zxing:CameraBarcodeReaderView x:Name="BarcodeReader"
-                                       BarcodesDetected="OnBarcodesDetected"
-                                        IsDetecting="False"
-                                         CameraLocation="Rear"
-                                         HorizontalOptions="Fill"
-                                         VerticalOptions="Fill"
+    <Grid RowDefinitions="1,*"
+          BackgroundColor="Transparent"
+          HorizontalOptions="Fill"
+          RowSpacing="0">
+        <BoxView Color="Red"
+                 FlowDirection="RightToLeft"
+                 HeightRequest="0.1"
+                 Opacity="0.289"
+                 Margin="0,244,0,0"
+                 HorizontalOptions="Fill"
+                 VerticalOptions="Center"
+                 ZIndex="1"
+                 />
+        <zxing:CameraBarcodeReaderView x:Name="BarcodeReader"
+                                 Grid.Row="0"
+                                 BarcodesDetected="OnBarcodesDetected"
+                                 IsDetecting="True"
+                                 CameraLocation="Rear"
+                                 HorizontalOptions="Fill"
+                                 VerticalOptions="Start" 
                                        >
 
-                <zxing:CameraBarcodeReaderView.Options>
-                    <zx:BarcodeReaderOptions
-                        Formats="Pdf417,Code39,Code128,Ean13,UpcA,QrCode"
-                        AutoRotate="True"
-                        TryHarder="True"
-                        Multiple="False" />
-                </zxing:CameraBarcodeReaderView.Options>
+            <zxing:CameraBarcodeReaderView.Options>
+                <zx:BarcodeReaderOptions
+              Formats="Pdf417,Code39,Code128,Ean13,UpcA,QrCode"
+              AutoRotate="True"
+              TryHarder="True"
+              Multiple="False" />
+            </zxing:CameraBarcodeReaderView.Options>
+        </zxing:CameraBarcodeReaderView>
 
-            </zxing:CameraBarcodeReaderView>
+        <!-- ABAJO: UN SOLO TONO SEMITRANSPARENTE -->
+        <Grid Grid.Row="1"
+              BackgroundColor="#73000000"
+              VerticalOptions="Fill"
+              HorizontalOptions="Fill"
+              Margin="0,239.5,0,0"
+              >
 
-           
+            <Border VerticalOptions="End"
+                    HorizontalOptions="Center"
+                    BackgroundColor="{StaticResource Tertiary}"
+                    Stroke="Transparent"
+                    StrokeShape="RoundRectangle 100"
+                    Margin="0,0,0,30">
+
+                <Label Text="{Static icon:IconFont.Xmark}"
+                       FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource bgColorPage}"
+                       FontSize="32"
+                       Padding="18,14"
+                       VerticalOptions="Center"
+                       VerticalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CancelCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </Border>
         </Grid>
-    </Border>
-</ContentView>
+    </Grid>
+</ContentPage>

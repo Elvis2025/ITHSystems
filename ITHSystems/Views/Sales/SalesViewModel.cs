@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.Attributes;
+using ITHSystems.Controls;
 using ITHSystems.Services.Sale;
 using ITHSystems.Views.Sales.Dto;
+using ITHSystems.Views.Sales.ProductDetails;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -52,33 +54,17 @@ public partial class SalesViewModel : BaseViewModel
     [RelayCommand]
     public async Task ScanBarcode()
     {
-        if (OpenScannCodeBar)
+        var barcodeScannerPage = new BarcodeScannerPage();
+        var barcodeCanned = string.Empty;
+        barcodeScannerPage.OnBarcodeScanned = async (barcode) =>
         {
-            OpenScannCodeBar = false;
-            return;
-        }
-
-        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
-
-        if (status != PermissionStatus.Granted)
-        {
-            status = await Permissions.RequestAsync<Permissions.Camera>();
-        }
-
-        if (status != PermissionStatus.Granted)
-        {
-            await Shell.Current.DisplayAlert("Permiso", "Se requiere acceso a la cámara", "OK");
-            return;
-        }
-
-        OpenScannCodeBar = true;
-
-        await Task.Delay(300); // 🔥 IMPORTANTE
-
-        IsScannerActive = true; // bind a IsScanning
-
-
-
+            await PopModalAsync(true);
+            if (!string.IsNullOrWhiteSpace(barcode.Trim()))
+            {
+                await SearchProductByBarcode(barcode.Trim());
+            }
+        };
+        await PushModalAsync(barcodeScannerPage, true);
 
     }
 
@@ -160,8 +146,10 @@ public partial class SalesViewModel : BaseViewModel
             if (product is null) return;
 
             CurrentProduct = product;
+           // var productDetailsModalPage = await PushModalAsync<ProductDetailsModalPage>();
 
-            await PushRelativePageAsync<ITHSystems.Views.Sales.ProductDetailsModalPage.ProductDetailsModalPage>(new Dictionary<string, object>
+
+            await PushRelativePageAsync<ProductDetailsModalPage>(new Dictionary<string, object>
             {
                 ["CurrentProduct"] = CurrentProduct
             });
