@@ -32,7 +32,7 @@ public class DeliveryService : IDeliveryService
 
             await loginService.EnsureValidTokenAsync();
 
-            var request = IBS.HttpMethod.Post(IBS.Authentication.GetOrders, content, IBS.Authentication.CurrentUser.JWT);
+            var request = IBS.HttpMethod.Post(IBS.Authentication.GetOrders, content, IBS.Authentication.CurrentLogin.User.JWT);
 
             var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
 
@@ -73,7 +73,7 @@ public class DeliveryService : IDeliveryService
 
             await loginService.EnsureValidTokenAsync();
 
-            var request = IBS.HttpMethod.Post(IBS.Delivery.SendOrder, content, IBS.Authentication.CurrentUser.JWT);
+            var request = IBS.HttpMethod.Post(IBS.Delivery.SendOrder, content, IBS.Authentication.CurrentLogin.User.JWT);
             var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
             var dto = await IBS.HttpResponse.DeserealizeObject<OrdersDto>(response);
 

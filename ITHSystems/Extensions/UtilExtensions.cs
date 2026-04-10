@@ -2,6 +2,7 @@
 using ITHSystems.Attributes;
 using ITHSystems.DTOs;
 using ITHSystems.Enums;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -215,21 +216,32 @@ public static class UtilExtensions
 
         return new(options);
     }
+    private static readonly ImageSource DefaultImageSource = ImageSource.FromFile("no_image_available.png");
+    private static readonly ConcurrentDictionary<string, ImageSource> _cacheImage = new();
 
     public static ImageSource ConvertBase64ToImageSource(string base64)
-    {
-        if (string.IsNullOrWhiteSpace(base64))
-            return null;
+    {  
+        if (string.IsNullOrWhiteSpace(base64)) return DefaultImageSource;
+
+        if (_cacheImage.TryGetValue(base64, out var cachedImage)) return cachedImage;
+
 
         try
         {
             byte[] imageBytes = Convert.FromBase64String(base64);
 
-            return ImageSource.FromStream(() => new MemoryStream(imageBytes));
+            var imageSource = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+
+            _cacheImage.TryAdd(base64, imageSource);
+
+            return imageSource;
         }
         catch
         {
-            return null;
+            return DefaultImageSource;
         }
     }
+
+
+  
 }

@@ -14,7 +14,7 @@
         <Grid>
             <zxing:CameraBarcodeReaderView x:Name="BarcodeReader"
                                        BarcodesDetected="OnBarcodesDetected"
-                                        IsDetecting="True"
+                                        IsDetecting="False"
                                          CameraLocation="Rear"
                                          HorizontalOptions="Fill"
                                          VerticalOptions="Fill"

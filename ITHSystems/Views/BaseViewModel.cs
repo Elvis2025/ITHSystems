@@ -18,13 +18,13 @@ using System.Threading.Tasks;
 
 namespace ITHSystems.Views;
 
-public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavigation
+public abstract partial class BaseViewModel : ObsevablePropertiesViewModel, INavigation
 {
     public IReadOnlyList<Page> ModalStack => throw new NotImplementedException();
 
     public IReadOnlyList<Page> NavigationStack => throw new NotImplementedException();
 
-    public bool HasInternet => Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
+    public bool HasInternet => Connectivity.Current.NetworkAccess == NetworkAccess.Internet || Connectivity.Current.NetworkAccess == NetworkAccess.ConstrainedInternet || Connectivity.Current.NetworkAccess == NetworkAccess.Local || Connectivity.Current.NetworkAccess != NetworkAccess.None;
     [RelayCommand]
     public void ShowPassword()
     {
@@ -45,12 +45,21 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel,INavi
 
     public async Task<bool> NoInternetConnection()
     {
-        if (HasInternet)
-        {
-            await WarningAlert("No internet connection", "Please check your internet connection and try again.");
-        }
+        if (Connectivity.Current.NetworkAccess == NetworkAccess.None)
+            return true;
 
-        return HasInternet;
+        try
+        {
+            using var http = new HttpClient();
+            http.Timeout = TimeSpan.FromSeconds(3);
+
+            var response = await http.GetAsync("https://www.google.com");
+            return !response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return true;
+        }
     }
 
     public static async Task PushPageAsync<T>() where T : ContentPage

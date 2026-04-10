@@ -1,17 +1,15 @@
-﻿
+﻿using ITHSystems.Attributes;
 
-using ITHSystems.Attributes;
+namespace ITHSystems.Model;
 
-namespace ITHSystems.DTOs;
-
-[AutoMap(typeof(Model.Tenant))]
-public class TenantDto
+[SQLiteEntity]
+public class Tenant : Entity<int>
 {
     public string TenancyName { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
     public string Path { get; set; } = string.Empty;
     public string Extension { get; set; } = string.Empty;
-    public string ImageBase64String { get; set; } = string.Empty;
-    public int Id { get; set; } = -1;
+    public int TenantId { get; set; } = new();
+
 }

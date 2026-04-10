@@ -21,10 +21,10 @@
 		<Nullable>enable</Nullable>
 		<MauiVersion>9.0.90</MauiVersion>
 		<!-- Display name -->
-		<ApplicationTitle>ITH Systems</ApplicationTitle>
+		<ApplicationTitle>iThot System</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.ithsystems</ApplicationId>
+		<ApplicationId>com.ibsystems.ithotsystem</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -34,17 +34,20 @@
 		<WindowsPackageType>None</WindowsPackageType>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	
 </PropertyGroup>
-
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+		<ApplicationTitle>iThot System</ApplicationTitle>
+		<ApplicationId>com.ibsystems.ithotsystem</ApplicationId>
+		<RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<AndroidLinkTool>r8</AndroidLinkTool>
+		<DebugSymbols>False</DebugSymbols>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.png" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" />
+		<MauiIcon Include="Resources\AppIcon\appicon.png" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" BaseSize="64,64"/>
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#FFFFFF" BaseSize="118,118" />
@@ -94,7 +97,7 @@
 	    <DependentUpon>AlertMessageModal.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
-
+	
 	<ItemGroup>
 	  <EmbeddedResource Update="Resx\IBSResources.resx">
 	    <Generator>ResXFileCodeGenerator</Generator>

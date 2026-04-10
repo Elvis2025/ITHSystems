@@ -15,14 +15,17 @@ public class LoginService : ILoginService
 {
     private readonly IApiManagerService apiManagerService;
     private readonly IPreferenceService preferenceService;
+    private readonly IRepository<Tenant> tenantRepository;
     private readonly IRepository<User> userRepository;
 
     public LoginService(IApiManagerService apiManagerService,
                         IPreferenceService preferenceService,
+                        IRepository<Tenant> tenantRepository,
                         IRepository<User> userRepository)
     {
         this.apiManagerService = apiManagerService;
         this.preferenceService = preferenceService;
+        this.tenantRepository = tenantRepository;
         this.userRepository = userRepository;
     }
 
@@ -59,7 +62,7 @@ public class LoginService : ILoginService
         userDto.Expires = userAuthentication.Result.Expires;
    
       
-        IBS.Authentication.CurrentUser = userDto;
+        IBS.Authentication.CurrentLogin.User = userDto;
         await SetCurrentLogin();
         return userDto;
     }
@@ -70,28 +73,28 @@ public class LoginService : ILoginService
         try
         {
 
-            if (IBS.Authentication.CurrentUser is null || IBS.Authentication.CurrentUser.JWT == string.Empty)
+            if (IBS.Authentication.CurrentLogin.User is null || IBS.Authentication.CurrentLogin.User.JWT == string.Empty)
                 return;
-            var content = new Dictionary<string, string>() 
-            { 
-                { "jwt", $"{IBS.Authentication.CurrentUser.JWT}" }       
-        
-            };
-            var userDto = IBS.Authentication.CurrentUser;
-            var request = IBS.HttpMethod.Get(IBS.Authentication.Endpoint.GetCurrentLogin, content);
+   
+            var userDto = IBS.Authentication.CurrentLogin.User;
+            var request = IBS.HttpMethod.Post(IBS.Authentication.Endpoint.GetCurrentLogin, IBS.Authentication.CurrentLogin.User.JWT);
 
             var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode) return;
 
             var userAuthentication = await IBS.HttpResponse.DeserealizeObject<CurrentLoginDto>(response);
 
-            IBS.Authentication.CurrentLogin = userAuthentication.Result;
-
             var user = userDto.Map<User>();
-            user.TenantId = userAuthentication.Result.Tenant.Id;
-            user.TenantName = userAuthentication.Result.Tenant.Name;
+            var tenant = userAuthentication.Result.Tenant.Map<Tenant>();
+            tenant.TenantId = userAuthentication.Result.Tenant.Id;
+            tenant.Id = 0;
+            await tenantRepository.DeleteAllAsync();
             await userRepository.DeleteAllAsync();
+
             await userRepository.InsertAsync(user);
+            await tenantRepository.InsertAsync(tenant);
+            IBS.Authentication.CurrentLogin.Tenant = tenant.Map<TenantDto>();
+            IBS.Authentication.CurrentLogin.Tenant.Id = tenant.TenantId;
         }
         catch (Exception e)
         {
@@ -101,7 +104,7 @@ public class LoginService : ILoginService
 
     public async Task EnsureValidTokenAsync()
     {
-        var user = IBS.Authentication.CurrentUser;
+        var user = IBS.Authentication.CurrentLogin.User;
 
         if (user.TokenExpired)
             await Login(user);

@@ -9,7 +9,6 @@ public static class IBS
     #region Authentication Endpoints
     public static class Authentication
     {
-        public static UserDto CurrentUser { get; set; } = new();
         public static CurrentLoginDto CurrentLogin { get; set; } = new();
 
         public const string Messengers = Global.BaseUrl + "/api/services/itcCoreSystem/messengers/MyInfo";
@@ -51,8 +50,8 @@ public static class IBS
     {
         public static class Endpoint
         {
-            //HOme public const string Execute = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
-            public const string Execute = "https://xvkhk6p9-7055.use.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
+             public const string Execute = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
+            //public const string Execute = "https://xvkhk6p9-7055.use.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
         }
     }
 

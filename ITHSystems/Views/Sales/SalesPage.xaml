@@ -34,7 +34,7 @@
             </Label>
             <controls:BarcodeScannerView BarcodeDetectedCommand="{Binding SearchProductByBarcodeCommand}"
                   LastDetectedBarcode="{Binding LastScannedBarcode}"
-                  IsScanning="True" 
+                  IsScanning="{Binding IsScannerActive}" 
                                         Margin="0,0,0,90"
                                          IsVisible="{Binding OpenScannCodeBar}"
                                          ZIndex="2"
@@ -114,7 +114,7 @@
                 </Grid>
             </Border>
         </Grid>
-
+        
         <CollectionView Grid.Row="1"
                         Margin="16,0,16,10"
                         ItemsSource="{Binding Products}"
@@ -150,10 +150,6 @@
                            TextColor="{StaticResource Gray900}"
                            HorizontalTextAlignment="Center" />
 
-                    <Label Text="Prueba con otra descripción o código de barra."
-                           FontSize="13"
-                           TextColor="{StaticResource Gray500}"
-                           HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
 
@@ -259,7 +255,7 @@
                    FontAttributes="Bold"
                    TextColor="{StaticResource Gray900}"/>
 
-            <Label Text="89"
+            <Label Text="{Binding TotalCount}"
                    Margin="4,0,0,0"
                    FontSize="12"
                    FontAttributes="Bold"

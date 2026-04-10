@@ -1,20 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.Attributes;
-using ITHSystems.DTOs;
-using ITHSystems.Services.RawQuery;
-using System;
-using System.Collections.Generic;
+using ITHSystems.Services.Sale;
+using ITHSystems.Views.Sales.Dto;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ITHSystems.Views.Sales.ProductDetailsModalPage;
-using ITHSystems.Controls;
-using ITHSystems.Constants;
-using ITHSystems.Views.Sales.Dto;
-using ITHSystems.Services.Sale;
 
 namespace ITHSystems.Views.Sales;
 
@@ -36,13 +26,15 @@ public partial class SalesViewModel : BaseViewModel
 
     [ObservableProperty]
     private bool openScannCodeBar = false;
+    [ObservableProperty]
+    private bool isScannerActive = false;
 
     [ObservableProperty]
     private int totalCount = 0;
 
 
     public SalesViewModel(ISaleService saleService)
-	{
+    {
         this.saleService = saleService;
         Init();
     }
@@ -58,7 +50,37 @@ public partial class SalesViewModel : BaseViewModel
 
 
     [RelayCommand]
-    public async Task ScanBarcode() => OpenScannCodeBar = !OpenScannCodeBar;
+    public async Task ScanBarcode()
+    {
+        if (OpenScannCodeBar)
+        {
+            OpenScannCodeBar = false;
+            return;
+        }
+
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+
+        if (status != PermissionStatus.Granted)
+        {
+            status = await Permissions.RequestAsync<Permissions.Camera>();
+        }
+
+        if (status != PermissionStatus.Granted)
+        {
+            await Shell.Current.DisplayAlert("Permiso", "Se requiere acceso a la cámara", "OK");
+            return;
+        }
+
+        OpenScannCodeBar = true;
+
+        await Task.Delay(300); // 🔥 IMPORTANTE
+
+        IsScannerActive = true; // bind a IsScanning
+
+
+
+
+    }
 
     [RelayCommand]
     private async Task SearchProductByBarcode(string barcode)
@@ -77,8 +99,8 @@ public partial class SalesViewModel : BaseViewModel
 
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-            await WarningAlert("Producto no encontrado",
-                $"No se encontró un producto con el código {LastScannedBarcode}.");
+                await WarningAlert("Producto no encontrado",
+                    $"No se encontró un producto con el código {LastScannedBarcode}.");
             });
             return;
         }
@@ -158,8 +180,8 @@ public partial class SalesViewModel : BaseViewModel
 
     public async void Init()
     {
-        
-        _  = Task.Run(async () =>
+
+        _ = Task.Run(async () =>
         {
             try
             {
@@ -172,7 +194,7 @@ public partial class SalesViewModel : BaseViewModel
                 IsBusy = false;
                 await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
-                   await ErrorAlert(title: "Error cargando productos",message: e.Message);
+                    await ErrorAlert(title: "Error cargando productos", message: e.Message);
                 });
             }
             finally
@@ -180,6 +202,6 @@ public partial class SalesViewModel : BaseViewModel
                 IsBusy = false;
             }
         });
-        
+
     }
 }

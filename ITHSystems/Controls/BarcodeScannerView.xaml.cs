@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.ApplicationModel;
 using System.Windows.Input;
 using ZXing;
 using ZXing.Net.Maui;
@@ -8,6 +9,10 @@ namespace ITHSystems.Controls;
 public partial class BarcodeScannerView : ContentView
 {
     private bool _isProcessing;
+    private bool _isLoaded;
+    private bool _isCameraPermissionGranted;
+    private bool _isStarting;
+    private Window? _window;
 
     public BarcodeScannerView()
     {
@@ -15,7 +20,6 @@ public partial class BarcodeScannerView : ContentView
 
         BarcodeReader.Options = new BarcodeReaderOptions
         {
-            Formats = BarcodeFormats.OneDimensional,
             AutoRotate = true,
             TryHarder = true,
             Multiple = false
@@ -24,7 +28,7 @@ public partial class BarcodeScannerView : ContentView
         Loaded += BarcodeScannerView_Loaded;
         Unloaded += BarcodeScannerView_Unloaded;
 
-        StartScanningCommand = new RelayCommand(StartScanning);
+        StartScanningCommand = new AsyncRelayCommand(StartScanningAsync);
         StopScanningCommand = new RelayCommand(StopScanning);
     }
 
@@ -86,41 +90,187 @@ public partial class BarcodeScannerView : ContentView
         set => SetValue(LastDetectedBarcodeProperty, value);
     }
 
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        UnsubscribeFromWindowEvents();
+
+        if (Handler is not null)
+        {
+            _window = GetParentWindow();
+            SubscribeToWindowEvents();
+        }
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        UnsubscribeFromWindowEvents();
+        base.OnHandlerChanging(args);
+    }
+
     private static void OnIsScanningChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is not BarcodeScannerView view || newValue is not bool isScanning)
             return;
 
-        if (isScanning)
-            view.StartScanning();
-        else
-            view.StopScanning();
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            if (isScanning)
+            {
+                await view.StartScanningAsync();
+            }
+            else
+            {
+                view.StopScanning();
+            }
+        });
     }
 
-    private void BarcodeScannerView_Loaded(object? sender, EventArgs e)
+    private async void BarcodeScannerView_Loaded(object? sender, EventArgs e)
     {
+        _isLoaded = true;
+
         if (IsScanning)
         {
-            StartScanning();
+            await StartScanningAsync();
         }
     }
 
     private void BarcodeScannerView_Unloaded(object? sender, EventArgs e)
     {
+        _isLoaded = false;
         StopScanning();
     }
 
-    public void StartScanning()
+    private void SubscribeToWindowEvents()
     {
-        BarcodeReader.CameraLocation = CameraLocation.Rear;
-        BarcodeReader.IsDetecting = true;
-        IsScanning = true;
+        if (_window is null)
+            return;
+
+        _window.Resumed += Window_Resumed;
+        _window.Stopped += Window_Stopped;
+        _window.Destroying += Window_Destroying;
+    }
+
+    private void UnsubscribeFromWindowEvents()
+    {
+        if (_window is null)
+            return;
+
+        _window.Resumed -= Window_Resumed;
+        _window.Stopped -= Window_Stopped;
+        _window.Destroying -= Window_Destroying;
+        _window = null;
+    }
+
+    private async void Window_Resumed(object? sender, EventArgs e)
+    {
+        if (!_isLoaded || !IsVisible || !IsScanning)
+            return;
+
+        await RestartScannerAsync();
+    }
+
+    private void Window_Stopped(object? sender, EventArgs e)
+    {
+        PauseScanner();
+    }
+
+    private void Window_Destroying(object? sender, EventArgs e)
+    {
+        PauseScanner();
+    }
+
+    public async Task StartScanningAsync()
+    {
+        if (_isStarting || !_isLoaded || !IsVisible)
+            return;
+
+        try
+        {
+            _isStarting = true;
+
+            var permissionGranted = await EnsureCameraPermissionAsync();
+            if (!permissionGranted)
+            {
+                StopScanning();
+                return;
+            }
+
+            _isCameraPermissionGranted = true;
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                BarcodeReader.IsDetecting = false;
+                BarcodeReader.CameraLocation = CameraLocation.Rear;
+
+                // Pequeño reset para forzar reconstrucción del preview
+                await Task.Delay(150);
+
+                BarcodeReader.IsDetecting = true;
+                if (!IsScanning)
+                {
+                    IsScanning = true;
+                }
+            });
+        }
+        finally
+        {
+            _isStarting = false;
+        }
     }
 
     public void StopScanning()
     {
-        BarcodeReader.IsDetecting = false;
-        IsScanning = false;
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            BarcodeReader.IsDetecting = false;
+
+            if (IsScanning)
+            {
+                SetValue(IsScanningProperty, false);
+            }
+        });
+    }
+
+    private void PauseScanner()
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            BarcodeReader.IsDetecting = false;
+        });
+    }
+
+    private async Task RestartScannerAsync()
+    {
+        if (!_isCameraPermissionGranted)
+        {
+            var permissionGranted = await EnsureCameraPermissionAsync();
+            if (!permissionGranted)
+                return;
+
+            _isCameraPermissionGranted = true;
+        }
+
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            BarcodeReader.IsDetecting = false;
+            await Task.Delay(200);
+
+            BarcodeReader.CameraLocation = CameraLocation.Rear;
+            BarcodeReader.IsDetecting = true;
+        });
+    }
+
+    private static async Task<bool> EnsureCameraPermissionAsync()
+    {
+        var status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+        if (status == PermissionStatus.Granted)
+            return true;
+
+        status = await Permissions.RequestAsync<Permissions.Camera>();
+        return status == PermissionStatus.Granted;
     }
 
     private async void OnBarcodesDetected(object sender, BarcodeDetectionEventArgs e)
@@ -133,12 +283,11 @@ public partial class BarcodeScannerView : ContentView
             return;
 
         var barcodeValue = result.Value?.Trim();
-
         if (string.IsNullOrWhiteSpace(barcodeValue))
             return;
 
         _isProcessing = true;
-        StopScanning();
+        PauseScanner();
 
         try
         {
@@ -152,17 +301,32 @@ public partial class BarcodeScannerView : ContentView
             {
                 BarcodeDetectedCommand.Execute(BarcodeDetectedCommandParameter);
             }
-            IsScanning = true;
+
             await Task.Delay(1200);
+
+            if (IsScanning && _isLoaded && IsVisible)
+            {
+                await RestartScannerAsync();
+            }
         }
         finally
         {
             _isProcessing = false;
-
-            if (IsScanning)
-            {
-                StartScanning();
-            }
         }
+    }
+
+    private Window? GetParentWindow()
+    {
+        Element? current = this;
+
+        while (current is not null)
+        {
+            if (current is Page page && page.Window is not null)
+                return page.Window;
+
+            current = current.Parent;
+        }
+
+        return Application.Current?.Windows.FirstOrDefault();
     }
 }

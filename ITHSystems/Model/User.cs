@@ -17,6 +17,5 @@ public class User : Entity<int>
     public string JWT { get; set; } = string.Empty;
     public DateTime Issued { get; set; }
     public DateTime Expires { get; set; }
-    public int TenantId { get; set; }
-    public string TenantName { get; set; } = string.Empty;
+
 }

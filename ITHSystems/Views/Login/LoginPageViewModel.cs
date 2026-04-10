@@ -25,17 +25,20 @@ public partial class LoginPageViewModel : BaseViewModel
     private Language? CurrentLanguage;
     private readonly ISQLiteManager managerSQLite;
     private readonly IRepository<User> userRepository;
+    private readonly IRepository<Tenant> tenantRepository;
     private readonly IITHNavigationService iTHNavigation;
     private readonly ILoginService loginService;
 
     public LoginPageViewModel(ISQLiteManager managerSQLite,
                               IRepository<User> userRepository,
+                              IRepository<Tenant> tenantRepository,
                               IPreferenceService preference,
                               IITHNavigationService iTHNavigation,
                               ILoginService loginService)
     {
         this.managerSQLite = managerSQLite;
         this.userRepository = userRepository;
+        this.tenantRepository = tenantRepository;
         this.iTHNavigation = iTHNavigation;
         this.loginService = loginService;
         this.preference = ITHPreference.Instance;
@@ -54,37 +57,49 @@ public partial class LoginPageViewModel : BaseViewModel
 
             IsBusy = true;
             string jwt = string.Empty;
-            var currentUser = (await userRepository.GetAllAsync()).FirstOrDefault() ?? new();
-            var currentUserDto = currentUser.Map<UserDto>();
+            var currentUser = (await userRepository.GetAllAsync()).FirstOrDefault();
+            var currentTenant = (await tenantRepository.GetAllAsync()).FirstOrDefault();
+          
 
 
-            if (currentUserDto is null && await NoInternetConnection()) return;
-
-
-            if (currentUserDto!.TokenExpired)
+            if ((currentUser is null || currentTenant is null))
             {
-                var user = await loginService.Login(UserDTO) ?? new();
-               
-                UserDTO.JWT = user.JWT;
-            }
-            else
-            {
-               if(UserDTO.UserName == currentUser.UserName &&
-                  UserDTO.Password == currentUser.Password)
+                if (await NoInternetConnection())
                 {
-                    UserDTO.JWT = currentUser.JWT;
+                await iTHNavigation.ErrorAlert(IBSResources.Error, "Necesitas conexion a internet al menos una vez, para autenticarte correctamente.");
+                return;
                 }
 
-            }
-
-            if (string.IsNullOrEmpty(UserDTO.JWT))
-            {
-                await iTHNavigation.ErrorAlert(IBSResources.Error, "Usuario o contraseña incorrecta.");
+                var user = await loginService.Login(UserDTO) ?? new();
+                await iTHNavigation.PushRelativePageAsync<HomePage>();
                 return;
             }
 
-            preference.Set(IBS.Global.KeyJWT, UserDTO.JWT);
+            var currentUserDto = currentUser.Map<UserDto>();
+            var currentTenantDto = currentTenant.Map<TenantDto>();
 
+            if (UserDTO.UserName != currentUserDto.UserName ||
+                  UserDTO.Password != currentUserDto.Password)
+            {
+                await iTHNavigation.ErrorAlert(IBSResources.Error, "Credenciales incorrectas. 1");
+                return;
+            }
+
+
+
+            if (currentUserDto.TokenExpired && !await NoInternetConnection())
+            {
+                var user = await loginService.Login(UserDTO) ?? new();
+                await iTHNavigation.PushRelativePageAsync<HomePage>();
+                return;
+            }
+
+            IBS.Authentication.CurrentLogin = new()
+            {
+                User = currentUserDto,
+                Tenant = currentTenantDto!
+            };
+            IBS.Authentication.CurrentLogin.Tenant.Id = currentTenant.TenantId;
             await iTHNavigation.PushRelativePageAsync<HomePage>();
 
         }
@@ -98,6 +113,18 @@ public partial class LoginPageViewModel : BaseViewModel
             IsBusy = false;
         }
     }
+
+
+    
+    private bool CredentialsAreValid(UserDto userDto, UserDto currentUserDto)
+    {
+        if (userDto is null) return false;
+        if (string.IsNullOrEmpty(userDto.UserName)) return false;
+        if (string.IsNullOrEmpty(userDto.Password)) return false;
+        if (string.IsNullOrEmpty(userDto.Pin)) return false;
+        return true;
+    }
+
     private bool userIsNotValid(UserDto userDto)
     {
         if (userDto is null) return true;

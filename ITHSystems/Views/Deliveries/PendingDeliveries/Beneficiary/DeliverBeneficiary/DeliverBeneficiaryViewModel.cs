@@ -93,7 +93,7 @@ public partial class DeliverBeneficiaryViewModel : BaseViewModel
                 EventOcurredOn = DateTime.Now,
                 IsSelected = false,
                 CauseSelected = "",
-                JWT = IBS.Authentication.CurrentUser.JWT
+                JWT = IBS.Authentication.CurrentLogin.User.JWT
             };
 
             await deliveryService.DeliverOrder(deliver);

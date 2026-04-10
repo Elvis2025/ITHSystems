@@ -13,7 +13,7 @@ public partial class ProductDetailsViewModel : BaseViewModel
     private ProductDto? currentProduct;
 
     [ObservableProperty]
-    private int quantity = 1;
+    private int quantity = 0;
 
     public decimal Subtotal => (CurrentProduct?.Price ?? 0m) * Quantity;
 
@@ -33,9 +33,9 @@ public partial class ProductDetailsViewModel : BaseViewModel
     }
     partial void OnQuantityChanged(int value)
     {
-        if (value < 1)
+        if (value < 0)
         {
-            Quantity = 1;
+            Quantity = 0;
             return;
         }
 
@@ -51,7 +51,7 @@ public partial class ProductDetailsViewModel : BaseViewModel
     [RelayCommand]
     public void DecreaseQuantity()
     {
-        if (Quantity > 1)
+        if (Quantity > -1)
         {
             Quantity--;
         }

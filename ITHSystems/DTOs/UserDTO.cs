@@ -24,7 +24,7 @@ public record class UserDto
             if (Expires <= DateTime.MinValue.AddMinutes(5))
                 return true; 
 
-            return DateTime.UtcNow >= Expires.AddMinutes(-5);
+            return DateTime.Now >= Expires.AddMinutes(-5);
         }
 
 
