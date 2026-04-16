@@ -20,8 +20,8 @@ public static class IBS
             //public const string CreateOAuthToken = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
             //public const string GetCurrentLogin = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
 
-            public const string CreateOrAuthToken = "https://dev.ibsystems.com.do" + "/api/Account/AuthenticateExt";
-            public const string GetCurrentLogin = "https://dev.ibsystems.com.do" + "/api/services/app/Session/GetCurrentLoginInformations";
+            public const string CreateOrAuthToken = "https://devsin.ibsystems.com.do" + "/api/Account/AuthenticateExt";
+            public const string GetCurrentLogin = "https://devsin.ibsystems.com.do" + "/api/services/app/Session/GetCurrentLoginInformations";
         }
     }
     #endregion
@@ -51,7 +51,7 @@ public static class IBS
         public static class Endpoint
         {
             //Home public const string Execute = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
-            public const string Execute = "https://xvkhk6p9-7055.use.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
+            public const string Execute = "https://devsin.ibsystems.com.do" + "/api/services/app/rawQuery/executeAsync";
         }
     }
 

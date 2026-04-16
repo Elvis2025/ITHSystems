@@ -19,14 +19,13 @@ public class RawQueryService : IRawQueryService
     public async Task<ResponseListDto<T>> ExcequteQueryList<T>(string query)
     {
         
-        var content = new
-        {
-            jwt = IBS.Authentication.CurrentLogin.User.JWT,
-            sql = query,
-        };
+  
+        var content = new FormUrlEncodedContent(new[]
+{
+            new KeyValuePair<string, string>("sql", query),
+        });
 
-        var json = JsonConvert.SerializeObject(content);
-        var request = IBS.HttpMethod.PostJson(IBS.RawQuery.Endpoint.Execute, json);
+        var request = IBS.HttpMethod.Post(IBS.RawQuery.Endpoint.Execute, content, IBS.Authentication.CurrentLogin.User.JWT);
 
         var response = await apiManagerService.ApiManagerHttpClient.SendAsync(request);
         var userAuthentication = await IBS.HttpResponse.DeserealizeList<T>(response);
