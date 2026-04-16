@@ -40,7 +40,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.png" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" BaseSize="64,64"/>
+		<MauiIcon Include="Resources\AppIcon\appicon.png" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" BaseSize="64,64" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#FFFFFF" BaseSize="118,118" />
@@ -88,6 +88,9 @@
 	  </Compile>
 	  <Compile Update="Views\ModalsMessage\AlertMessageModal.xaml.cs">
 	    <DependentUpon>AlertMessageModal.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Sales\ProductsCartList\ProductsCartListPage.xaml.cs">
+	    <DependentUpon>ProductsCartListPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 	
@@ -180,7 +183,10 @@
 	  <MauiXaml Update="Views\PickupService\PickupServicePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Sales\ProductDetailsModalPage\ProductDetailsModalPage.xaml">
+	  <MauiXaml Update="Views\Sales\ProductDetails\ProductDetailsModalPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Sales\ProductsCartList\ProductsCartListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Sales\SalesPage.xaml">
@@ -191,6 +197,7 @@
 	<ItemGroup>
 	  <Folder Include="Repositories\Login\" />
 	  <Folder Include="Services\ApiManager\NewFolder\" />
+	  <Folder Include="Views\Sales\ProductsCartList\Dto\" />
 	</ItemGroup>
 
 </Project>

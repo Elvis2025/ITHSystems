@@ -21,7 +21,8 @@ public class SaleService : ISaleService
     {
         var query = @$"SELECT 
                             p.Id AS Id, 
-                            Barcode,	
+                            Barcode,
+                            p.Code,
                             Description, 
                             Tax, Cost,	
                             Price, 

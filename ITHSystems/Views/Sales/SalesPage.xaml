@@ -19,7 +19,7 @@
             <controls:GradientHeader
                 Title="Productos"
                 BackButtonCommand="{Binding GoBackCommand}" />
-            <Label Text="{Static icon:IconFont.CartPlus}"
+            <Label Text="{Static icon:IconFont.CartShopping}"
                      FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
                      FontSize="22"
                      TextColor="{StaticResource bgColorPage}"
@@ -117,7 +117,7 @@
                         BackgroundColor="Transparent">
 
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="14" />
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="6" />
             </CollectionView.ItemsLayout>
 
             <CollectionView.EmptyView>
@@ -149,94 +149,115 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:ProductDto">
-                    <Border BackgroundColor="{StaticResource White}"
-                            StrokeThickness="0"
-                            StrokeShape="RoundRectangle 24"
-                            Padding="12">
+                    
+                    <Frame BackgroundColor="{StaticResource White}"
+                           CornerRadius="24"
+                           Padding="0"
+                           Margin="6,2"
+                           HasShadow="True"
+                           BorderColor="{StaticResource Gray100}">
 
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenProductDetailsCommand}"
-                                                  CommandParameter="{Binding .}" />
-                        </Border.GestureRecognizers>
+                        <Grid Padding="8"
+                              ColumnDefinitions="96,*,Auto"
+                              RowDefinitions="*,Auto"
+                              ColumnSpacing="16">
+                            <HorizontalStackLayout Grid.Row="0"
+                                                   VerticalOptions="Center">
 
-                        <Grid ColumnDefinitions="96,*,Auto"
-                              ColumnSpacing="14">
-                                
+                                <Label Text="{Binding Description}"
+                                       FontSize="12"
+                                       Margin="10,0,0,0"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray600}"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2" />
+                            </HorizontalStackLayout>
                             <!-- Product image -->
                             <Border Grid.Column="0"
-                                    WidthRequest="96"
-                                    HeightRequest="96"
-                                    BackgroundColor="#F7F8FA"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 20">
-                                <Grid>
-                                    <Image Source="{Binding ImageSource}"
-                                           Aspect="AspectFill" />
-                                    
-                                </Grid>
+                                    WidthRequest="80"
+                                    Grid.Row="1"
+                                    HeightRequest="80"
+                                    Margin="0,0,0,12"
+                                    BackgroundColor="Transparent"
+                                    Stroke="Transparent"
+                                    Shadow="True"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 20">    
+
+                                <Image Source="{Binding ImageSource}"
+                                       Aspect="AspectFit" 
+                                       HeightRequest="80"
+                                       />
                             </Border>
-                            <Grid Grid.Column="1" RowDefinitions="*,Auto">
+                            <HorizontalStackLayout Grid.Column="0" Grid.Row="1">
+
+                                <Label Grid.Column="0"
+                                       Text="Codigo: "
+                                       VerticalOptions="End"
+                                       FontSize="10"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray600}"
+                                       Margin="10,0,0,0"
+                                       />
                                 
-                    
-                                <HorizontalStackLayout Grid.Column="1"
-                                                       Grid.Row="0"
-                                                         Spacing="6"
-                                                       HorizontalOptions="End"
-                                                         VerticalOptions="Center">          
+                                <Label Grid.Column="0"
+                                       Text="{Binding Code}"
+                                       VerticalOptions="End"
+                                       FontSize="10"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource Gray500}"
+                                       Margin="0,18,0,0"
+                                       />
+                                
+                            </HorizontalStackLayout>
+                            <!-- Content -->
+                            <Grid Grid.Column="1"
+                                  Grid.Row="1"
+                                  RowDefinitions="*"
+                                  VerticalOptions="End"
+                                  Margin="0,0,0,0">        
 
-                                    <Label Text="{Binding Description}"
-                                           FontSize="12"
+                        
+
+                                <VerticalStackLayout Spacing="2"  Grid.Row="1">
+
+                                    <Label Text="Itbis"
+                                           FontSize="11"
                                            FontAttributes="Bold"
-                                           TextColor="{StaticResource Gray900}"
-                                           LineBreakMode="TailTruncation"
-                                           MaxLines="2" />
+                                           TextColor="{StaticResource Gray400}"
+                                           HorizontalTextAlignment="End" />
 
+                                    <Label Text="{Binding TaxPorcent}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}"
+                                           HorizontalTextAlignment="End" />
 
+                                    <Label Text="Precio"
+                                           FontSize="11"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Gray400}"
+                                           HorizontalTextAlignment="End" />
 
-
-                                </HorizontalStackLayout>
-
-
-                                <!-- Price + CTA -->
-                                <VerticalStackLayout Grid.Column="2"
-                                                     Grid.Row="1"
-                                                     Spacing="10"
-                                                     VerticalOptions="Center"
-                                                     HorizontalOptions="End">
-
-                                    <VerticalStackLayout Spacing="2">
-                                        <Label Text="Precio"
-                                               FontSize="11"
-                                               TextColor="{StaticResource Gray400}"
-                                               HorizontalTextAlignment="End" />
-
-                                        <Label Text="{Binding Price, StringFormat='RD$ {0:N2}'}"
-                                               FontSize="20"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource Primary}"
-                                               HorizontalTextAlignment="End" />
-                                    </VerticalStackLayout>
-
-                                    <Border BackgroundColor="{StaticResource Primary}"
-                                            StrokeThickness="0"
-                                            StrokeShape="RoundRectangle 16"
-                                            Padding="12,8"
-                                            HorizontalOptions="End">
-                                        <HorizontalStackLayout Spacing="6">
-                                            <Label Text="{Static icon:IconFont.CartPlus}"
-                                                   FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
-                                                   FontSize="14"
-                                                   TextColor="{StaticResource White}" />
-                                            <Label Text="Agregar"
-                                                   FontSize="12"
-                                                   FontAttributes="Bold"
-                                                   TextColor="{StaticResource White}" />
-                                        </HorizontalStackLayout>
-                                    </Border>
+                                    <Label Text="{Binding Price, StringFormat='RD$ {0:N2}'}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}"
+                                           HorizontalTextAlignment="End" />
                                 </VerticalStackLayout>
+                                
+                                
                             </Grid>
+
                         </Grid>
-                    </Border>
+
+                        <!-- Tap -->
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenProductDetailsCommand}"
+                              CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

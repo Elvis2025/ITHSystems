@@ -5,6 +5,7 @@ using ITHSystems.Controls;
 using ITHSystems.Services.Sale;
 using ITHSystems.Views.Sales.Dto;
 using ITHSystems.Views.Sales.ProductDetails;
+using ITHSystems.Views.Sales.ProductsCartList;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -69,6 +70,12 @@ public partial class SalesViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    public async Task GoToCartList()
+    {
+        await PushRelativePageAsync<ProductsCartListPage>();
+    }
+
+    [RelayCommand]
     private async Task SearchProductByBarcode(string barcode)
     {
         if (string.IsNullOrWhiteSpace(barcode))
@@ -97,13 +104,7 @@ public partial class SalesViewModel : BaseViewModel
             CurrentProduct = product;
             await OpenProductDetails(product);
         });
-        // Si quieres filtrar el listado:
-        //   Products = new ObservableCollection<ProductDto>(new[] { CurrentProduct });
 
-        // Aquí puedes también:
-        // - abrir detalle
-        // - agregar al carrito
-        // - incrementar cantidad
     }
     [RelayCommand]
     public void FindProducts()
