@@ -12,10 +12,10 @@
                        BackgroundColor="{StaticResource bgColorPage}"
                        HideSoftInputOnTapped="True"
                        Title="ProductsCartList">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    
+    <Grid>
+        <controls:GradientHeaderWithBackBotton
+       Title="Carrito"
+       BackButtonCommand="{Binding GoBackCommand}" />
+    </Grid>
 </views:BaseContentPage>

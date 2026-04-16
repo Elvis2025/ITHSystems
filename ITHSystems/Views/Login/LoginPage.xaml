@@ -10,22 +10,58 @@
              xmlns:vm="clr-namespace:ITHSystems.Views.Login"
              x:TypeArguments="vm:LoginPageViewModel"
              HideSoftInputOnTapped="True"
-             BackgroundColor="#ECECEC"
+                       Shell.FlyoutBehavior="Disabled"
+             BackgroundColor="{StaticResource White}"
              Title="LoginPage">
 
     <Grid RowDefinitions="Auto,*,*">
-        <Border Grid.Row="0" BackgroundColor="Transparent"
+        <Border  BackgroundColor="{StaticResource Primary}"
+                 VerticalOptions="Start"
+                 StrokeShape="RoundRectangle 100"
+                 HorizontalOptions="Start"
+                 Padding="8"
+                 Margin="12"
+                 >
+            
+        <Label FontFamily="{Static icon:FontFamilyIcons.IconRegular}"
+               FontSize="24"
+               HorizontalOptions="Start"
+               VerticalOptions="Start"
+               BackgroundColor="{StaticResource Primary}"
+               TextColor="{StaticResource White}"
+               Text="{Static icon:IconsOutlined.Settings}"
+               >
+            
+        </Label>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer />
+            </Border.GestureRecognizers>
+        </Border>
+        
+        <Border Grid.Row="0" BackgroundColor="{StaticResource White}"
                 Stroke="Transparent"
                 Padding="0"
-                HeightRequest="350"
-                WidthRequest="350"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
                 >
-          
-            <Image Source="ibscompany.png"
-               Aspect="AspectFit"
-               HeightRequest="450"
-               WidthRequest="350"
-               />
+            <Grid VerticalOptions="Start">
+
+                <Image Source="logo_ibs.png"
+                   Aspect="AspectFit"
+                   HeightRequest="250"
+                   WidthRequest="250"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                   />
+                <Label Text="iThot System" VerticalOptions="End"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,18"
+                       FontSize="34"
+                       FontAttributes="Bold"
+                       FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                       TextColor="{StaticResource Gray900}"
+                       />
+            </Grid>
         </Border>
 
 
@@ -92,6 +128,7 @@
                     FontFamily="{Static icon:FontFamilyIcons.IconTwoTone}"
                     FontSize="28"
                     HorizontalOptions="Center"
+                        
                     Text="{Static icon:IconsTwoTone.Lock_outline}"
                     TextColor="{StaticResource Gray600}"
                     VerticalOptions="Center" />
@@ -101,6 +138,7 @@
                         ClearButtonVisibility="WhileEditing"
                         HeightRequest="60"
                         HorizontalOptions="Fill"
+                        FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
                         IsPassword="{Binding IsPassword}"
                         Placeholder="{Static resources:IBSResources.Password}"
                         PlaceholderColor="{StaticResource Gray200}"
@@ -111,6 +149,7 @@
                         Padding="0"
                         BackgroundColor="Transparent"
                         Command="{Binding ShowPasswordCommand}"
+                        
                         CornerRadius="0"
                             FontFamily="{Static icon:FontFamilyIcons.IconSharp}"
                         Text="{Binding PasswordEye}"
@@ -162,6 +201,7 @@
                 HeightRequest="2"
                 Text="{Static resources:IBSResources.Login}"
                 FontAttributes="Bold"
+                    FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
                 Command="{Binding LoginCommand}"
                     CommandParameter="{Binding UserDTO}"
             />
@@ -184,31 +224,44 @@
             
         </Grid>
 
+
+        <Border Grid.Row="2"
+                VerticalOptions="End"
+                HorizontalOptions="Start"
+                Margin="15,0,0,4"
+                Padding="14,4"
+                BackgroundColor="{StaticResource Primary}"
+                StrokeShape="RoundRectangle 100"
+                >
+
+            <HorizontalStackLayout Spacing="8">
+                <Label Text="{Static icon:IconsOutlined.Language}"
+                   FontFamily="{Static icon:FontFamilyIcons.IconOutlined}"
+                   FontSize="24"
+                   TextColor="{StaticResource White}"
+                       VerticalOptions="Center"
+                   />
+                <Label Text="{Binding LanguageName}"
+                       TextColor="{StaticResource White}"
+                       FontAttributes="Bold"
+                       FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                       VerticalOptions="Center"
+                       />
+                <HorizontalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeLanguageCommand}"/>
+                </HorizontalStackLayout.GestureRecognizers>
+            </HorizontalStackLayout>
+
+        </Border>
         
-        
-        <HorizontalStackLayout
-        Grid.Row="2"
-            VerticalOptions="End"
-        Margin="25,0,0,10"
-        Spacing="8"
-        >
-            <Label Text="{Static icon:IconsOutlined.Language}"
-               FontFamily="{Static icon:FontFamilyIcons.IconOutlined}"
-               FontSize="24"
-               TextColor="{StaticResource Gray600}"
-               />
-            <Label Text="{Binding LanguageName}"/>
-            <HorizontalStackLayout.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ChangeLanguageCommand}"/>
-            </HorizontalStackLayout.GestureRecognizers>
-        </HorizontalStackLayout>
-        <Label Text="Versión 1.0.0"
-           FontSize="10"
+        <Label Text="iThot System v1.0.0"
+           FontSize="8"
            Grid.Row="2"
            Margin="0,0,25,8"
            VerticalOptions="End"
            HorizontalOptions="End"
            VerticalTextAlignment="Center"
+               FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
            TextColor="{StaticResource Gray500}"
            FontAttributes="Bold"
            />

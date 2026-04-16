@@ -21,7 +21,7 @@ public class RawQueryService : IRawQueryService
         
   
         var content = new FormUrlEncodedContent(new[]
-{
+        {
             new KeyValuePair<string, string>("sql", query),
         });
 
