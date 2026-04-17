@@ -171,6 +171,9 @@
 	  <MauiXaml Update="Views\Login\RegisterUserPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Login\SettingOfTenantPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ModalsMessage\AlertMessageModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

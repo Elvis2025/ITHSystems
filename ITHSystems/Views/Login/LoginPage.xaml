@@ -1,43 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ITHSystems.Views.Login.LoginPage"
-             xmlns:resources="clr-namespace:ITHSystems.Resx"
-             xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
-             xmlns:controls="clr-namespace:ITHSystems.Controls"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:views="clr-namespace:ITHSystems.Views"
-             xmlns:vm="clr-namespace:ITHSystems.Views.Login"
-             x:TypeArguments="vm:LoginPageViewModel"
-             HideSoftInputOnTapped="True"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="ITHSystems.Views.Login.LoginPage"
+                       xmlns:resources="clr-namespace:ITHSystems.Resx"
+                       xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+                       xmlns:controls="clr-namespace:ITHSystems.Controls"
+                       xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                       xmlns:views="clr-namespace:ITHSystems.Views"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.Login"
+                       xmlns:android="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
+                       x:TypeArguments="vm:LoginPageViewModel"
+                       HideSoftInputOnTapped="True"
                        Shell.FlyoutBehavior="Disabled"
-             BackgroundColor="{StaticResource White}"
-             Title="LoginPage">
-
-    <Grid RowDefinitions="Auto,*,*">
-        <Border  BackgroundColor="{StaticResource Primary}"
-                 VerticalOptions="Start"
-                 StrokeShape="RoundRectangle 100"
-                 HorizontalOptions="Start"
-                 Padding="8"
-                 Margin="12"
-                 >
-            
-        <Label FontFamily="{Static icon:FontFamilyIcons.IconRegular}"
-               FontSize="24"
-               HorizontalOptions="Start"
-               VerticalOptions="Start"
-               BackgroundColor="{StaticResource Primary}"
-               TextColor="{StaticResource White}"
-               Text="{Static icon:IconsOutlined.Settings}"
-               >
-            
-        </Label>
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer />
-            </Border.GestureRecognizers>
-        </Border>
+                       BackgroundColor="{StaticResource White}"
+                        android:NavigationBar.Color="{StaticResource Primary}"
+                       Title="LoginPage">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#FFFFFF"
+                                   StatusBarStyle="DarkContent"
+                                   ApplyOn="OnPageNavigatedTo"/>
         
+    </ContentPage.Behaviors>
+    <Grid RowDefinitions="Auto,*,*">
+                
         <Border Grid.Row="0" BackgroundColor="{StaticResource White}"
                 Stroke="Transparent"
                 Padding="0"
@@ -77,7 +62,7 @@
                 HorizontalOptions="Fill"
                 BackgroundColor="{StaticResource White}"
                 HeightRequest="45"
-                Stroke="{StaticResource Gray100}"
+                Stroke="{StaticResource Gray900}"
                 StrokeShape="RoundRectangle 12"
                 StrokeThickness="2">
                 <Grid
@@ -91,7 +76,7 @@
                     FontSize="28"
                     HorizontalOptions="Center"
                     Text="{Static icon:IconsOutlined.Person}"
-                        TextColor="{StaticResource Gray600}"
+                        TextColor="{StaticResource Gray900}"
                     VerticalOptions="Center" />
                     <Entry
                     Grid.Column="1"
@@ -115,7 +100,7 @@
                 Margin="0,5,0,0"
                 BackgroundColor="{StaticResource White}"
                 HeightRequest="45"
-                Stroke="{StaticResource Gray100}"
+                Stroke="{StaticResource Gray900}"
                 StrokeShape="RoundRectangle 12"
                 StrokeThickness="2">
                 <Grid
@@ -130,7 +115,7 @@
                     HorizontalOptions="Center"
                         
                     Text="{Static icon:IconsTwoTone.Lock_outline}"
-                    TextColor="{StaticResource Gray600}"
+                    TextColor="{StaticResource Gray900}"
                     VerticalOptions="Center" />
                     <Entry
                         Grid.Column="1"
@@ -154,7 +139,7 @@
                             FontFamily="{Static icon:FontFamilyIcons.IconSharp}"
                         Text="{Binding PasswordEye}"
                     FontSize="24"
-                        TextColor="{StaticResource Gray600}" />
+                        TextColor="{StaticResource Gray900}" />
                 </Grid>
             </Border>
             <!--<Border
@@ -206,6 +191,19 @@
                     CommandParameter="{Binding UserDTO}"
             />
 
+            <Button 
+                        CornerRadius="12"
+                        HeightRequest="2"
+                    Grid.Row="4"
+                        Text="Configurar empresa"
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource Primary}"
+                        FontAttributes="Bold"
+                        FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                        Command="{Binding GoToSettingCommand}"
+                        CommandParameter="{Binding UserDTO}"/>
+
+
             <!--<Label Grid.Row="4"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
@@ -228,19 +226,19 @@
         <Border Grid.Row="2"
                 VerticalOptions="End"
                 HorizontalOptions="Start"
-                Margin="15,0,0,4"
+                Margin="15,0,0,18"
                 Padding="14,4"
                 BackgroundColor="{StaticResource Primary}"
                 StrokeShape="RoundRectangle 100"
-                >
+                Stroke="{StaticResource Primary}">
 
             <HorizontalStackLayout Spacing="8">
                 <Label Text="{Static icon:IconsOutlined.Language}"
-                   FontFamily="{Static icon:FontFamilyIcons.IconOutlined}"
-                   FontSize="24"
-                   TextColor="{StaticResource White}"
-                       VerticalOptions="Center"
-                   />
+                       FontFamily="{Static icon:FontFamilyIcons.IconOutlined}"
+                       FontSize="24"
+                       TextColor="{StaticResource White}"
+                       VerticalOptions="Center"/>
+                
                 <Label Text="{Binding LanguageName}"
                        TextColor="{StaticResource White}"
                        FontAttributes="Bold"
@@ -253,22 +251,21 @@
             </HorizontalStackLayout>
 
         </Border>
-        
+
         <Label Text="iThot System v1.0.0"
-           FontSize="8"
-           Grid.Row="2"
-           Margin="0,0,25,8"
-           VerticalOptions="End"
-           HorizontalOptions="End"
-           VerticalTextAlignment="Center"
+               FontSize="8"
+               Grid.Row="2"
+               Margin="0,0,25,8"
+               VerticalOptions="End"
+               HorizontalOptions="End"
+               VerticalTextAlignment="Center"
                FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
-           TextColor="{StaticResource Gray500}"
-           FontAttributes="Bold"
-           />
+               TextColor="{StaticResource Gray900}"
+               FontAttributes="Bold"/>
+        
         <controls:ActivityIndicatorView
                     Grid.Row="0"
                     Grid.RowSpan="3"
-                    IsVisible="{Binding IsBusy}"
-                    />
+                    IsVisible="{Binding IsBusy}"/>
     </Grid>
 </views:BaseContentPage>

@@ -10,4 +10,5 @@ public sealed record class CurrentLoginDto
 {
     public UserDto User { get; set; } = new();
     public TenantDto Tenant { get; set; } = new();
+
 }

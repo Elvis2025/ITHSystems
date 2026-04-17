@@ -8,26 +8,106 @@
     xmlns:login="clr-namespace:ITHSystems.Views.Login"
     xmlns:views="clr-namespace:ITHSystems.Views.Home"
     xmlns:camera="clr-namespace:ITHSystems.Controls"
+     xmlns:controls="clr-namespace:ITHSystems.Controls"
+xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
     xmlns:home="clr-namespace:ITHSystems.Views.Home"
+    xmlns:android="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
+               android:NavigationBar.Color="{StaticResource Primary}"
     FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="False"
-    
+    BackgroundColor="{StaticResource bgColorPage}"
     Title="iThot System">
-  
+
+    
+    
+    
+    
+    <Shell.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#9C1A15"
+                                   StatusBarStyle="DarkContent"
+                                   ApplyOn="OnPageNavigatedTo"/>
+
+    </Shell.Behaviors>
+
+    <Shell.FlyoutHeader>
+        <Grid
+            HeightRequest="190"
+            BackgroundColor="{StaticResource bgColorPage}"
+            Padding="0">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <BoxView HeightRequest="140"
+                     VerticalOptions="Start"
+                     BackgroundColor="Transparent"> 
+                <BoxView.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="{StaticResource Primary}" Offset="0.0" />
+                        <GradientStop Color="{StaticResource bgColorPage}" Offset="1.0" />
+                    </LinearGradientBrush>
+                </BoxView.Background>
+            </BoxView>
+
+            <Border VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Stroke="Transparent"
+                    >
+                <Image Source="logo_ibs.png"
+                       HeightRequest="100"
+                       WidthRequest="100"
+                       />
+            </Border>
+            <VerticalStackLayout
+                Grid.Row="1"
+                Margin="12"
+                Spacing="4">
+
+                <Label
+                    Text="iThot System"
+                    FontSize="22"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource Gray900}"
+                    FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                    
+                    />
+
+                <Label
+                    Text="Panel principal de navegación"
+                    FontSize="13"
+                    TextColor="#FDECEC" />
+
+            </VerticalStackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+
+    <ShellContent
+        
+        Title="{Static resources:IBSResources.Logout}"
+        ContentTemplate="{DataTemplate login:LoginPage}"
+        Route="LoginPage32"/>
+    
+    
     <ShellContent
         Title="{Static resources:IBSResources.Logout}"
         ContentTemplate="{DataTemplate login:LoginPage}"
-        Route="LoginPage" />
-    <ShellContent
+        Route="LoginPage2"/>
+    
+    
+    <!--<ShellContent
         Title="{Static resources:IBSResources.Logout}"
         ContentTemplate="{DataTemplate login:LoginPage}"
-        Route="LoginPage" />
+        Route="LoginPage" />-->
     
     
     <ShellContent
         Title="cameraPage"
         ContentTemplate="{DataTemplate camera:CameraControlPage}"
-        Route="CameraControlPage" />
+        Route="CameraControlPage"/>
     
     <FlyoutItem Title="Home" Route="HomePage">
         <ShellContent
@@ -35,6 +115,10 @@
             ContentTemplate="{DataTemplate views:HomePage}"
             Route="HomePage"
             />
+        <ShellContent
+       Title="{Static resources:IBSResources.Logout}"
+       ContentTemplate="{DataTemplate login:LoginPage}"
+       Route="LoginPage2"/>
     </FlyoutItem>
 
 </Shell>

@@ -11,5 +11,6 @@ public class Tenant : Entity<int>
     public string Path { get; set; } = string.Empty;
     public string Extension { get; set; } = string.Empty;
     public int TenantId { get; set; } = new();
+   
 
 }

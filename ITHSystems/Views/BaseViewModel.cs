@@ -106,6 +106,7 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel, INav
         {
             var popup = CreateInstance<T>();
             await Shell.Current.ShowPopupAsync(popup);
+
         }
         catch (Exception e)
         {

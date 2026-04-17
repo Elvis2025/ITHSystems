@@ -9,12 +9,17 @@
                        xmlns:views="clr-namespace:ITHSystems.Views"
                        xmlns:vm="clr-namespace:ITHSystems.Views.Home"
                        x:TypeArguments="vm:HomePageViewModel"
-                       
+                       xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                        BackgroundColor="{StaticResource bgColorPage}"
                        x:Name="ModulesCV"
                        >
 
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Primary}"
+                               StatusBarStyle="LightContent"
+                               ApplyOn="OnPageNavigatedTo"/>
 
+    </ContentPage.Behaviors>
     <views:BaseContentPage.Resources>
         <x:Boolean x:Key="GoToLogin">True</x:Boolean>
     </views:BaseContentPage.Resources>

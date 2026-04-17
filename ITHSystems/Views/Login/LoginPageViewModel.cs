@@ -19,19 +19,23 @@ public partial class LoginPageViewModel : BaseViewModel
 {
     private IEnumerable<Language> Languages = Language.List();
     private IPreferenceService preference;
-
+    public static bool isSettingTenantOpened = false;
+    [ObservableProperty]
+    public string baseUrl = string.Empty;
     [ObservableProperty]
     private string languageName;
     private Language? CurrentLanguage;
     private readonly ISQLiteManager managerSQLite;
     private readonly IRepository<User> userRepository;
     private readonly IRepository<Tenant> tenantRepository;
+    private readonly IRepository<BaseUrl> baseUrlRepository;
     private readonly IITHNavigationService iTHNavigation;
     private readonly ILoginService loginService;
 
     public LoginPageViewModel(ISQLiteManager managerSQLite,
                               IRepository<User> userRepository,
                               IRepository<Tenant> tenantRepository,
+                              IRepository<BaseUrl> baseUrlRepository,
                               IPreferenceService preference,
                               IITHNavigationService iTHNavigation,
                               ILoginService loginService)
@@ -39,6 +43,7 @@ public partial class LoginPageViewModel : BaseViewModel
         this.managerSQLite = managerSQLite;
         this.userRepository = userRepository;
         this.tenantRepository = tenantRepository;
+        this.baseUrlRepository = baseUrlRepository;
         this.iTHNavigation = iTHNavigation;
         this.loginService = loginService;
         this.preference = ITHPreference.Instance;
@@ -55,19 +60,33 @@ public partial class LoginPageViewModel : BaseViewModel
 
             if (IsBusy) return;
 
-            IsBusy = true;
             string jwt = string.Empty;
             var currentUser = (await userRepository.GetAllAsync()).FirstOrDefault();
             var currentTenant = (await tenantRepository.GetAllAsync()).FirstOrDefault();
-          
 
+            if (isSettingTenantOpened)
+            {
+                await SaveTenantConfiguration();
+            }
+            else
+            {
+                IBS.Authentication.BaseUrl = (await baseUrlRepository.GetAllAsync()).FirstOrDefault()?.Url ?? string.Empty;
+            }
+            IsBusy = true;
+            if (string.IsNullOrEmpty(IBS.Authentication.BaseUrl))
+            {
+                IsBusy = false;
+                await iTHNavigation.ErrorAlert(IBSResources.Error, "No se ha configurado la URL del tenant. Por favor, configúrala antes de iniciar sesión.");
+                return;
+            }
 
             if ((currentUser is null || currentTenant is null))
             {
                 if (await NoInternetConnection())
                 {
-                await iTHNavigation.ErrorAlert(IBSResources.Error, "Necesitas conexion a internet al menos una vez, para autenticarte correctamente.");
-                return;
+                    IsBusy = false;
+                    await iTHNavigation.ErrorAlert(IBSResources.Error, "Necesitas conexion a internet al menos una vez, para autenticarte correctamente.");
+                    return;
                 }
 
                 var user = await loginService.Login(UserDTO) ?? new();
@@ -81,7 +100,8 @@ public partial class LoginPageViewModel : BaseViewModel
             if (UserDTO.UserName != currentUserDto.UserName ||
                   UserDTO.Password != currentUserDto.Password)
             {
-                await iTHNavigation.ErrorAlert(IBSResources.Error, "Credenciales incorrectas. 1");
+                IsBusy = false;
+                await iTHNavigation.ErrorAlert(IBSResources.Error, "Credenciales incorrectas.");
                 return;
             }
 
@@ -100,6 +120,7 @@ public partial class LoginPageViewModel : BaseViewModel
                 Tenant = currentTenantDto!
             };
             IBS.Authentication.CurrentLogin.Tenant.Id = currentTenant.TenantId;
+          
             await iTHNavigation.PushRelativePageAsync<HomePage>();
 
         }
@@ -114,7 +135,20 @@ public partial class LoginPageViewModel : BaseViewModel
         }
     }
 
-
+    [RelayCommand]
+    public async Task SaveTenantConfiguration()
+    {
+        if(IsBusy) return;
+        if (string.IsNullOrEmpty(BaseUrl))
+        {
+            await ErrorAlert(IBSResources.Error, "el Campo de la URL no puede estar vacío");
+            return;
+        }
+        IBS.Authentication.BaseUrl = BaseUrl;
+        await baseUrlRepository.DeleteAllAsync();
+        await baseUrlRepository.InsertAsync(new BaseUrl { Url = BaseUrl });
+        await ClosePopup();
+    }
     
     private bool CredentialsAreValid(UserDto userDto, UserDto currentUserDto)
     {
@@ -213,5 +247,23 @@ public partial class LoginPageViewModel : BaseViewModel
             IsBusy = false;
         }
 
+    }
+
+    [RelayCommand]
+    public async Task GoToSetting()
+    {
+        if (IsBusy) return;
+        isSettingTenantOpened = true;
+       var baseUrl = await baseUrlRepository.GetAllAsync() ?? new List<BaseUrl>();
+        BaseUrl = baseUrl.FirstOrDefault()?.Url ?? string.Empty;
+        await PushPopupAsync<SettingOfTenantPopup>();
+    }
+
+    [RelayCommand]
+    public async Task ClosePopup() 
+    {
+
+        await PopPopupAsync();
+        isSettingTenantOpened = false;
     }
 }

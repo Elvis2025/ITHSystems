@@ -10,18 +10,15 @@ public static class IBS
     public static class Authentication
     {
         public static CurrentLoginDto CurrentLogin { get; set; } = new();
-
-        public const string Messengers = Global.BaseUrl + "/api/services/itcCoreSystem/messengers/MyInfo";
-        public const string GetOrders = Global.BaseUrl + "/api/services/itcEntregas/orders/GetOrders";
+        public static string BaseUrl { get; set; } = string.Empty;
+        public static readonly string Messengers = $"{BaseUrl}/api/services/itcCoreSystem/messengers/MyInfo";
+        public static readonly string GetOrders  = $"{BaseUrl}/api/services/itcEntregas/orders/GetOrders";
         public const string PinRequest = "10";
         public const string IsMobile = "false";
         public static class Endpoint
         {
-            //public const string CreateOAuthToken = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
-            //public const string GetCurrentLogin = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
-
-            public const string CreateOrAuthToken = "https://devsin.ibsystems.com.do" + "/api/Account/AuthenticateExt";
-            public const string GetCurrentLogin = "https://devsin.ibsystems.com.do" + "/api/services/app/Session/GetCurrentLoginInformations";
+            public static readonly string CreateOrAuthToken = $"{BaseUrl}/api/Account/AuthenticateExt";
+            public static readonly string GetCurrentLogin   = $"{BaseUrl}/api/services/app/Session/GetCurrentLoginInformations";
         }
     }
     #endregion
@@ -32,13 +29,8 @@ public static class IBS
      
         public static class Endpoint
         {
-            //public const string CreateOAuthToken = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/Authenticate";
-            //public const string GetCurrentLogin = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcAuthentication/GetCurrentLoginInformations";
-            
-           
-            public const string SaveInvoice       = "https://dev.ibsystems.com.do" + "/api/services/app/Pos/SaveInvoice";
-            public const string GetProducts       = "https://dev.ibsystems.com.do" + "/api/services/app/Product/GetProducts";
-
+            public static readonly string SaveInvoice = $"{Authentication.BaseUrl}/api/services/app/Pos/SaveInvoice";
+            public static readonly string GetProducts = $"{Authentication.BaseUrl}/api/services/app/Product/GetProducts";
         }
     }
     #endregion
@@ -50,8 +42,7 @@ public static class IBS
     {
         public static class Endpoint
         {
-            //Home public const string Execute = "https://mngzc8cn-7055.use2.devtunnels.ms" + "/api/services/app/ItcRawQuery/Execute";
-            public const string Execute = "https://devsin.ibsystems.com.do" + "/api/services/app/rawQuery/executeAsync";
+            public static readonly string Execute = $"{Authentication.BaseUrl}/api/services/app/rawQuery/executeAsync";
         }
     }
 
@@ -60,7 +51,7 @@ public static class IBS
     #region Delivery Endpoints
     public static class Delivery
     {
-        public const string SendOrder = Global.BaseUrl + "/api/services/itcEntregas/orders/DeliverOrder";
+        public static readonly string SendOrder = $"{Authentication.BaseUrl}/api/services/itcEntregas/orders/DeliverOrder";
 
     }
     #endregion
