@@ -21,7 +21,7 @@ public abstract partial class ObsevablePropertiesViewModel : ObservableObject
     private ModuleDto? currentModule;
     private bool IsNotBusy => !IsBusy;
     [ObservableProperty]
-    private UserDto userDTO = new();
+    private UserDto? userDTO;
     [ObservableProperty]
     private ObservableCollection<OrdersDto> orders = new();
 

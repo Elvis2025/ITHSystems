@@ -21,7 +21,7 @@ public partial class LoginPageViewModel : BaseViewModel
     private IPreferenceService preference;
     public static bool isSettingTenantOpened = false;
     [ObservableProperty]
-    public string baseUrl = string.Empty;
+    public string? baseUrl;
     [ObservableProperty]
     private string languageName;
     private Language? CurrentLanguage;
@@ -57,7 +57,11 @@ public partial class LoginPageViewModel : BaseViewModel
         try
         {
             if (userDto is null || userIsNotValid2(userDto)) return;
-
+            UserDTO = new ()
+            {
+                UserName = userDto.UserName,
+                Password = userDto.Password,
+            };
             if (IsBusy) return;
 
             string jwt = string.Empty;
@@ -89,7 +93,7 @@ public partial class LoginPageViewModel : BaseViewModel
                     return;
                 }
 
-                var user = await loginService.Login(UserDTO) ?? new();
+                var user = await loginService.Login(UserDTO!) ?? new();
                 await iTHNavigation.PushRelativePageAsync<HomePage>();
                 return;
             }
@@ -147,7 +151,7 @@ public partial class LoginPageViewModel : BaseViewModel
         IBS.Authentication.BaseUrl = BaseUrl;
         await baseUrlRepository.DeleteAllAsync();
         await baseUrlRepository.InsertAsync(new BaseUrl { Url = BaseUrl });
-        await ClosePopup();
+        await GoBack();
     }
     
     private bool CredentialsAreValid(UserDto userDto, UserDto currentUserDto)
@@ -253,17 +257,37 @@ public partial class LoginPageViewModel : BaseViewModel
     public async Task GoToSetting()
     {
         if (IsBusy) return;
-        isSettingTenantOpened = true;
-       var baseUrl = await baseUrlRepository.GetAllAsync() ?? new List<BaseUrl>();
-        BaseUrl = baseUrl.FirstOrDefault()?.Url ?? string.Empty;
-        await PushPopupAsync<SettingOfTenantPopup>();
+        try
+        {
+            IsBusy = true;
+            var baseUrl = await baseUrlRepository.GetAllAsync() ?? new List<BaseUrl>();
+            BaseUrl = baseUrl.FirstOrDefault()?.Url ?? string.Empty;
+            await PushRelativePageAsync<SettingOfTenantPage>(true);
+        }
+        catch (Exception e)
+        {
+            Debug.Write(e);
+            await ErrorAlert("iThot System", "Error de navegación.");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
-    [RelayCommand]
-    public async Task ClosePopup() 
+    public async Task SetUserTenantInfo()
     {
-
-        await PopPopupAsync();
-        isSettingTenantOpened = false;
+        var currentUser = (await userRepository.GetAllAsync()).FirstOrDefault();
+        if (currentUser is null) return;
+        UserDTO = new()
+        {
+            UserName = currentUser?.UserName ?? string.Empty,
+            Password = currentUser?.Password ?? string.Empty,
+        };
+ 
+        if (!isSettingTenantOpened) return;
+        var baseUrl = await baseUrlRepository.GetAllAsync() ?? new List<BaseUrl>();
+        BaseUrl = baseUrl.FirstOrDefault()?.Url ?? string.Empty;
     }
+
 }

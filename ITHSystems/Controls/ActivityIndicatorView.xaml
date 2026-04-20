@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:resources="clr-namespace:ITHSystems.Resx"
+              xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
              x:Class="ITHSystems.Controls.ActivityIndicatorView">
     <Grid
  HorizontalOptions="Fill"
@@ -14,6 +15,7 @@
         <BoxView
      BackgroundColor="Transparent"
      VerticalOptions="Fill"
+            
      HorizontalOptions="Fill"
      InputTransparent="False"/>
         <Frame
@@ -22,45 +24,64 @@
  CornerRadius="0"
  HorizontalOptions="Fill"
  InputTransparent="False"
+            Margin="0"
+            
  IsClippedToBounds="True"
  VerticalOptions="Fill" />
         <!--  Contenedor sin opacidad  -->
         <Border
      BackgroundColor="White"
-     HeightRequest="130"
+     HeightRequest="90"
              InputTransparent="False"
      HorizontalOptions="Center"
      Stroke="{StaticResource White}"
-     StrokeShape="RoundRectangle 32"
+     StrokeShape="RoundRectangle 20"
      VerticalOptions="Center"
+                   Margin="0"
+            
      WidthRequest="130">
             <Grid
          HorizontalOptions="Center"
-         RowDefinitions="Auto,Auto"
+         RowDefinitions="Auto,Auto,Auto"
+                       Margin="0"
+            
                  InputTransparent="False"
          VerticalOptions="Center">
                 <ActivityIndicator
              Grid.Row="0"
-             HeightRequest="100"
+             HeightRequest="40"
              IsRunning="True"
-             WidthRequest="100"
+             WidthRequest="40"
+                            Margin="0"
+            
              ZIndex="1"
+                    
              Color="{StaticResource Primary}" />
-                <Image
-             Grid.Row="0"
-             Aspect="Fill"
-             HeightRequest="92"
-             HorizontalOptions="Center"
-             Source="ibsisbusy.png"
-             VerticalOptions="Center"
-             WidthRequest="92" />
+                <Border Grid.Row="0"
+                        HeightRequest="50"
+                        Margin="-4,-3,0,0"
+                        Stroke="Transparent"
+                        WidthRequest="80"
+                        >
+                    <Image
+                     Aspect="Fill"
+                     HeightRequest="90"
+                     HorizontalOptions="Center"
+                     Source="logo_ibs.png"
+                     VerticalOptions="Center"
+                     WidthRequest="90" />
+
+                </Border>
 
                 <Label
-             Grid.Row="1"
-             FontSize="Caption"
-             HorizontalOptions="Center"
-             Text="{Static resources:IBSResources.Loading}"
-             VerticalOptions="End" />
+                     Grid.Row="2"
+                     FontSize="Caption"
+                     HorizontalOptions="Center"
+                    FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource Gray900}"
+                     Text="{Static resources:IBSResources.Loading}"
+                     VerticalOptions="End" />
 
             </Grid>
         </Border>

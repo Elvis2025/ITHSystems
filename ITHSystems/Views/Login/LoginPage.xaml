@@ -7,8 +7,8 @@
                        xmlns:controls="clr-namespace:ITHSystems.Controls"
                        xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                        xmlns:views="clr-namespace:ITHSystems.Views"
-                       xmlns:vm="clr-namespace:ITHSystems.Views.Login"
                        xmlns:android="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.Login"
                        x:TypeArguments="vm:LoginPageViewModel"
                        HideSoftInputOnTapped="True"
                        Shell.FlyoutBehavior="Disabled"
@@ -85,7 +85,8 @@
                     HeightRequest="60"
                     HorizontalOptions="Fill"
                     Keyboard="Email"
-                    Text="{Binding UserDTO.UserName}"
+                    Text="{Binding UserDTO.UserName,Mode=TwoWay}"
+                         
                     Placeholder="{Static resources:IBSResources.User}"
                     PlaceholderColor="{StaticResource Gray200}"
                     />

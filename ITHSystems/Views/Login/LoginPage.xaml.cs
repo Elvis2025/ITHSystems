@@ -14,17 +14,23 @@ public partial class LoginPage : BaseContentPage<LoginPageViewModel>
         this.viewModel = viewModel;
     }
 
-	protected override async void OnAppearing()
-	{
-		base.OnAppearing();
-		try
-		{
-			await viewModel.Init();
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        try
+        {
+            await viewModel.Init();
+            LoginPageViewModel.isSettingTenantOpened = false;
+            await viewModel.SetUserTenantInfo();
         }
         catch (Exception e)
-		{
-			Debug.WriteLine($"Error initializing LoginPage: {e.Message}");
-			await BaseViewModel.ErrorAlert("Error", $"Error creando tablas\n{e.Message}");
-		}
+        {
+            Debug.WriteLine($"Error initializing LoginPage: {e.Message}");
+            await BaseViewModel.ErrorAlert("Error", $"Error creando tablas\n{e.Message}");
+        }
+
+
+
+
     }
 }
