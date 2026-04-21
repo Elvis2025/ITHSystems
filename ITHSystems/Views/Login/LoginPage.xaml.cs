@@ -3,7 +3,6 @@ using System.Diagnostics;
 
 namespace ITHSystems.Views.Login;
 
-[RegisterAsRoute]
 public partial class LoginPage : BaseContentPage<LoginPageViewModel>
 {
     private readonly LoginPageViewModel viewModel;

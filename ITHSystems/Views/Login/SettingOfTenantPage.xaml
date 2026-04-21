@@ -110,6 +110,7 @@
                                  ClearButtonVisibility="WhileEditing"
                                  HeightRequest="60"
                                  HorizontalOptions="Fill"
+                                  FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
                                  Keyboard="Url"
                                  Text="{Binding BaseUrl}"
                                  Placeholder="Url del tenant"
@@ -200,20 +201,22 @@
                                  TextColor="{StaticResource Gray900}" />
                         </Grid>
                     </Border>
+                    <HorizontalStackLayout Grid.Row="2" Margin="0,-24,0,-24">
+                        <CheckBox IsChecked="{Binding RememberMe}"/>
+                        <Label Text="Recuérdame" 
+                               VerticalTextAlignment="Center"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}"
+                               FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                               FontSize="12"
+                               />
+                        <HorizontalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding RememberPasswordCommand}"/>
+                        </HorizontalStackLayout.GestureRecognizers>
+                    </HorizontalStackLayout>
 
                     <Button Margin="0,10,0,0"
                             CornerRadius="12"
-                            HeightRequest="2"
-                            Text="Guardar"
-                            FontAttributes="Bold"
-                            FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
-                            Command="{Binding SaveTenantConfigurationCommand}"
-                            CommandParameter="{Binding UserDTO}"/>
-
-                    <Button Margin="0,-20,0,0"
-                            CornerRadius="12"
-                            BackgroundColor="Transparent"
-                            TextColor="{StaticResource Primary}"
                             HeightRequest="2"
                             Text="{Static resources:IBSResources.Login}"
                             FontAttributes="Bold"
@@ -221,6 +224,16 @@
                             Command="{Binding LoginCommand}"
                             CommandParameter="{Binding UserDTO}"/>
 
+                    <Button Margin="0,-20,0,0"
+                            CornerRadius="12"
+                            HeightRequest="2"
+                            Text="Guardar"
+                            FontAttributes="Bold"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource Primary}"
+                            FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                            Command="{Binding SaveTenantConfigurationCommand}"
+                            CommandParameter="{Binding UserDTO}"/>
 
                 </VerticalStackLayout>
 

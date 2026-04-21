@@ -17,10 +17,6 @@ xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
     Shell.NavBarIsVisible="False"
     BackgroundColor="{StaticResource bgColorPage}"
     Title="iThot System">
-
-    
-    
-    
     
     <Shell.Behaviors>
         <toolkit:StatusBarBehavior StatusBarColor="#9C1A15"
@@ -29,9 +25,22 @@ xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
 
     </Shell.Behaviors>
 
+
+    <!--<ShellContent Title="{Static resources:IBSResources.Logout}"
+                  ContentTemplate="{DataTemplate login:LoginPage}"
+                  Route="LoginPage"
+                  Shell.TabBarIsVisible="False"
+                  />
+
+    <ShellContent Title="cameraPage"
+                  ContentTemplate="{DataTemplate camera:CameraControlPage}"
+                  Route="CameraControlPage"
+                   Shell.TabBarIsVisible="False"
+                  />-->
+
+   
     <Shell.FlyoutHeader>
         <Grid
-            HeightRequest="190"
             BackgroundColor="{StaticResource bgColorPage}"
             Padding="0">
             
@@ -41,7 +50,7 @@ xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <BoxView HeightRequest="140"
+            <BoxView HeightRequest="170"
                      VerticalOptions="Start"
                      BackgroundColor="Transparent"> 
                 <BoxView.Background>
@@ -55,70 +64,66 @@ xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
             <Border VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Stroke="Transparent"
+                    Margin="-10,0,0,0"
                     >
                 <Image Source="logo_ibs.png"
-                       HeightRequest="100"
-                       WidthRequest="100"
+                       HeightRequest="160"
+                       WidthRequest="160"
                        />
             </Border>
-            <VerticalStackLayout
-                Grid.Row="1"
-                Margin="12"
-                Spacing="4">
-
-                <Label
-                    Text="iThot System"
-                    FontSize="22"
-                    FontAttributes="Bold"
-                    TextColor="{StaticResource Gray900}"
-                    FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+            <Label
+                Text="iThot System"
+                FontSize="22"
+                FontAttributes="Bold"
+                VerticalOptions="Start"
+                HorizontalTextAlignment="Center"
+                TextColor="{StaticResource White}"
+                FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
                     
-                    />
+                />
 
-                <Label
-                    Text="Panel principal de navegación"
-                    FontSize="13"
-                    TextColor="#FDECEC" />
-
-            </VerticalStackLayout>
         </Grid>
     </Shell.FlyoutHeader>
 
+ 
+        <ShellContent
+                    Title="Login"
+                    ContentTemplate="{DataTemplate login:LoginPage}"
+                    Route="LoginPage"
+                    Shell.FlyoutItemIsVisible="False"
+                    Shell.TabBarIsVisible="False" />
 
-    <ShellContent
+
+
+    <FlyoutItem>
         
-        Title="{Static resources:IBSResources.Logout}"
-        ContentTemplate="{DataTemplate login:LoginPage}"
-        Route="LoginPage32"/>
-    
-    
-    <ShellContent
-        Title="{Static resources:IBSResources.Logout}"
-        ContentTemplate="{DataTemplate login:LoginPage}"
-        Route="LoginPage2"/>
-    
-    
-    <!--<ShellContent
-        Title="{Static resources:IBSResources.Logout}"
-        ContentTemplate="{DataTemplate login:LoginPage}"
-        Route="LoginPage" />-->
-    
-    
-    <ShellContent
-        Title="cameraPage"
-        ContentTemplate="{DataTemplate camera:CameraControlPage}"
-        Route="CameraControlPage"/>
-    
-    <FlyoutItem Title="Home" Route="HomePage">
-        <ShellContent
-            Title="Home"
-            ContentTemplate="{DataTemplate views:HomePage}"
-            Route="HomePage"
-            />
-        <ShellContent
-       Title="{Static resources:IBSResources.Logout}"
-       ContentTemplate="{DataTemplate login:LoginPage}"
-       Route="LoginPage2"/>
+        <ShellContent Title="Home"
+                      ContentTemplate="{DataTemplate home:HomePage}"
+                      Route="HomePage"/>
+        
+        <ShellContent Title="Cerrar Session"
+                   ContentTemplate="{DataTemplate login:LoginPage}"
+                   Route="LoginPage"/>
     </FlyoutItem>
+   
+    
+    <Shell.FlyoutFooter>
+        <Grid BackgroundColor="{StaticResource bgColorPage}">
+
+            <Label Text="iThot System v1.0.0.0"
+                   FontSize="10"
+                   Padding="6,2"
+                   FontAttributes="Bold"
+                   FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                   TextColor="{StaticResource Gray600}"
+                   />
+        </Grid>
+    </Shell.FlyoutFooter>
+
+
+   
+
+
+
 
 </Shell>

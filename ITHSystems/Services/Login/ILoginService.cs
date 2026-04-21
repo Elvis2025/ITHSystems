@@ -7,4 +7,5 @@ public interface ILoginService
     Task EnsureValidTokenAsync();
     Task GetMessengers(UserDto userDTO);
     Task<UserDto> Login(UserDto userDto);
+    Task RememberMePassword(UserDto userDto);
 }

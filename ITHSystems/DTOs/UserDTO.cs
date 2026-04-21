@@ -13,6 +13,7 @@ public record class UserDto
     public string Password { get; set; } = string.Empty;
     public string Pin { get; set; } = string.Empty;
     public string JWT { get; set; } = string.Empty;
+    public bool RememberMe { get; set; } = false;
     public DateTime Issued { get; set; }
     public DateTime Expires { get; set; }
     public bool TokenExpired 

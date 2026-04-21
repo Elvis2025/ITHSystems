@@ -67,6 +67,18 @@ public class LoginService : ILoginService
         return userDto;
     }
 
+    public async Task RememberMePassword(UserDto userDto)
+    {
+        try
+        {
+            var user = userDto.Map<User>();
+            await userRepository.UpdateAsync(user);
+        }
+        catch (Exception e)
+        {
+            Debug.Write(e);
+        }
+    }
 
     public async Task SetCurrentLogin()
     {

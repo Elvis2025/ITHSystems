@@ -23,6 +23,9 @@ public partial class LoginPageViewModel : BaseViewModel
     [ObservableProperty]
     public string? baseUrl;
     [ObservableProperty]
+    public bool rememberMe;
+
+    [ObservableProperty]
     private string languageName;
     private Language? CurrentLanguage;
     private readonly ISQLiteManager managerSQLite;
@@ -61,6 +64,7 @@ public partial class LoginPageViewModel : BaseViewModel
             {
                 UserName = userDto.UserName,
                 Password = userDto.Password,
+                RememberMe = RememberMe
             };
             if (IsBusy) return;
 
@@ -124,7 +128,8 @@ public partial class LoginPageViewModel : BaseViewModel
                 Tenant = currentTenantDto!
             };
             IBS.Authentication.CurrentLogin.Tenant.Id = currentTenant.TenantId;
-          
+            currentUser.RememberMe = RememberMe;
+            await userRepository.UpdateAsync(currentUser);
             await iTHNavigation.PushRelativePageAsync<HomePage>();
 
         }
@@ -153,7 +158,22 @@ public partial class LoginPageViewModel : BaseViewModel
         await baseUrlRepository.InsertAsync(new BaseUrl { Url = BaseUrl });
         await GoBack();
     }
-    
+
+
+    [RelayCommand]
+    public void RememberPassword() 
+    {
+        RememberMe = !RememberMe;
+        if (UserDTO is null)
+        {
+            UserDTO = new UserDto
+            {
+                RememberMe = RememberMe
+            };
+        }
+
+        UserDTO.RememberMe = !UserDTO.RememberMe;
+    }
     private bool CredentialsAreValid(UserDto userDto, UserDto currentUserDto)
     {
         if (userDto is null) return false;
@@ -278,13 +298,22 @@ public partial class LoginPageViewModel : BaseViewModel
     public async Task SetUserTenantInfo()
     {
         var currentUser = (await userRepository.GetAllAsync()).FirstOrDefault();
-        if (currentUser is null) return;
+
+        if(currentUser is null  || !currentUser.RememberMe)
+        {
+            UserDTO = new();
+            RememberMe = false;
+            return;
+        }
+
         UserDTO = new()
         {
-            UserName = currentUser?.UserName ?? string.Empty,
-            Password = currentUser?.Password ?? string.Empty,
+            UserName   = currentUser?.UserName ?? string.Empty,
+            Password   = currentUser?.Password ?? string.Empty,
+            RememberMe = currentUser?.RememberMe ?? false
         };
- 
+        RememberMe = UserDTO.RememberMe;
+
         if (!isSettingTenantOpened) return;
         var baseUrl = await baseUrlRepository.GetAllAsync() ?? new List<BaseUrl>();
         BaseUrl = baseUrl.FirstOrDefault()?.Url ?? string.Empty;

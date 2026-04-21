@@ -30,6 +30,7 @@ namespace ITHSystems
                     if (window is null) return;
                     await Task.Delay(300);
                     window.Page = new AppShell();
+
                 });
             };
         }

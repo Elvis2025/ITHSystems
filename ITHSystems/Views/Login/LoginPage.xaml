@@ -179,6 +179,21 @@
         />
                 </Grid>
             </Border>-->
+
+            <HorizontalStackLayout Grid.Row="2" Margin="0,-10,0,-14">
+                <CheckBox IsChecked="{Binding RememberMe}"/>
+                <Label Text="Recuérdame" 
+                       VerticalTextAlignment="Center"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Gray900}"
+                       FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                       FontSize="12"
+                       />
+                <HorizontalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RememberPasswordCommand}"/>
+                </HorizontalStackLayout.GestureRecognizers>
+            </HorizontalStackLayout>
+            
             <Button Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
@@ -192,17 +207,17 @@
                     CommandParameter="{Binding UserDTO}"
             />
 
-            <Button 
-                        CornerRadius="12"
-                        HeightRequest="2"
+            <Button CornerRadius="12"
+                    HeightRequest="2"
                     Grid.Row="4"
-                        Text="Configurar empresa"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource Primary}"
-                        FontAttributes="Bold"
-                        FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
-                        Command="{Binding GoToSettingCommand}"
-                        CommandParameter="{Binding UserDTO}"/>
+                    Text="Configurar empresa"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Primary}"
+                    FontAttributes="Bold"
+                    FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                    Command="{Binding GoToSettingCommand}"
+                    CommandParameter="{Binding UserDTO}"/>
+
 
 
             <!--<Label Grid.Row="4"
