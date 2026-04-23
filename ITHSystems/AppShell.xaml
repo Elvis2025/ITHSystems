@@ -9,7 +9,7 @@
     xmlns:views="clr-namespace:ITHSystems.Views.Home"
     xmlns:camera="clr-namespace:ITHSystems.Controls"
      xmlns:controls="clr-namespace:ITHSystems.Controls"
-xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+    xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
     xmlns:home="clr-namespace:ITHSystems.Views.Home"
     xmlns:android="clr-namespace:CommunityToolkit.Maui.PlatformConfiguration.AndroidSpecific;assembly=CommunityToolkit.Maui"
                android:NavigationBar.Color="{StaticResource Primary}"
@@ -25,30 +25,20 @@ xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
 
     </Shell.Behaviors>
 
-
-    <!--<ShellContent Title="{Static resources:IBSResources.Logout}"
+    <ShellContent Title="LoginPage"
                   ContentTemplate="{DataTemplate login:LoginPage}"
                   Route="LoginPage"
+                  Shell.FlyoutItemIsVisible="False"
                   Shell.TabBarIsVisible="False"
                   />
 
-    <ShellContent Title="cameraPage"
-                  ContentTemplate="{DataTemplate camera:CameraControlPage}"
-                  Route="CameraControlPage"
-                   Shell.TabBarIsVisible="False"
-                  />-->
 
-   
+    
+
     <Shell.FlyoutHeader>
-        <Grid
-            BackgroundColor="{StaticResource bgColorPage}"
-            Padding="0">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <Grid RowDefinitions="Auto,Auto,*"
+              BackgroundColor="{StaticResource bgColorPage}"
+              Padding="0">
 
             <BoxView HeightRequest="170"
                      VerticalOptions="Start"
@@ -85,28 +75,129 @@ xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
         </Grid>
     </Shell.FlyoutHeader>
 
- 
-        <ShellContent
-                    Title="Login"
-                    ContentTemplate="{DataTemplate login:LoginPage}"
-                    Route="LoginPage"
-                    Shell.FlyoutItemIsVisible="False"
-                    Shell.TabBarIsVisible="False" />
 
 
+    <Shell.FlyoutContent>
+        <Frame InputTransparent="False" BackgroundColor="{StaticResource bgColorPage}"
+               CornerRadius="0"
+               Padding="0"
+               BorderColor="{StaticResource bgColorPage}"
+               >
+            <VerticalStackLayout>
+                <HorizontalStackLayout BackgroundColor="Transparent"
+                                       Padding="28,10"
+                                       Spacing="36"
+                                       >
+                    <Label Text="{Static icon:IconsRound.Home}"
+                           FontFamily="{Static icon:FontFamilyIcons.IconRound}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           />
 
-    <FlyoutItem>
-        
-        <ShellContent Title="Home"
-                      ContentTemplate="{DataTemplate home:HomePage}"
-                      Route="HomePage"/>
-        
-        <ShellContent Title="Cerrar Session"
-                   ContentTemplate="{DataTemplate login:LoginPage}"
-                   Route="LoginPage"/>
-    </FlyoutItem>
-   
-    
+                    <Label Text="Inicio"
+                           FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           />
+
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Shell}}, Path=BindingContext.GoToHomeCommand}"/>
+                    </HorizontalStackLayout.GestureRecognizers>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout BackgroundColor="Transparent"
+                                       Padding="28,10"
+                                       Spacing="36"
+                                       
+                                       >
+                    <Label Text="{Static icon:IconsRound.Upload}"
+                           FontFamily="{Static icon:FontFamilyIcons.IconRound}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           />
+
+                    <Label Text="Subir Datos"
+                           FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           />
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Shell}}, Path=BindingContext.GoToUploadDataCommand}"/>
+                    </HorizontalStackLayout.GestureRecognizers>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout BackgroundColor="Transparent"
+                                       Padding="28,10"
+                                       Spacing="36"
+                                       
+                                       >
+                    <Label Text="{Static icon:IconsRound.Download}"
+                           FontFamily="{Static icon:FontFamilyIcons.IconRound}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           />
+
+                    <Label Text="Descargar Datos"
+                           FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           />
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Shell}}, Path=BindingContext.GoToDownloadDataCommand}"/>
+                    </HorizontalStackLayout.GestureRecognizers>
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout BackgroundColor="Transparent"
+                                       Padding="28,10"
+                                       Spacing="36"
+                                       
+                                       >
+                    <Label Text="{Static icon:IconsRound.Logout}"
+                           FontFamily="{Static icon:FontFamilyIcons.IconRound}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           />
+
+                    <Label Text="Cerrar Sessión"
+                           FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           />
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Shell}}, Path=BindingContext.GoToLoginCommand}"/>
+                    </HorizontalStackLayout.GestureRecognizers>
+                </HorizontalStackLayout>
+                
+                
+            </VerticalStackLayout>
+        </Frame>
+    </Shell.FlyoutContent>
+           
+
     <Shell.FlyoutFooter>
         <Grid BackgroundColor="{StaticResource bgColorPage}">
 

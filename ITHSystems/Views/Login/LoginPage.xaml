@@ -11,8 +11,8 @@
                        xmlns:vm="clr-namespace:ITHSystems.Views.Login"
                        x:TypeArguments="vm:LoginPageViewModel"
                        HideSoftInputOnTapped="True"
-                       Shell.FlyoutBehavior="Disabled"
                        BackgroundColor="{StaticResource White}"
+                       Shell.FlyoutBehavior="Disabled"
                         android:NavigationBar.Color="{StaticResource Primary}"
                        Title="LoginPage">
     <ContentPage.Behaviors>

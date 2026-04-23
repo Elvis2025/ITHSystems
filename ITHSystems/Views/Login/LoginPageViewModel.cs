@@ -130,7 +130,7 @@ public partial class LoginPageViewModel : BaseViewModel
             IBS.Authentication.CurrentLogin.Tenant.Id = currentTenant.TenantId;
             currentUser.RememberMe = RememberMe;
             await userRepository.UpdateAsync(currentUser);
-            await iTHNavigation.PushRelativePageAsync<HomePage>();
+            await PushRelativePageAsync<HomePage>();
 
         }
         catch (Exception e)

@@ -1,13 +1,42 @@
 ﻿using ITHSystems.Constants;
 using ITHSystems.Extensions;
 using ITHSystems.Resx;
+using ITHSystems.Views.Home;
+using ITHSystems.Views.Login;
+using ITHSystems.Views.SyncData;
 using System.Globalization;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ITHSystems
 {
     public partial class AppShell : Shell
     {
         public static Action<string> ChangeLanguage { get; set; } = new Action<string>((language) => { });
+        
+        public ICommand GoToLoginCommand => new Command(async () =>
+        {
+            FlyoutIsPresented = false;
+            await Current.GoToAsync($"//{nameof(LoginPage)}");
+        });
+        public ICommand GoToHomeCommand => new Command(async () =>
+        {
+            FlyoutIsPresented = false;
+            await Current.GoToAsync($"{nameof(HomePage)}");
+        });
+
+        public ICommand GoToDownloadDataCommand => new Command(async () =>
+        {
+            FlyoutIsPresented = false;
+            await Current.GoToAsync($"{nameof(DownloadDataPage)}");
+        });
+        public ICommand GoToUploadDataCommand => new Command(async () =>
+        {
+            FlyoutIsPresented = false;
+            await Current.GoToAsync($"{nameof(UploadDataPage)}");
+        });
+
+
         public AppShell()
         {
             InitializeComponent();
@@ -15,8 +44,9 @@ namespace ITHSystems
         }
 
 
-        private void Init()
+        private async void Init()
         {
+            BindingContext = this;
             UtilExtensions.RegisterAsRoutes();
             
 
@@ -33,6 +63,7 @@ namespace ITHSystems
 
                 });
             };
+
         }
 
         public static async Task SetLanguageAsync(string language)

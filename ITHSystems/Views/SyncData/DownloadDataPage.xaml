@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="ITHSystems.Views.SyncData.DownloadDataPage"
+                       xmlns:resources="clr-namespace:ITHSystems.Resx"
+                       xmlns:icon="clr-namespace:ITHSystems.UsesCases.IconFonts"
+                       xmlns:controls="clr-namespace:ITHSystems.Controls"
+                       xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                       xmlns:views="clr-namespace:ITHSystems.Views"
+                       xmlns:vm="clr-namespace:ITHSystems.Views.SyncData"
+                       x:TypeArguments="vm:DownloadDataViewModel"
+                       HideSoftInputOnTapped="True"
+                       BackgroundColor="{StaticResource bgColorPage}">
+    <Grid>
+        <controls:GradientHeaderWithBackBotton
+                    Title="Descargar Datos"
+            
+                    BackButtonCommand="{Binding GoBackCommand}" />
+        
+        
+    </Grid>
+</views:BaseContentPage>
