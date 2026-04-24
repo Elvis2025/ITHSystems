@@ -20,140 +20,151 @@
 
         <ScrollView Grid.Row="1" >
             <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Border 
-                    StrokeThickness="2"
-                    Stroke="{StaticResource Primary}"
-                    StrokeShape="RoundRectangle 10"
-                Margin="10"
-                    BackgroundColor="{StaticResource White}"
-                    >
-                <Border.Shadow>
-                    <Shadow Brush="Black"
-                            Offset="0,1"
-                            Radius="10"
-                            Opacity="0.4"/> 
-                </Border.Shadow>
-                <Grid BackgroundColor="Transparent"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Fill"
-                      Padding="10"
-                      ColumnDefinitions="Auto,*,Auto,Auto"
-                      RowDefinitions="Auto,*"
-                      >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                
+                </Grid.RowDefinitions>
+                <Border 
+                        StrokeThickness="2"
+                        Stroke="{StaticResource Primary}"
+                        StrokeShape="RoundRectangle 10"
+                    Margin="10"
+                        BackgroundColor="{StaticResource White}"
+                        >
+                    <Border.Shadow>
+                        <Shadow Brush="Black"
+                                Offset="0,1"
+                                Radius="10"
+                                Opacity="0.4"/>
+                    </Border.Shadow>
+                    <Grid BackgroundColor="Transparent"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Fill"
+                              Padding="10"
+                              ColumnDefinitions="Auto,*,Auto,Auto"
+                              RowDefinitions="Auto,*"
+                              >
 
-                    <Border VerticalOptions="Center"
-                                HorizontalOptions="End"
-                                Padding="4"
-                                ZIndex="1"
-                                BackgroundColor="Green"
-                                Stroke="Transparent"
-                                Margin="22,-32,0,0"
-                                StrokeShape="RoundRectangle 100"
-                                >
+                        <Border VerticalOptions="Center"
+                                        HorizontalOptions="End"
+                                        Padding="4"
+                                        ZIndex="1"
+                                        BackgroundColor="Green"
+                                        Stroke="Transparent"
+                                        Margin="22,-32,0,0"
+                                        StrokeShape="RoundRectangle 100"
+                                        >
                             <Label Text="15"
-                                     FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
-                                     VerticalOptions="Center"
-                                     VerticalTextAlignment="Center"
-                                     FontSize="8"
-                                     FontAttributes="Bold"
-                                     TextColor="{StaticResource White}"
-                                     CharacterSpacing="1"
-                                     />
+                                             FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                                             VerticalOptions="Center"
+                                             VerticalTextAlignment="Center"
+                                             FontSize="8"
+                                             FontAttributes="Bold"
+                                             TextColor="{StaticResource White}"
+                                             CharacterSpacing="1"
+                                             />
                         </Border>
-                    <Label Text="{Static icon:IconsRound.Point_of_sale}"
-                           FontFamily="{Static icon:FontFamilyIcons.IconRound}"
-                           VerticalOptions="Center"
-                           VerticalTextAlignment="Center"
-                           FontSize="36"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Gray900}"
-                           />
+                        <Label Text="{Static icon:IconsRound.Point_of_sale}"
+                                   FontFamily="{Static icon:FontFamilyIcons.IconRound}"
+                                   VerticalOptions="Center"
+                                   VerticalTextAlignment="Center"
+                                   FontSize="36"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"
+                                   />
 
-                    <Label Text="Subir Ventas"
-                           Grid.Column="1"
-                           FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
-                           VerticalOptions="Center"
-                           VerticalTextAlignment="Center"
-                           HorizontalTextAlignment="Center"
-                           HorizontalOptions="Center"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource Gray900}"
-                           />
+                        <Label Text="Subir Ventas"
+                                   Grid.Column="1"
+                                   FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                                   VerticalOptions="Center"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Center"
+                                   HorizontalOptions="Center"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"
+                                   />
 
-                    <Border Grid.Column="2"
-                            Padding="6"
-                            StrokeShape="RoundRectangle 100"
-                            BackgroundColor="{StaticResource Primary}"
-                            Stroke="Transparent" Margin="0,0,6,0"
-                            >
+                        <Border Grid.Column="2"
+                                    Padding="6"
+                                    StrokeShape="RoundRectangle 100"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    Stroke="Transparent" Margin="0,0,6,0"
+                                    >
 
-                        <Label Text="{Static icon:IconsRound.Upload}"
-                            FontFamily="{Static icon:FontFamilyIcons.IconRound}"
-                            VerticalOptions="Center"
-                            Grid.Column="2"
-                                TextColor="{StaticResource White}"
-                            VerticalTextAlignment="Center"
-                            HorizontalTextAlignment="End"
-                            HorizontalOptions="End"
-                            FontSize="20"
-                            FontAttributes="Bold"
-                            />
-                            
-                    </Border>
-                    
-                    <Border Grid.Column="3"
-                            Padding="6"
-                            StrokeShape="RoundRectangle 100"
-                            BackgroundColor="{StaticResource Primary}"
-                            Stroke="Transparent"
-                            >
+                            <Label Text="{Static icon:IconsRound.Upload}"
+                                    FontFamily="{Static icon:FontFamilyIcons.IconRound}"
+                                    VerticalOptions="Center"
+                                    Grid.Column="2"
+                                        TextColor="{StaticResource White}"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="End"
+                                    HorizontalOptions="End"
+                                    FontSize="20"
+                                    FontAttributes="Bold"
+                                    />
 
-                        <Label Text="{Static icon:IconsRound.Remove_red_eye}"
-                            FontFamily="{Static icon:FontFamilyIcons.IconRound}"
-                            VerticalOptions="Center"
-                            Grid.Column="2"
-                                TextColor="{StaticResource White}"
-                            VerticalTextAlignment="Center"
-                            HorizontalTextAlignment="End"
-                            HorizontalOptions="End"
-                            FontSize="20"
-                            FontAttributes="Bold"
-                            />   
-                    </Border>
-                    
-                    
-                    <ProgressBar Grid.Row="1"
-                                    HorizontalOptions="Fill"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="3"
-                              VerticalOptions="Center"
-                                 Progress="2"
+                        </Border>
+
+                        <Border Grid.Column="3"
+                                    Padding="6"
+                                    StrokeShape="RoundRectangle 100"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    Stroke="Transparent"
+                                    >
+
+                            <Label Text="{Static icon:IconsRound.Remove_red_eye}"
+                                    FontFamily="{Static icon:FontFamilyIcons.IconRound}"
+                                    VerticalOptions="Center"
+                                    Grid.Column="2"
+                                        TextColor="{StaticResource White}"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="End"
+                                    HorizontalOptions="End"
+                                    FontSize="20"
+                                    FontAttributes="Bold"
+                                    />
+                        </Border>
+
+
+                        <ProgressBar Grid.Row="1"
+                                            HorizontalOptions="Fill"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="3"
+                                      VerticalOptions="Center"
+                                         Progress="2"
                                   
-                                 ProgressColor="CadetBlue"
-                                />
+                                         ProgressColor="CadetBlue"
+                                        />
                         <Label Grid.Column="3"
-                               Text="15%"
-                               Margin="4,0"
-                               Grid.Row="1"
-                               VerticalTextAlignment="Center"
-                               VerticalOptions="Center"
-                               FontAttributes="Bold"
-                               FontSize="12"
-                               TextColor="{StaticResource Gray900}"
-                               FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
-                               />
+                                    Text="15%"
+                                    Margin="4,0"
+                                    Grid.Row="1"
+                                    VerticalTextAlignment="Center"
+                                    VerticalOptions="Center"
+                                    FontAttributes="Bold"
+                                    FontSize="12"
+                                    TextColor="{StaticResource Gray900}"
+                                    FontFamily="{Static icon:FontFamilyIcons.FluentUI}"
+                                    />
                         <!--<HorizontalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Shell}}, Path=BindingContext.GoToUploadDataCommand}"/>
-                </HorizontalStackLayout.GestureRecognizers>-->
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type Shell}}, Path=BindingContext.GoToUploadDataCommand}"/>
+                        </HorizontalStackLayout.GestureRecognizers>-->
+                    </Grid>
+                </Border>
+
+
+
             </Grid>
-            </Border>
-            
-            
-        </Grid>
         </ScrollView>
     </Grid>
 </views:BaseContentPage>

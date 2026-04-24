@@ -99,6 +99,65 @@ public class SQLiteRepository<TEntity> : IRepository<TEntity> where TEntity : IB
         }
     }
 
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> whereCondition)
+    {
+        try
+        {
+            return await connection.Table<TEntity>()
+                                   .Where(whereCondition)
+                                   .CountAsync();
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+            return 0;
+        }
+    }
+    public async Task<int> CountAsync()
+    {
+        try
+        {
+            return await connection.Table<TEntity>()
+                                   .CountAsync();
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+            return 0;
+        }
+    }
+
+
+    public async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereCondition)
+    {
+        try
+        {
+            return await connection.Table<TEntity>()
+                                   .Where(whereCondition)
+                                   .FirstOrDefaultAsync();
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+            return default;
+        }
+    }
+    public async Task<TEntity?> FirstOrDefaultAsync()
+    {
+        try
+        {
+            return await connection.Table<TEntity>()
+                                    .FirstOrDefaultAsync();
+        }
+        catch (Exception e)
+        {
+            await BaseViewModel.ErrorAlert("Error", e.Message);
+            return default;
+        }
+    }
+
+
+
     public Task<TEntity> GetAsync(object id)
     {
         return connection.GetAsync<TEntity>(id);

@@ -92,6 +92,9 @@
 	  <Compile Update="Views\ModalsMessage\AlertMessageModal.xaml.cs">
 	    <DependentUpon>AlertMessageModal.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Products\ProductListPage.xaml.cs">
+	    <DependentUpon>ProductListPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Sales\ProductsCartList\ProductsCartListPage.xaml.cs">
 	    <DependentUpon>ProductsCartListPage.xaml</DependentUpon>
 	  </Compile>
@@ -136,6 +139,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\MyFeatureContentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Clients\ClientList.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Deliveries\DeliveredShipmentsNotSynchronized\DeliveredShipmentsNotSynchronizedPage.xaml">
@@ -190,6 +196,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PickupService\PickupServicePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Products\ProductListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Sales\ProductDetails\ProductDetailsModalPage.xaml">

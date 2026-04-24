@@ -71,7 +71,7 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel, INav
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            await Shell.Current.DisplayAlert("Spend Flow Error", e.Message, IBSResources.Ok);
+            await Shell.Current.DisplayAlert("Error iThot System", e.Message, IBSResources.Ok);
         }
     }
     public static async Task PushRelativePageAsync<T>() where T : ContentPage
@@ -83,7 +83,7 @@ public abstract partial class BaseViewModel : ObsevablePropertiesViewModel, INav
         catch (Exception e)
         {
             Debug.WriteLine(e.Message);
-            await Shell.Current.DisplayAlert("Spend Flow Error", e.Message, IBSResources.Ok);
+            await Shell.Current.DisplayAlert("Error iThot System", e.Message, IBSResources.Ok);
         }
     }
 

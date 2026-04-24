@@ -25,7 +25,7 @@
             <Label Text="{Static icon:IconFont.CartShopping}"
                      FontFamily="{Static icon:FontFamilyIcons.FaSolid}"
                      FontSize="22"
-                     TextColor="{StaticResource bgColorPage}"
+                     TextColor="{StaticResource White}"
                      VerticalTextAlignment="Center" 
                    HorizontalOptions="End"
                     Padding="5"

@@ -4,7 +4,7 @@ namespace ITHSystems.Model;
 
 public abstract class Entity<TPrimaryKey> : IBaseEntity
 {
-    [PrimaryKey]
+    [PrimaryKey, AutoIncrement]
     public virtual TPrimaryKey Id { get; set; } = default!;
     public DateTime CreationTime { get; set; }
     public DateTime? LastModified { get; set; }

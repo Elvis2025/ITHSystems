@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using ITHSystems.Attributes;
 using ITHSystems.Controls;
+using ITHSystems.Repositories.Product;
+using ITHSystems.Services.Produt;
 using ITHSystems.Services.Sale;
 using ITHSystems.Views.Sales.Dto;
 using ITHSystems.Views.Sales.ProductDetails;
@@ -24,6 +26,7 @@ public partial class SalesViewModel : BaseViewModel
 
     private List<ProductDto> allProducts = new();
     private readonly ISaleService saleService;
+    private readonly IProductRepository productRepository;
     [ObservableProperty]
     private string fiterText = string.Empty;
 
@@ -36,13 +39,29 @@ public partial class SalesViewModel : BaseViewModel
     private int totalCount = 0;
 
 
-    public SalesViewModel(ISaleService saleService)
+    public SalesViewModel(ISaleService saleService,IProductRepository productRepository)
     {
         this.saleService = saleService;
+        this.productRepository = productRepository;
         Init();
     }
 
     public async Task GetProduct()
+    {
+        var result = await productRepository.GetAllAsync();
+
+        allProducts = result;
+        if (!allProducts.Any())
+        {
+            await GetProductInLine();
+            return;
+        }
+        Products = new ObservableCollection<ProductDto>(allProducts);
+        TotalCount = Products.Count;
+    }
+
+
+    public async Task GetProductInLine()
     {
         var result = await saleService.GetProductAsync();
 
@@ -50,7 +69,6 @@ public partial class SalesViewModel : BaseViewModel
         Products = new ObservableCollection<ProductDto>(allProducts);
         TotalCount = Products.Count;
     }
-
 
     [RelayCommand]
     public async Task ScanBarcode()

@@ -6,10 +6,14 @@ namespace ITHSystems.Repositories.SQLite;
 
 public interface IRepository<TEntity> where TEntity : IBaseEntity, new()
 {
+    Task<int> CountAsync();
+    Task<int> CountAsync(Expression<Func<TEntity, bool>> whereCondition);
     Task DeleteAllAsync();
     Task DeleteAsync(TEntity entity);
     Task DeleteByIdAsync(object id);
     Task<int> ExecuteQueryAsync(string query);
+    Task<TEntity?> FirstOrDefaultAsync();
+    Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereCondition);
     Task<IEnumerable<TEntity>> GetAllAsync();
     Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> whereCondition);
     Task<TEntity> GetAsync(object id);
