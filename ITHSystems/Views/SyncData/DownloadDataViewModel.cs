@@ -69,12 +69,14 @@ public partial class DownloadDataViewModel : BaseViewModel
                     InsertedProductsCount = value.InsertedCount;
                     DownloadProgress = value.Progress;
                     SyncMessage = value.Message;
+                    InitialLoad();
                 });
             });
 
             await productRepository.DownloadProductsAsync(
                 progress,
                 _cancellationTokenSource.Token);
+
         }
         catch (OperationCanceledException)
         {
